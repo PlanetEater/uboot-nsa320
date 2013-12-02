@@ -147,6 +147,7 @@
  * File system
  */
 #define CONFIG_CMD_EXT2
+#define CONFIG_CMD_EXT4
 #define CONFIG_CMD_FAT
 #define CONFIG_CMD_JFFS2
 /* #define CONFIG_CMD_UBI */
