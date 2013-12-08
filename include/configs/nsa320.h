@@ -47,6 +47,7 @@
  */
 #define CONFIG_SHOW_BOOT_PROGRESS 1	/* boot progess display (LED's) */
 #define CONFIG_USB_POWER 1		/* USB power controlled by GPIO */
+
 /*
  * Commands configuration
  */
@@ -88,18 +89,6 @@
 #define CONFIG_ENV_OFFSET		0x120000	/* env starts here */
 
 /* ###################################################################### */
-/* FIMXE: */
-/*
-0x00000000-0x00100000 : "uboot"
-0x00100000-0x00180000 : "uboot_env"
-0x00180000-0x00200000 : "key_store"
-0x00200000-0x00280000 : "info"
-0x00280000-0x00c80000 : "etc"
-0x00c80000-0x01680000 : "kernel_1"
-0x01680000-0x04640000 : "rootfs1"
-0x04640000-0x05040000 : "kernel_2"
-0x05040000-0x08000000 : "rootfs2"
-*/
 
 /*
  * Default environment variables
@@ -113,16 +102,26 @@
 	"ubifsload 0x1100000 ${initrd}; " \
 	"bootm 0x800000 0x1100000"
 
-#define CONFIG_MTDPARTS		"mtdparts=orion_nand:1m(uboot),-(root)\0"
-
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	"console=console=ttyS0,115200\0" \
-	"mtdids=nand0=orion_nand\0" \
-	"mtdparts="CONFIG_MTDPARTS \
 	"kernel=/boot/uImage\0" \
 	"initrd=/boot/uInitrd\0" \
 	"bootargs_root=ubi.mtd=1 root=ubi0:root rootfstype=ubifs ro\0"
 */
+
+#define MTDIDS_DEFAULT			"nand0=kw_nand"
+#define MTDPARTS_DEFAULT \
+	"mtdparts=kw_nand:" \
+	"1m(uboot)," \
+	"512k(uboot_env)," \
+	"512k(key_store)," \
+	"512k(info)," \
+	"10m(etc)," \
+	"10m(kernel_1)," \
+	"0x2fc0000(rootfs_1)," \
+	"10m(kernel_2)," \
+	"0x2fc0000(rootfs_2)"
+
 /* ###################################################################### */
 
 /*
