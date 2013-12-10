@@ -36,6 +36,9 @@
 #define SYS_GREEN_LED		(1 << 28)
 #define SYS_ORANGE_LED		(1 << 29)
 
+#define PIN_USB_GREEN_LED	15
+#define PIN_USB_POWER		21
+
 #define NSA320_OE_LOW		(~(HDD2_GREEN_LED | HDD2_RED_LED | \
 				   USB_GREEN_LED | USB_POWER | \
 				   SYS_GREEN_LED | SYS_ORANGE_LED))
