@@ -5,6 +5,7 @@
  */
 
 #include <common.h>
+#include <div64.h>
 #include <asm/io.h>
 #include <asm/errno.h>
 #include <asm/arch/imx-regs.h>
@@ -123,7 +124,7 @@ static u32 mxc_get_pll_pfd(enum pll_clocks pll, int pfd_num)
 		return 0;
 	}
 
-	return (freq * 18) / ((div & ANATOP_PFD_FRAC_MASK(pfd_num)) >>
+	return lldiv(freq * 18, (div & ANATOP_PFD_FRAC_MASK(pfd_num)) >>
 			      ANATOP_PFD_FRAC_SHIFT(pfd_num));
 }
 
@@ -322,7 +323,7 @@ static u32 get_mmdc_ch0_clk(void)
 #endif
 
 #ifdef CONFIG_FEC_MXC
-int enable_fec_anatop_clock(void)
+int enable_fec_anatop_clock(enum enet_freq freq)
 {
 	u32 reg = 0;
 	s32 timeout = 100000;
@@ -330,7 +331,13 @@ int enable_fec_anatop_clock(void)
 	struct anatop_regs __iomem *anatop =
 		(struct anatop_regs __iomem *)ANATOP_BASE_ADDR;
 
+	if (freq < ENET_25MHz || freq > ENET_125MHz)
+		return -EINVAL;
+
 	reg = readl(&anatop->pll_enet);
+	reg &= ~BM_ANADIG_PLL_ENET_DIV_SELECT;
+	reg |= freq;
+
 	if ((reg & BM_ANADIG_PLL_ENET_POWERDOWN) ||
 	    (!(reg & BM_ANADIG_PLL_ENET_LOCK))) {
 		reg &= ~BM_ANADIG_PLL_ENET_POWERDOWN;
