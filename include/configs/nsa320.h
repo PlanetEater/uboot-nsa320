@@ -40,6 +40,7 @@
 #define CONFIG_KIRKWOOD		1	/* SOC Family Name */
 #define CONFIG_KW88F6281	1	/* SOC Name */
 #define CONFIG_MACH_NSA320		/* Machine type */
+#define CONFIG_MACH_TYPE	MACH_TYPE_NSA320
 #define CONFIG_SKIP_LOWLEVEL_INIT	/* disable board lowlevel_init */
 
 /*
@@ -153,9 +154,12 @@
 /* #define CONFIG_CMD_UBI */
 /* #define CONFIG_CMD_UBIFS */
 /* #define CONFIG_RBTREE */
+
 #define CONFIG_MTD_DEVICE               /* needed for mtdparts commands */
 #define CONFIG_MTD_PARTITIONS
 #define CONFIG_CMD_MTDPARTS
 #define CONFIG_LZO
+
+#define CONFIG_OF_LIBFDT		/* enable passing a flattened device tree */
 
 #endif /* _CONFIG_NSA320_H */
