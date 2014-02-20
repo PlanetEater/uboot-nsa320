@@ -8,9 +8,6 @@
 #ifndef __COMMON_H_
 #define __COMMON_H_	1
 
-#undef	_LINUX_CONFIG_H
-#define _LINUX_CONFIG_H 1	/* avoid reading Linux autoconf.h file	*/
-
 #ifndef __ASSEMBLY__		/* put C only stuff in this section */
 
 typedef unsigned char		uchar;
@@ -305,9 +302,16 @@ int	checkdram     (void);
 int	last_stage_init(void);
 extern ulong monitor_flash_len;
 int mac_read_from_eeprom(void);
-extern u8 _binary_dt_dtb_start[];	/* embedded device tree blob */
+extern u8 __dtb_dt_begin[];	/* embedded device tree blob */
 int set_cpu_clk_info(void);
+#if defined(CONFIG_DISPLAY_CPUINFO)
 int print_cpuinfo(void);
+#else
+static inline int print_cpuinfo(void)
+{
+	return 0;
+}
+#endif
 int update_flash_size(int flash_size);
 
 /**
@@ -411,6 +415,9 @@ static inline int setenv_addr(const char *varname, const void *addr)
 #ifdef CONFIG_MIPS
 # include <asm/u-boot-mips.h>
 #endif /* CONFIG_MIPS */
+#ifdef CONFIG_ARC
+# include <asm/u-boot-arc.h>
+#endif /* CONFIG_ARC */
 
 #ifdef CONFIG_AUTO_COMPLETE
 int env_complete(char *var, int maxv, char *cmdv[], int maxsz, char *buf);
