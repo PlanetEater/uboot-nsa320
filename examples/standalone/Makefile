@@ -11,7 +11,7 @@ extra-$(CONFIG_SMC911X)            += smc911x_eeprom
 extra-$(CONFIG_SPI_FLASH_ATMEL)    += atmel_df_pow2
 extra-$(CONFIG_MPC5xxx)            += interrupt
 extra-$(CONFIG_8xx)                += test_burst timer
-extra-$(CONFIG_8260)               += mem_to_mem_idma2intr
+extra-$(CONFIG_MPC8260)            += mem_to_mem_idma2intr
 extra-$(CONFIG_PPC)                += sched
 
 #
@@ -24,22 +24,18 @@ ELF := $(strip $(extra-y))
 extra-y += $(addsuffix .srec,$(extra-y)) $(addsuffix .bin,$(extra-y))
 clean-files  := $(extra-) $(addsuffix .srec,$(extra-)) $(addsuffix .bin,$(extra-))
 
-
 COBJS	:= $(ELF:=.o)
 
 LIB	= $(obj)/libstubs.o
 
-LIBAOBJS-$(CONFIG_PPC) += ppc_longjmp.o ppc_setjmp.o
-LIBAOBJS-$(CONFIG_8xx) += test_burst_lib.o
-LIBAOBJS := $(LIBAOBJS-y)
-
-LIBCOBJS = stubs.o
+LIBOBJS-$(CONFIG_PPC) += ppc_longjmp.o ppc_setjmp.o
+LIBOBJS-$(CONFIG_8xx) += test_burst_lib.o
+LIBOBJS-y += stubs.o
 
 .SECONDARY: $(call objectify,$(COBJS))
-targets += $(patsubst $(obj)/%,%,$(LIB)) $(COBJS) $(LIBAOBJS) $(LIBCOBJS)
+targets += $(patsubst $(obj)/%,%,$(LIB)) $(COBJS) $(LIBOBJS-y)
 
-LIBOBJS	= $(addprefix $(obj)/,$(LIBAOBJS) $(LIBCOBJS))
-
+LIBOBJS	:= $(addprefix $(obj)/,$(LIBOBJS-y))
 ELF	:= $(addprefix $(obj)/,$(ELF))
 
 gcclibdir := $(shell dirname `$(CC) -print-libgcc-file-name`)
@@ -48,9 +44,8 @@ gcclibdir := $(shell dirname `$(CC) -print-libgcc-file-name`)
 # relocatable executable.  The relocation data is not needed, and
 # also causes the entry point of the standalone application to be
 # inconsistent.
-ifeq ($(ARCH),powerpc)
-# FIX ME
-CPPFLAGS := $(filter-out $(RELFLAGS), $(CPPFLAGS))
+ifeq ($(CONFIG_PPC),y)
+PLATFORM_CPPFLAGS := $(filter-out $(RELFLAGS),$(PLATFORM_CPPFLAGS))
 endif
 
 # We don't want gcc reordering functions if possible.  This ensures that an
@@ -66,14 +61,17 @@ quiet_cmd_link_lib = LD      $@
 $(LIB):	$(LIBOBJS) FORCE
 	$(call if_changed,link_lib)
 
-$(ELF):
-$(obj)/%:	$(obj)/%.o $(LIB)
-		$(LD) $(LDFLAGS) -g -Ttext $(CONFIG_STANDALONE_LOAD_ADDR) \
-			-o $@ -e $(SYM_PREFIX)$(notdir $(<:.o=)) $< $(LIB) \
-			-L$(gcclibdir) -lgcc
+quiet_cmd_link_elf = LD      $@
+      cmd_link_elf = $(LD) $(LDFLAGS) -g -Ttext $(CONFIG_STANDALONE_LOAD_ADDR) \
+		     -o $@ -e $(SYM_PREFIX)$(@F) $< $(LIB) -L$(gcclibdir) -lgcc
 
-$(obj)/%.srec:	$(obj)/%
-		$(OBJCOPY) -O srec $< $@ 2>/dev/null
+$(ELF): $(obj)/%: $(obj)/%.o $(LIB) FORCE
+	$(call if_changed,link_elf)
 
-$(obj)/%.bin:	$(obj)/%
-		$(OBJCOPY) -O binary $< $@ 2>/dev/null
+$(obj)/%.srec: OBJCOPYFLAGS := -O srec
+$(obj)/%.srec: $(obj)/% FORCE
+	$(call if_changed,objcopy)
+
+$(obj)/%.bin: OBJCOPYFLAGS := -O binary
+$(obj)/%.bin: $(obj)/% FORCE
+	$(call if_changed,objcopy)
