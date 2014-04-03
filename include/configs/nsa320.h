@@ -47,7 +47,6 @@
  * Misc Configuration Options
  */
 #define CONFIG_SHOW_BOOT_PROGRESS 1	/* boot progess display (LED's) */
-#define CONFIG_KIRKWOOD_GPIO 1		/* enable GPIO framework */
 
 /*
  * Commands configuration

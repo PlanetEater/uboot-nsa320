@@ -30,7 +30,6 @@
 #include <asm/arch/kirkwood.h>
 #include <asm/arch/mpp.h>
 #include <asm/arch/cpu.h>
-#include <asm/gpio.h>
 #include <asm/io.h>
 #include "nsa320.h"
 
