@@ -63,9 +63,6 @@ int usb_init(void)
 
 	dev_index = 0;
 	asynch_allowed = 1;
-#ifdef CONFIG_USB_POWER
-	usb_power_on(1);
-#endif
 	usb_hub_reset();
 
 	/* first make all devices unknown */
@@ -131,9 +128,6 @@ int usb_stop(void)
 			if (usb_lowlevel_stop(i))
 				printf("failed to stop USB controller %d\n", i);
 		}
-#ifdef CONFIG_USB_POWER
-		usb_power_on(0);
-#endif
 	}
 
 	return 0;
