@@ -42,6 +42,7 @@
 #define CONFIG_MACH_NSA320		/* Machine type */
 #define CONFIG_MACH_TYPE	MACH_TYPE_NSA320
 #define CONFIG_SKIP_LOWLEVEL_INIT	/* disable board lowlevel_init */
+#define CONFIG_SYS_GENERIC_BOARD
 
 /*
  * Misc Configuration Options
