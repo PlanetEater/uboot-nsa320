@@ -52,14 +52,20 @@
 /*
  * Commands configuration
  */
+
+#include <config_distro_defaults.h>
+/* Avoid redefinition warning */
+#undef CONFIG_BOOTDELAY
+/* #undef CONFIG_SYS_LONGHELP */
+/* #undef CONFIG_CMDLINE_EDITING */
+/* #undef CONFIG_AUTO_COMPLETE */
+/* #undef CONFIG_SYS_LONGHELP */
+/* #undef CONFIG_DOS_PARTITION */
+
 #define CONFIG_SYS_NO_FLASH		/* Declare no flash (NOR/SPI) */
 #include <config_cmd_default.h>
-#define CONFIG_CMD_DHCP
 #define CONFIG_CMD_ENV
-#define CONFIG_CMD_FAT
-#define CONFIG_CMD_MII
 #define CONFIG_CMD_NAND
-#define CONFIG_CMD_PING
 #define CONFIG_CMD_USB
 #define CONFIG_CMD_IDE
 
@@ -68,6 +74,7 @@
  * to enable certain macros
  */
 #include "mv-common.h"
+
 
 #undef CONFIG_SYS_PROMPT	/* previously defined in mv-common.h */
 #define CONFIG_SYS_PROMPT	"NSA320> "	/* Command Prompt */
@@ -146,10 +153,8 @@
 /*
  * File system
  */
-#define CONFIG_CMD_EXT2
-#define CONFIG_CMD_EXT4
-#define CONFIG_CMD_FAT
-#define CONFIG_CMD_JFFS2
+/* CONFIG_CMD_JFFS2 and CONFIG_CMD_FS_GENERIC cannot be defined at the same time */
+/* #define CONFIG_CMD_JFFS2 */
 /* #define CONFIG_CMD_UBI */
 /* #define CONFIG_CMD_UBIFS */
 /* #define CONFIG_RBTREE */
@@ -158,7 +163,5 @@
 #define CONFIG_MTD_PARTITIONS
 #define CONFIG_CMD_MTDPARTS
 #define CONFIG_LZO
-
-#define CONFIG_OF_LIBFDT		/* enable passing a flattened device tree */
 
 #endif /* _CONFIG_NSA320_H */
