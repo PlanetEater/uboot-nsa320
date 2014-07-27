@@ -56,11 +56,6 @@
 #include <config_distro_defaults.h>
 /* Avoid redefinition warning */
 #undef CONFIG_BOOTDELAY
-/* #undef CONFIG_SYS_LONGHELP */
-/* #undef CONFIG_CMDLINE_EDITING */
-/* #undef CONFIG_AUTO_COMPLETE */
-/* #undef CONFIG_SYS_LONGHELP */
-/* #undef CONFIG_DOS_PARTITION */
 
 #define CONFIG_SYS_NO_FLASH		/* Declare no flash (NOR/SPI) */
 #include <config_cmd_default.h>
@@ -74,7 +69,6 @@
  * to enable certain macros
  */
 #include "mv-common.h"
-
 
 #undef CONFIG_SYS_PROMPT	/* previously defined in mv-common.h */
 #define CONFIG_SYS_PROMPT	"NSA320> "	/* Command Prompt */
