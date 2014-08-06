@@ -770,6 +770,9 @@ config TARGET_COLIBRI_PXA270
 config TARGET_JORNADA
 	bool "Support jornada"
 
+config TARGET_NSA320
+	bool "Support ZyXEL NSA-320"
+
 endchoice
 
 source "board/8dtech/eco5pk/Kconfig"
@@ -792,6 +795,7 @@ source "board/Marvell/mv88f6281gtw_ge/Kconfig"
 source "board/Marvell/openrd/Kconfig"
 source "board/Marvell/rd6281a/Kconfig"
 source "board/Marvell/sheevaplug/Kconfig"
+source "board/Marvell/nsa320/Kconfig"
 source "board/Seagate/dockstar/Kconfig"
 source "board/Seagate/goflexhome/Kconfig"
 source "board/afeb9260/Kconfig"
