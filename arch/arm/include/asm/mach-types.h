@@ -1107,6 +1107,7 @@ extern unsigned int __machine_arch_type;
 #define MACH_TYPE_ARMADILLO_800EVA     3863
 #define MACH_TYPE_NSA320               3956
 #define MACH_TYPE_KZM9G                4140
+#define MACH_TYPE_COLIBRI_T30          4493
 
 #ifdef CONFIG_ARCH_EBSA110
 # ifdef machine_arch_type
@@ -14246,6 +14247,18 @@ extern unsigned int __machine_arch_type;
 # define machine_is_kzm9g()	(machine_arch_type == MACH_TYPE_KZM9G)
 #else
 # define machine_is_kzm9g()	(0)
+#endif
+
+#ifdef CONFIG_MACH_COLIBRI_T30
+# ifdef machine_arch_type
+#  undef machine_arch_type
+#  define machine_arch_type	__machine_arch_type
+# else
+#  define machine_arch_type	MACH_TYPE_COLIBRI_T30
+# endif
+# define machine_is_colibri_t30()	(machine_arch_type == MACH_TYPE_COLIBRI_T30)
+#else
+# define machine_is_colibri_t30()	(0)
 #endif
 
 /*
