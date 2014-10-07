@@ -63,11 +63,9 @@ config TARGET_GOFLEXHOME
 endchoice
 
 config SYS_CPU
-	string
 	default "arm926ejs"
 
 config SYS_SOC
-	string
 	default "kirkwood"
 
 source "board/Marvell/nsa320/Kconfig"
