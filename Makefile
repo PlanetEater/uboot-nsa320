@@ -652,6 +652,10 @@ ifneq (,$(filter $(SOC), mx25 mx27 mx5 mx6 mx31 mx35 mxs vf610))
 libs-y += arch/$(ARCH)/imx-common/
 endif
 
+ifneq (,$(filter $(SOC), armada-xp kirkwood))
+libs-y += arch/$(ARCH)/mvebu-common/
+endif
+
 libs-$(CONFIG_ARM) += arch/arm/cpu/
 libs-$(CONFIG_PPC) += arch/powerpc/cpu/
 
@@ -670,12 +674,8 @@ u-boot-main := $(libs-y)
 
 
 # Add GCC lib
-ifdef CONFIG_USE_PRIVATE_LIBGCC
 ifeq ($(CONFIG_USE_PRIVATE_LIBGCC),y)
 PLATFORM_LIBGCC = arch/$(ARCH)/lib/lib.a
-else
-PLATFORM_LIBGCC = -L $(CONFIG_USE_PRIVATE_LIBGCC) -lgcc
-endif
 else
 PLATFORM_LIBGCC := -L $(shell dirname `$(CC) $(c_flags) -print-libgcc-file-name`) -lgcc
 endif
@@ -752,6 +752,11 @@ else
 ALL-y += u-boot-nodtb-tegra.bin
 endif
 endif
+endif
+
+# Add optional build target if defined in board/cpu/soc headers
+ifneq ($(CONFIG_BUILD_TARGET),)
+ALL-y += $(CONFIG_BUILD_TARGET:"%"=%)
 endif
 
 LDFLAGS_u-boot += $(LDFLAGS_FINAL)
