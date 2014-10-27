@@ -42,7 +42,7 @@ int board_early_init_f(void)
 	 * There are maximum 64 gpios controlled through 2 sets of registers
 	 * the below configuration configures mainly initial LED status
 	 */
-	kw_config_gpio(NSA320_VAL_LOW, NSA320_VAL_HIGH,
+	mvebu_config_gpio(NSA320_VAL_LOW, NSA320_VAL_HIGH,
 		       NSA320_OE_LOW, NSA320_OE_HIGH);
 
 	/* Multi-Purpose Pins Functionality configuration */
@@ -152,11 +152,11 @@ void reset_phy(void)
 #ifdef CONFIG_SHOW_BOOT_PROGRESS
 void show_boot_progress(int val)
 {
-	struct kwgpio_registers *gpio0 = (struct kwgpio_registers *)KW_GPIO0_BASE;
+	struct kwgpio_registers *gpio0 = (struct kwgpio_registers *)MVEBU_GPIO0_BASE;
 	u32 dout0 = readl(&gpio0->dout);
 	u32 blen0 = readl(&gpio0->blink_en);
 
-	struct kwgpio_registers *gpio1 = (struct kwgpio_registers *)KW_GPIO1_BASE;
+	struct kwgpio_registers *gpio1 = (struct kwgpio_registers *)MVEBU_GPIO1_BASE;
 	u32 dout1 = readl(&gpio1->dout);
 	u32 blen1 = readl(&gpio1->blink_en);
 
