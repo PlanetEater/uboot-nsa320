@@ -1114,7 +1114,8 @@ int fit_image_check_arch(const void *fit, int noffset, uint8_t arch)
 
 	if (fit_image_get_arch(fit, noffset, &image_arch))
 		return 0;
-	return (arch == image_arch);
+	return (arch == image_arch) ||
+		(arch == IH_ARCH_I386 && image_arch == IH_ARCH_X86_64);
 }
 
 /**
@@ -1434,7 +1435,7 @@ void fit_conf_print(const void *fit, int noffset, const char *p)
 		printf("%s  FDT:          %s\n", p, uname);
 }
 
-int fit_image_select(const void *fit, int rd_noffset, int verify)
+static int fit_image_select(const void *fit, int rd_noffset, int verify)
 {
 	fit_image_print(fit, rd_noffset, "   ");
 

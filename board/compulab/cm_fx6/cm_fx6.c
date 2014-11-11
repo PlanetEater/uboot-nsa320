@@ -15,7 +15,6 @@
 #include <netdev.h>
 #include <fdt_support.h>
 #include <sata.h>
-#include <serial_mxc.h>
 #include <asm/arch/crm_regs.h>
 #include <asm/arch/sys_proto.h>
 #include <asm/arch/iomux.h>
@@ -23,6 +22,7 @@
 #include <asm/imx-common/sata.h>
 #include <asm/io.h>
 #include <asm/gpio.h>
+#include <dm/platform_data/serial_mxc.h>
 #include "common.h"
 #include "../common/eeprom.h"
 
@@ -31,12 +31,12 @@ DECLARE_GLOBAL_DATA_PTR;
 #ifdef CONFIG_DWC_AHSATA
 static int cm_fx6_issd_gpios[] = {
 	/* The order of the GPIOs in the array is important! */
+	CM_FX6_SATA_LDO_EN,
 	CM_FX6_SATA_PHY_SLP,
 	CM_FX6_SATA_NRSTDLY,
 	CM_FX6_SATA_PWREN,
 	CM_FX6_SATA_NSTANDBY1,
 	CM_FX6_SATA_NSTANDBY2,
-	CM_FX6_SATA_LDO_EN,
 };
 
 static void cm_fx6_sata_power(int on)

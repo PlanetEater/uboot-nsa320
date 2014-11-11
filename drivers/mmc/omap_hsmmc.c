@@ -67,14 +67,19 @@ static int mmc_write_data(struct hsmmc *mmc_base, const char *buf,
 #ifdef OMAP_HSMMC_USE_GPIO
 static int omap_mmc_setup_gpio_in(int gpio, const char *label)
 {
+	int ret;
+
+#ifndef CONFIG_DM_GPIO
 	if (!gpio_is_valid(gpio))
 		return -1;
+#endif
+	ret = gpio_request(gpio, label);
+	if (ret)
+		return ret;
 
-	if (gpio_request(gpio, label) < 0)
-		return -1;
-
-	if (gpio_direction_input(gpio) < 0)
-		return -1;
+	ret = gpio_direction_input(gpio);
+	if (ret)
+		return ret;
 
 	return gpio;
 }
@@ -606,7 +611,8 @@ static int omap_hsmmc_getcd(struct mmc *mmc)
 	if (cd_gpio < 0)
 		return 1;
 
-	return gpio_get_value(cd_gpio);
+	/* NOTE: assumes card detect signal is active-low */
+	return !gpio_get_value(cd_gpio);
 }
 
 static int omap_hsmmc_getwp(struct mmc *mmc)
@@ -619,6 +625,7 @@ static int omap_hsmmc_getwp(struct mmc *mmc)
 	if (wp_gpio < 0)
 		return 0;
 
+	/* NOTE: assumes write protect signal is active-high */
 	return gpio_get_value(wp_gpio);
 }
 #endif

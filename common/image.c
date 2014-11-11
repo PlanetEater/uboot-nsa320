@@ -85,6 +85,7 @@ static const table_entry_t uimage_arch[] = {
 	{	IH_ARCH_SANDBOX,	"sandbox",	"Sandbox",	},
 	{	IH_ARCH_ARM64,		"arm64",	"AArch64",	},
 	{	IH_ARCH_ARC,		"arc",		"ARC",		},
+	{	IH_ARCH_X86_64,		"x86_64",	"AMD x86_64",	},
 	{	-1,			"",		"",		},
 };
 
@@ -1010,7 +1011,8 @@ int boot_get_ramdisk(int argc, char * const argv[], bootm_headers_t *images,
 		image_multi_getimg(images->legacy_hdr_os, 1, &rd_data, &rd_len);
 	}
 #ifdef CONFIG_ANDROID_BOOT_IMAGE
-	else if ((genimg_get_format(images) == IMAGE_FORMAT_ANDROID) &&
+	else if ((genimg_get_format((void *)images->os.start)
+			== IMAGE_FORMAT_ANDROID) &&
 		 (!android_image_get_ramdisk((void *)images->os.start,
 		 &rd_data, &rd_len))) {
 		/* empty */

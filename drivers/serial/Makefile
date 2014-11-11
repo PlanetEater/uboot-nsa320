@@ -19,6 +19,7 @@ obj-$(CONFIG_ALTERA_UART) += altera_uart.o
 obj-$(CONFIG_ALTERA_JTAG_UART) += altera_jtag_uart.o
 obj-$(CONFIG_ARM_DCC) += arm_dcc.o
 obj-$(CONFIG_ATMEL_USART) += atmel_usart.o
+obj-$(CONFIG_DW_SERIAL) += serial_dw.o
 obj-$(CONFIG_LPC32XX_HSUART) += lpc32xx_hsuart.o
 obj-$(CONFIG_MCFUART) += mcfuart.o
 obj-$(CONFIG_OPENCORES_YANU) += opencores_yanu.o
@@ -41,6 +42,8 @@ obj-$(CONFIG_MXS_AUART) += mxs_auart.o
 obj-$(CONFIG_ARC_SERIAL) += serial_arc.o
 obj-$(CONFIG_TEGRA_SERIAL) += serial_tegra.o
 obj-$(CONFIG_UNIPHIER_SERIAL) += serial_uniphier.o
+obj-$(CONFIG_OMAP_SERIAL) += serial_omap.o
+obj-$(CONFIG_COREBOOT_SERIAL) += serial_coreboot.o
 
 ifndef CONFIG_SPL_BUILD
 obj-$(CONFIG_USB_TTY) += usbtty.o

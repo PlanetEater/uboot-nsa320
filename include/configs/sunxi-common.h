@@ -27,6 +27,14 @@
 
 #define CONFIG_SYS_TEXT_BASE		0x4a000000
 
+#if !defined(CONFIG_SPL_BUILD) && defined(CONFIG_DM)
+# define CONFIG_CMD_DM
+# define CONFIG_DM_GPIO
+# define CONFIG_DM_SERIAL
+# define CONFIG_DW_SERIAL
+# define CONFIG_SYS_MALLOC_F_LEN	(1 << 10)
+#endif
+
 /*
  * Display CPU information
  */
@@ -36,12 +44,15 @@
 #define CONFIG_SYS_NS16550
 #define CONFIG_SYS_NS16550_SERIAL
 /* ns16550 reg in the low bits of cpu reg */
-#define CONFIG_SYS_NS16550_REG_SIZE	-4
 #define CONFIG_SYS_NS16550_CLK		24000000
-#define CONFIG_SYS_NS16550_COM1		SUNXI_UART0_BASE
-#define CONFIG_SYS_NS16550_COM2		SUNXI_UART1_BASE
-#define CONFIG_SYS_NS16550_COM3		SUNXI_UART2_BASE
-#define CONFIG_SYS_NS16550_COM4		SUNXI_UART3_BASE
+#ifndef CONFIG_DM_SERIAL
+# define CONFIG_SYS_NS16550_REG_SIZE	-4
+# define CONFIG_SYS_NS16550_COM1		SUNXI_UART0_BASE
+# define CONFIG_SYS_NS16550_COM2		SUNXI_UART1_BASE
+# define CONFIG_SYS_NS16550_COM3		SUNXI_UART2_BASE
+# define CONFIG_SYS_NS16550_COM4		SUNXI_UART3_BASE
+# define CONFIG_SYS_NS16550_COM5		SUNXI_R_UART_BASE
+#endif
 
 /* DRAM Base */
 #define CONFIG_SYS_SDRAM_BASE		0x40000000
@@ -77,6 +88,7 @@
 #define CONFIG_INITRD_TAG
 
 /* mmc config */
+#if !defined(CONFIG_UART0_PORT_F)
 #define CONFIG_MMC
 #define CONFIG_GENERIC_MMC
 #define CONFIG_CMD_MMC
@@ -84,6 +96,7 @@
 #define CONFIG_MMC_SUNXI_SLOT		0
 #define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_SYS_MMC_ENV_DEV		0	/* first detected MMC controller */
+#endif
 
 /* 4MB of malloc() pool */
 #define CONFIG_SYS_MALLOC_LEN		(CONFIG_ENV_SIZE + (4 << 20))
@@ -92,8 +105,8 @@
  * Miscellaneous configurable options
  */
 #define CONFIG_CMD_ECHO
-#define CONFIG_SYS_CBSIZE	256	/* Console I/O Buffer Size */
-#define CONFIG_SYS_PBSIZE	384	/* Print Buffer Size */
+#define CONFIG_SYS_CBSIZE	1024	/* Console I/O Buffer Size */
+#define CONFIG_SYS_PBSIZE	1024	/* Print Buffer Size */
 #define CONFIG_SYS_MAXARGS	16	/* max number of command args */
 #define CONFIG_SYS_GENERIC_BOARD
 
@@ -181,6 +194,7 @@
 
 /* GPIO */
 #define CONFIG_SUNXI_GPIO
+#define CONFIG_SPL_GPIO_SUPPORT
 #define CONFIG_CMD_GPIO
 
 /* Ethernet support */
@@ -225,16 +239,28 @@
 	"pxefile_addr_r=0x43200000\0" \
 	"ramdisk_addr_r=0x43300000\0"
 
+#ifdef CONFIG_MMC
+#define BOOT_TARGET_DEVICES_MMC(func) func(MMC, mmc, 0)
+#else
+#define BOOT_TARGET_DEVICES_MMC(func)
+#endif
+
 #ifdef CONFIG_AHCI
 #define BOOT_TARGET_DEVICES_SCSI(func) func(SCSI, scsi, 0)
 #else
 #define BOOT_TARGET_DEVICES_SCSI(func)
 #endif
 
+#ifdef CONFIG_USB_EHCI
+#define BOOT_TARGET_DEVICES_USB(func) func(USB, usb, 0)
+#else
+#define BOOT_TARGET_DEVICES_USB(func)
+#endif
+
 #define BOOT_TARGET_DEVICES(func) \
-	func(MMC, mmc, 0) \
+	BOOT_TARGET_DEVICES_MMC(func) \
 	BOOT_TARGET_DEVICES_SCSI(func) \
-	func(USB, usb, 0) \
+	BOOT_TARGET_DEVICES_USB(func) \
 	func(PXE, pxe, na) \
 	func(DHCP, dhcp, na)
 
