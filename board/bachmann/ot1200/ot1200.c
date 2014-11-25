@@ -159,8 +159,8 @@ int board_mmc_getcd(struct mmc *mmc)
 		gpio_direction_input(IMX_GPIO_NR(4, 5));
 		ret = gpio_get_value(IMX_GPIO_NR(4, 5));
 	} else {
-		gpio_direction_input(IMX_GPIO_NR(1, 4));
-		ret = !gpio_get_value(IMX_GPIO_NR(1, 4));
+		gpio_direction_input(IMX_GPIO_NR(1, 5));
+		ret = !gpio_get_value(IMX_GPIO_NR(1, 5));
 	}
 
 	return ret;
@@ -173,7 +173,7 @@ struct fsl_esdhc_cfg usdhc_cfg[2] = {
 
 int board_mmc_init(bd_t *bis)
 {
-	s32 status = 0;
+	int ret;
 	u32 index = 0;
 
 	usdhc_cfg[0].sdhc_clk = mxc_get_clock(MXC_ESDHC3_CLK);
@@ -196,13 +196,15 @@ int board_mmc_init(bd_t *bis)
 			printf("Warning: you configured more USDHC controllers"
 				"(%d) then supported by the board (%d)\n",
 				index + 1, CONFIG_SYS_FSL_USDHC_NUM);
-			return status;
+			return -EINVAL;
 		}
 
-		status |= fsl_esdhc_initialize(bis, &usdhc_cfg[index]);
+		ret = fsl_esdhc_initialize(bis, &usdhc_cfg[index]);
+		if (ret)
+			return ret;
 	}
 
-	return status;
+	return 0;
 }
 
 #define PC MUX_PAD_CTRL(I2C_PAD_CTRL)
