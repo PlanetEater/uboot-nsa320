@@ -409,6 +409,10 @@ The following options need to be configured:
 		Enables a workaround for IFC erratum A003399. It is only
 		requred during NOR boot.
 
+		CONFIG_A008044_WORKAROUND
+		Enables a workaround for T1040/T1042 erratum A008044. It is only
+		requred during NAND boot and valid for Rev 1.0 SoC revision
+
 		CONFIG_SYS_FSL_CORENET_SNOOPVEC_COREONLY
 
 		This is the value to write into CCSR offset 0x18600
@@ -782,6 +786,13 @@ The following options need to be configured:
 
 		Board code has addition modification that it wants to make
 		to the flat device tree before handing it off to the kernel
+
+		CONFIG_OF_SYSTEM_SETUP
+
+		Other code has addition modification that it wants to make
+		to the flat device tree before handing it off to the kernel.
+		This causes ft_system_setup() to be called before booting
+		the kernel.
 
 		CONFIG_OF_BOOT_CPU
 
@@ -3510,7 +3521,7 @@ FIT uImage format:
 		to 128 or 256, although it does not have to be power of 2).
 
 		default: 4096
-		
+
 		CONFIG_MTD_UBI_BEB_LIMIT
 		This option specifies the maximum bad physical eraseblocks UBI
 		expects on the MTD device (per 1024 eraseblocks). If the
@@ -3650,9 +3661,12 @@ FIT uImage format:
 
 		CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR,
 		CONFIG_SYS_U_BOOT_MAX_SIZE_SECTORS,
-		CONFIG_SYS_MMC_SD_FS_BOOT_PARTITION
-		Address, size and partition on the MMC to load U-Boot from
+		Address and partition on the MMC to load U-Boot from
 		when the MMC is being used in raw mode.
+
+		CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_PARTITION
+		Partition on the MMC to load U-Boot from when the MMC is being
+		used in raw mode
 
 		CONFIG_SYS_MMCSD_RAW_MODE_KERNEL_SECTOR
 		Sector to load kernel uImage from when MMC is being
@@ -3663,6 +3677,10 @@ FIT uImage format:
 		Sector and number of sectors to load kernel argument
 		parameters from when MMC is being used in raw mode
 		(for falcon mode)
+
+		CONFIG_SYS_MMCSD_FS_BOOT_PARTITION
+		Partition on the MMC to load U-Boot from when the MMC is being
+		used in fs mode
 
 		CONFIG_SPL_FAT_SUPPORT
 		Support for fs/fat/libfat.o in SPL binary

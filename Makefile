@@ -1,7 +1,7 @@
 VERSION = 2015
 PATCHLEVEL = 01
 SUBLEVEL =
-EXTRAVERSION = -rc2
+EXTRAVERSION = -rc3
 NAME =
 
 # *DOCUMENTATION*
@@ -503,6 +503,7 @@ autoconf_is_current := $(if $(wildcard $(KCONFIG_CONFIG)),$(shell find . \
 		-path ./include/config/auto.conf -newer $(KCONFIG_CONFIG)))
 ifneq ($(autoconf_is_current),)
 include $(srctree)/config.mk
+include $(srctree)/arch/$(ARCH)/Makefile
 endif
 
 # If board code explicitly specified LDSCRIPT or CONFIG_SYS_LDSCRIPT, use
@@ -601,17 +602,11 @@ c_flags := $(KBUILD_CFLAGS) $(cpp_flags)
 #########################################################################
 # U-Boot objects....order is important (i.e. start must be first)
 
-head-y := $(CPUDIR)/start.o
-head-$(CONFIG_4xx) += arch/powerpc/cpu/ppc4xx/resetvec.o
-head-$(CONFIG_MPC85xx) += arch/powerpc/cpu/mpc85xx/resetvec.o
-
 HAVE_VENDOR_COMMON_LIB = $(if $(wildcard $(srctree)/board/$(VENDOR)/common/Makefile),y,n)
 
 libs-y += lib/
 libs-$(HAVE_VENDOR_COMMON_LIB) += board/$(VENDOR)/common/
-libs-y += $(CPUDIR)/
 libs-$(CONFIG_OF_EMBED) += dts/
-libs-y += arch/$(ARCH)/lib/
 libs-y += fs/
 libs-y += net/
 libs-y += disk/
@@ -645,22 +640,10 @@ libs-y += drivers/usb/musb-new/
 libs-y += drivers/usb/phy/
 libs-y += drivers/usb/ulpi/
 libs-y += common/
-libs-y += lib/libfdt/
 libs-$(CONFIG_API) += api/
 libs-$(CONFIG_HAS_POST) += post/
 libs-y += test/
 libs-y += test/dm/
-
-ifneq (,$(filter $(SOC), mx25 mx27 mx5 mx6 mx31 mx35 mxs vf610))
-libs-y += arch/$(ARCH)/imx-common/
-endif
-
-ifneq (,$(filter $(SOC), armada-xp kirkwood))
-libs-y += arch/$(ARCH)/mvebu-common/
-endif
-
-libs-$(CONFIG_ARM) += arch/arm/cpu/
-libs-$(CONFIG_PPC) += arch/powerpc/cpu/
 
 libs-y += $(if $(BOARDDIR),board/$(BOARDDIR)/)
 
@@ -979,6 +962,9 @@ u-boot.rom: u-boot-x86-16bit.bin u-boot-dtb.bin \
 		u-boot.tmp
 	$(objtree)/tools/ifdtool -w \
 		$(CONFIG_SYS_X86_START16):$(objtree)/u-boot-x86-16bit.bin \
+		u-boot.tmp
+	$(objtree)/tools/ifdtool -w \
+		$(CONFIG_X86_OPTION_ROM_ADDR):$(srctree)/board/$(BOARDDIR)/$(CONFIG_X86_OPTION_ROM_FILENAME) \
 		u-boot.tmp
 	mv u-boot.tmp $@
 
