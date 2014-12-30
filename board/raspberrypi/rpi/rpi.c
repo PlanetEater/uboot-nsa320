@@ -24,6 +24,7 @@
 #include <asm/arch/mbox.h>
 #include <asm/arch/sdhci.h>
 #include <asm/global_data.h>
+#include <dm/platform_data/serial_pl01x.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -34,6 +35,17 @@ static const struct bcm2835_gpio_platdata gpio_platdata = {
 U_BOOT_DEVICE(bcm2835_gpios) = {
 	.name = "gpio_bcm2835",
 	.platdata = &gpio_platdata,
+};
+
+static const struct pl01x_serial_platdata serial_platdata = {
+	.base = 0x20201000,
+	.type = TYPE_PL011,
+	.clock = 3000000,
+};
+
+U_BOOT_DEVICE(bcm2835_serials) = {
+	.name = "serial_pl01x",
+	.platdata = &serial_platdata,
 };
 
 struct msg_get_arm_mem {
@@ -70,58 +82,82 @@ struct msg_get_clock_rate {
 static const struct {
 	const char *name;
 	const char *fdtfile;
+	bool has_onboard_eth;
 } models[] = {
+	[0] = {
+		"Unknown model",
+		"bcm2835-rpi-other.dtb",
+		false,
+	},
 	[BCM2835_BOARD_REV_B_I2C0_2] = {
 		"Model B (no P5)",
 		"bcm2835-rpi-b-i2c0.dtb",
+		true,
 	},
 	[BCM2835_BOARD_REV_B_I2C0_3] = {
 		"Model B (no P5)",
 		"bcm2835-rpi-b-i2c0.dtb",
+		true,
 	},
 	[BCM2835_BOARD_REV_B_I2C1_4] = {
 		"Model B",
 		"bcm2835-rpi-b.dtb",
+		true,
 	},
 	[BCM2835_BOARD_REV_B_I2C1_5] = {
 		"Model B",
 		"bcm2835-rpi-b.dtb",
+		true,
 	},
 	[BCM2835_BOARD_REV_B_I2C1_6] = {
 		"Model B",
 		"bcm2835-rpi-b.dtb",
+		true,
 	},
 	[BCM2835_BOARD_REV_A_7] = {
 		"Model A",
 		"bcm2835-rpi-a.dtb",
+		false,
 	},
 	[BCM2835_BOARD_REV_A_8] = {
 		"Model A",
 		"bcm2835-rpi-a.dtb",
+		false,
 	},
 	[BCM2835_BOARD_REV_A_9] = {
 		"Model A",
 		"bcm2835-rpi-a.dtb",
+		false,
 	},
 	[BCM2835_BOARD_REV_B_REV2_d] = {
 		"Model B rev2",
 		"bcm2835-rpi-b-rev2.dtb",
+		true,
 	},
 	[BCM2835_BOARD_REV_B_REV2_e] = {
 		"Model B rev2",
 		"bcm2835-rpi-b-rev2.dtb",
+		true,
 	},
 	[BCM2835_BOARD_REV_B_REV2_f] = {
 		"Model B rev2",
 		"bcm2835-rpi-b-rev2.dtb",
+		true,
 	},
 	[BCM2835_BOARD_REV_B_PLUS] = {
 		"Model B+",
 		"bcm2835-rpi-b-plus.dtb",
+		true,
 	},
 	[BCM2835_BOARD_REV_CM] = {
 		"Compute Module",
 		"bcm2835-rpi-cm.dtb",
+		false,
+	},
+	[BCM2835_BOARD_REV_A_PLUS] = {
+		"Model A+",
+		"bcm2835-rpi-a-plus.dtb",
+		false,
 	},
 };
 
@@ -154,9 +190,6 @@ static void set_fdtfile(void)
 		return;
 
 	fdtfile = models[rpi_board_rev].fdtfile;
-	if (!fdtfile)
-		fdtfile = "bcm2835-rpi-other.dtb";
-
 	setenv("fdtfile", fdtfile);
 }
 
@@ -164,6 +197,9 @@ static void set_usbethaddr(void)
 {
 	ALLOC_ALIGN_BUFFER(struct msg_get_mac_address, msg, 1, 16);
 	int ret;
+
+	if (!models[rpi_board_rev].has_onboard_eth)
+		return;
 
 	if (getenv("usbethaddr"))
 		return;
@@ -231,12 +267,17 @@ static void get_board_rev(void)
 	}
 
 	rpi_board_rev = msg->get_board_rev.body.resp.rev;
-	if (rpi_board_rev >= ARRAY_SIZE(models))
+	if (rpi_board_rev >= ARRAY_SIZE(models)) {
+		printf("RPI: Board rev %u outside known range\n",
+		       rpi_board_rev);
 		rpi_board_rev = 0;
+	}
+	if (!models[rpi_board_rev].name) {
+		printf("RPI: Board rev %u unknown\n", rpi_board_rev);
+		rpi_board_rev = 0;
+	}
 
 	name = models[rpi_board_rev].name;
-	if (!name)
-		name = "Unknown model";
 	printf("RPI model: %s\n", name);
 }
 
