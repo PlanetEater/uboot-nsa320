@@ -30,9 +30,9 @@ static void unprotect_spi_flash(void)
 {
 	u32 bc;
 
-	bc = pci_read_config32(QUARK_LEGACY_BRIDGE, 0xd8);
+	bc = x86_pci_read_config32(QUARK_LEGACY_BRIDGE, 0xd8);
 	bc |= 0x1;	/* unprotect the flash */
-	pci_write_config32(QUARK_LEGACY_BRIDGE, 0xd8, bc);
+	x86_pci_write_config32(QUARK_LEGACY_BRIDGE, 0xd8, bc);
 }
 
 static void quark_setup_bars(void)
@@ -72,6 +72,15 @@ static void quark_setup_bars(void)
 		       CONFIG_PCIE_ECAM_BASE | MEM_BAR_EN);
 }
 
+static void quark_enable_legacy_seg(void)
+{
+	u32 hmisc2;
+
+	hmisc2 = msg_port_read(MSG_PORT_HOST_BRIDGE, HMISC2);
+	hmisc2 |= (HMISC2_SEGE | HMISC2_SEGF | HMISC2_SEGAB);
+	msg_port_write(MSG_PORT_HOST_BRIDGE, HMISC2, hmisc2);
+}
+
 int arch_cpu_init(void)
 {
 	struct pci_controller *hose;
@@ -96,6 +105,9 @@ int arch_cpu_init(void)
 	 */
 	quark_setup_bars();
 
+	/* Turn on legacy segments (A/B/E/F) decode to system RAM */
+	quark_enable_legacy_seg();
+
 	unprotect_spi_flash();
 
 	return 0;
@@ -110,7 +122,7 @@ int print_cpuinfo(void)
 void reset_cpu(ulong addr)
 {
 	/* cold reset */
-	outb(0x08, PORT_RESET);
+	x86_full_reset();
 }
 
 int cpu_mmc_init(bd_t *bis)

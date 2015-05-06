@@ -42,7 +42,7 @@
 
 #define CONFIG_SCSI_DEV_LIST            \
 	{PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_VALLEYVIEW_SATA}
-#define CONFIG_SPI_FLASH_SST
+#define CONFIG_SPI_FLASH_STMICRO
 
 #define CONFIG_MMC
 #define CONFIG_SDHCI
@@ -68,5 +68,9 @@
 
 /* Avoid a warning in the Realtek Ethernet driver */
 #define CONFIG_SYS_CACHELINE_SIZE 16
+
+/* Environment in SPI flash is unsupported for now */
+#undef CONFIG_ENV_IS_IN_SPI_FLASH
+#define CONFIG_ENV_IS_NOWHERE
 
 #endif	/* __CONFIG_H */

@@ -1,21 +1,40 @@
 if ARCH_SUNXI
 
+# Note only one of these may be selected at a time! But hidden choices are
+# not supported by Kconfig
+config SUNXI_GEN_SUN4I
+	bool
+	---help---
+	Select this for sunxi SoCs which have resets and clocks set up
+	as the original A10 (mach-sun4i).
+
+config SUNXI_GEN_SUN6I
+	bool
+	---help---
+	Select this for sunxi SoCs which have sun6i like periphery, like
+	separate ahb reset control registers, custom pmic bus, new style
+	watchdog, etc.
+
+
 choice
 	prompt "Sunxi SoC Variant"
 
 config MACH_SUN4I
 	bool "sun4i (Allwinner A10)"
 	select CPU_V7
+	select SUNXI_GEN_SUN4I
 	select SUPPORT_SPL
 
 config MACH_SUN5I
 	bool "sun5i (Allwinner A13)"
 	select CPU_V7
+	select SUNXI_GEN_SUN4I
 	select SUPPORT_SPL
 
 config MACH_SUN6I
 	bool "sun6i (Allwinner A31)"
 	select CPU_V7
+	select SUNXI_GEN_SUN6I
 	select SUPPORT_SPL
 
 config MACH_SUN7I
@@ -23,15 +42,29 @@ config MACH_SUN7I
 	select CPU_V7
 	select CPU_V7_HAS_NONSEC
 	select CPU_V7_HAS_VIRT
+	select SUNXI_GEN_SUN4I
 	select SUPPORT_SPL
 	select ARMV7_BOOT_SEC_DEFAULT if OLD_SUNXI_KERNEL_COMPAT
 
-config MACH_SUN8I
+config MACH_SUN8I_A23
 	bool "sun8i (Allwinner A23)"
 	select CPU_V7
+	select SUNXI_GEN_SUN6I
+	select SUPPORT_SPL
+
+config MACH_SUN8I_A33
+	bool "sun8i (Allwinner A33)"
+	select CPU_V7
+	select SUNXI_GEN_SUN6I
 	select SUPPORT_SPL
 
 endchoice
+
+# The sun8i SoCs share a lot, this helps to avoid a lot of "if A23 || A33"
+config MACH_SUN8I
+	bool
+	default y if MACH_SUN8I_A23 || MACH_SUN8I_A33
+
 
 config DRAM_CLK
 	int "sunxi dram clock speed"
@@ -176,9 +209,6 @@ config UART0_PORT_F
 	at the same time, the system can be only booted in the FEL mode.
 	Only enable this if you really know what you are doing.
 
-config FDTFILE
-	string "Default fdtfile env setting for this board"
-
 config OLD_SUNXI_KERNEL_COMPAT
 	boolean "Enable workarounds for booting old kernels"
 	default n
@@ -212,6 +242,25 @@ config MMC3_CD_PIN
 	---help---
 	See MMC0_CD_PIN help text.
 
+config MMC1_PINS
+	string "Pins for mmc1"
+	default ""
+	---help---
+	Set the pins used for mmc1, when applicable. This takes a string in the
+	format understood by sunxi_name_to_gpio_bank, e.g. PH for port H.
+
+config MMC2_PINS
+	string "Pins for mmc2"
+	default ""
+	---help---
+	See MMC1_PINS help text.
+
+config MMC3_PINS
+	string "Pins for mmc3"
+	default ""
+	---help---
+	See MMC1_PINS help text.
+
 config MMC_SUNXI_SLOT_EXTRA
 	int "mmc extra slot number"
 	default -1
@@ -229,7 +278,6 @@ config USB0_VBUS_PIN
 
 config USB0_VBUS_DET
 	string "Vbus detect pin for usb0 (otg)"
-	depends on USB_MUSB_SUNXI
 	default ""
 	---help---
 	Set the Vbus detect pin for usb0 (otg). This takes a string in the
@@ -250,6 +298,50 @@ config USB2_VBUS_PIN
 	default "PH24" if MACH_SUN6I
 	---help---
 	See USB1_VBUS_PIN help text.
+
+config I2C0_ENABLE
+	bool "Enable I2C/TWI controller 0"
+	default y if MACH_SUN4I || MACH_SUN5I || MACH_SUN7I
+	default n if MACH_SUN6I || MACH_SUN8I
+	---help---
+	This allows enabling I2C/TWI controller 0 by muxing its pins, enabling
+	its clock and setting up the bus. This is especially useful on devices
+	with slaves connected to the bus or with pins exposed through e.g. an
+	expansion port/header.
+
+config I2C1_ENABLE
+	bool "Enable I2C/TWI controller 1"
+	default n
+	---help---
+	See I2C0_ENABLE help text.
+
+config I2C2_ENABLE
+	bool "Enable I2C/TWI controller 2"
+	default n
+	---help---
+	See I2C0_ENABLE help text.
+
+if MACH_SUN6I || MACH_SUN7I
+config I2C3_ENABLE
+	bool "Enable I2C/TWI controller 3"
+	default n
+	---help---
+	See I2C0_ENABLE help text.
+endif
+
+if MACH_SUN7I
+config I2C4_ENABLE
+	bool "Enable I2C/TWI controller 4"
+	default n
+	---help---
+	See I2C0_ENABLE help text.
+endif
+
+config AXP_GPIO
+	boolean "Enable support for gpio-s on axp PMICs"
+	default n
+	---help---
+	Say Y here to enable support for the gpio pins of the axp PMIC ICs.
 
 config VIDEO
 	boolean "Enable graphical uboot console on HDMI, LCD or VGA"
@@ -450,5 +542,17 @@ config GMAC_TX_DELAY
 	default 0
 	---help---
 	Set the GMAC Transmit Clock Delay Chain value.
+
+config NET
+	default y
+
+config NETDEVICES
+	default y
+
+config DM_ETH
+	default y
+
+config DM_SERIAL
+	default y
 
 endif

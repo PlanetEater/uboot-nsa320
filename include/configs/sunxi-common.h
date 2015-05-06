@@ -41,7 +41,7 @@
 
 #define CONFIG_SYS_TEXT_BASE		0x4a000000
 
-#if !defined(CONFIG_SPL_BUILD) && defined(CONFIG_DM)
+#if !defined(CONFIG_SPL_BUILD) && defined(CONFIG_DM_SERIAL)
 # define CONFIG_DW_SERIAL
 #endif
 
@@ -195,10 +195,15 @@
 #define CONFIG_SPL_I2C_SUPPORT
 #endif
 
+#if defined CONFIG_I2C0_ENABLE || defined CONFIG_I2C1_ENABLE || \
+    defined CONFIG_I2C2_ENABLE || defined CONFIG_I2C3_ENABLE || \
+    defined CONFIG_I2C4_ENABLE
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_I2C_MVTWSI
 #define CONFIG_SYS_I2C_SPEED		400000
 #define CONFIG_SYS_I2C_SLAVE		0x7f
+#define CONFIG_CMD_I2C
+#endif
 
 #if defined CONFIG_VIDEO_LCD_PANEL_I2C && !(defined CONFIG_SPL_BUILD)
 #define CONFIG_SYS_I2C_SOFT
@@ -217,8 +222,6 @@ extern int soft_i2c_gpio_scl;
 #define CONFIG_SYS_SPD_BUS_NUM		0 /* The axp209 i2c bus is bus 0 */
 #define CONFIG_VIDEO_LCD_I2C_BUS	-1 /* NA, but necessary to compile */
 #endif
-
-#define CONFIG_CMD_I2C
 
 /* PMU */
 #if defined CONFIG_AXP152_POWER || defined CONFIG_AXP209_POWER || defined CONFIG_AXP221_POWER
@@ -280,11 +283,12 @@ extern int soft_i2c_gpio_scl;
 
 /* Ethernet support */
 #ifdef CONFIG_SUNXI_EMAC
+#define CONFIG_PHY_ADDR		1
 #define CONFIG_MII			/* MII PHY management		*/
+#define CONFIG_PHYLIB
 #endif
 
 #ifdef CONFIG_SUNXI_GMAC
-#define CONFIG_DESIGNWARE_ETH		/* GMAC can use designware driver */
 #define CONFIG_DW_AUTONEG
 #define CONFIG_PHY_GIGE			/* GMAC can use gigabit PHY	*/
 #define CONFIG_PHY_ADDR		1
@@ -398,7 +402,7 @@ extern int soft_i2c_gpio_scl;
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	CONSOLE_ENV_SETTINGS \
 	MEM_LAYOUT_ENV_SETTINGS \
-	"fdtfile=" CONFIG_FDTFILE "\0" \
+	"fdtfile=" CONFIG_DEFAULT_DEVICE_TREE ".dtb\0" \
 	"console=ttyS0,115200\0" \
 	BOOTENV
 

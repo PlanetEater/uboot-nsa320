@@ -53,6 +53,8 @@ int video_bios_init(void);
 void	board_init_f_r_trampoline(ulong) __attribute__ ((noreturn));
 void	board_init_f_r(void) __attribute__ ((noreturn));
 
+int arch_misc_init(void);
+
 /* Read the time stamp counter */
 static inline __attribute__((no_instrument_function)) uint64_t rdtsc(void)
 {
@@ -66,6 +68,8 @@ void timer_set_tsc_base(uint64_t new_base);
 uint64_t timer_get_tsc(void);
 
 void quick_ram_check(void);
+
+int x86_init_cpus(void);
 
 #define PCI_VGA_RAM_IMAGE_START		0xc0000
 

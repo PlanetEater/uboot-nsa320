@@ -8,7 +8,8 @@
 #include <asm/io.h>
 #include <asm/pci.h>
 #include <asm/post.h>
-#include <asm/arch/tnc.h>
+#include <asm/arch/device.h>
+#include <asm/arch/irq.h>
 #include <asm/fsp/fsp_support.h>
 #include <asm/processor.h>
 
@@ -16,9 +17,9 @@ static void unprotect_spi_flash(void)
 {
 	u32 bc;
 
-	bc = pci_read_config32(PCH_LPC_DEV, 0xd8);
+	bc = x86_pci_read_config32(TNC_LPC, 0xd8);
 	bc |= 0x1;	/* unprotect the flash */
-	pci_write_config32(PCH_LPC_DEV, 0xd8, bc);
+	x86_pci_write_config32(TNC_LPC, 0xd8, bc);
 }
 
 int arch_cpu_init(void)
@@ -40,6 +41,13 @@ int arch_cpu_init(void)
 		return ret;
 
 	unprotect_spi_flash();
+
+	return 0;
+}
+
+int arch_misc_init(void)
+{
+	pirq_init();
 
 	return 0;
 }

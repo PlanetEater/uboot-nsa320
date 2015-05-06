@@ -16,11 +16,11 @@
  * (easy to change)
  */
 #define CONFIG_SHOW_BOOT_PROGRESS
-#define CONFIG_SYS_VSNPRINTF
 #define CONFIG_ZBOOT_32
 #define CONFIG_PHYSMEM
 #define CONFIG_DISPLAY_BOARDINFO_LATE
 #define CONFIG_DISPLAY_CPUINFO
+#define CONFIG_LAST_STAGE_INIT
 
 #define CONFIG_LMB
 #define CONFIG_OF_LIBFDT
@@ -204,12 +204,11 @@
 #define CONFIG_CMD_SF_TEST
 #define CONFIG_CMD_SPI
 #define CONFIG_SPI
-#define CONFIG_OF_SPI_FLASH
 
 /*-----------------------------------------------------------------------
  * Environment configuration
  */
-#define CONFIG_ENV_IS_NOWHERE
+#define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_SIZE			0x01000
 
 /*-----------------------------------------------------------------------
@@ -237,9 +236,6 @@
 #define CONFIG_BOOTP_BOOTPATH
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_HOSTNAME
-
-#define CONFIG_BOOTSTAGE
-#define CONFIG_CMD_BOOTSTAGE
 
 #define CONFIG_CMD_USB
 
