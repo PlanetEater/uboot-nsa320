@@ -14,12 +14,12 @@
 #include <asm/arch/clock.h>
 #include <asm/arch/dram.h>
 #include <asm/arch/prcm.h>
+#include <linux/kconfig.h>
 
 /* PLL runs at 2x dram-clk, controller runs at PLL / 4 (dram-clk / 2) */
 #define DRAM_CLK_MUL 2
 #define DRAM_CLK_DIV 4
 #define DRAM_SIGMA_DELTA_ENABLE 1
-#define DRAM_ODT_EN 0
 
 struct dram_para {
 	u8 cs1;
@@ -195,7 +195,7 @@ static int mctl_train_dram(struct dram_para *para)
 		(struct sunxi_mctl_ctl_reg *)SUNXI_DRAM_CTL0_BASE;
 
 	mctl_data_train_cfg(para);
-	mctl_set_pir(0x1f3);
+	mctl_set_pir(0x5f3);
 
 	return ((readl(&mctl_ctl->pgsr0) >> 20) & 0xff) ? -EIO : 0;
 }
@@ -215,7 +215,7 @@ static int mctl_channel_init(struct dram_para *para)
 	clrbits_le32(&mctl_ctl->pgcr0, 0x3f << 0);
 
 	/* Set ODT */
-	if ((CONFIG_DRAM_CLK > 400) && DRAM_ODT_EN) {
+	if ((CONFIG_DRAM_CLK > 400) && IS_ENABLED(CONFIG_DRAM_ODT_EN)) {
 		setbits_le32(DXnGCR0(0), 0x3 << 9);
 		setbits_le32(DXnGCR0(1), 0x3 << 9);
 	} else {

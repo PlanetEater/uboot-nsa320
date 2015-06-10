@@ -6,66 +6,25 @@
  */
 
 #include <common.h>
-#include <i2c.h>
 #include <asm/io.h>
 #include <asm/arch/crm_regs.h>
-#include <asm/arch/iomux.h>
 #include <asm/arch/mx6-ddr.h>
 #include <asm/arch/mx6-pins.h>
 #include <asm/arch/sys_proto.h>
 #include <asm/imx-common/boot_mode.h>
 #include <asm/imx-common/iomux-v3.h>
 #include <asm/imx-common/mxc_i2c.h>
+#include <environment.h>
 #include <spl.h>
 
-#include "ventana_eeprom.h"
+#include "gsc.h"
+#include "common.h"
 
 DECLARE_GLOBAL_DATA_PTR;
 
 #define RTT_NOM_120OHM /* use 120ohm Rtt_nom vs 60ohm (lower power) */
-#define I2C_GSC			0
-#define GSC_EEPROM_ADDR		0x51
 #define GSC_EEPROM_DDR_SIZE	0x2B	/* enum (512,1024,2048) MB */
 #define GSC_EEPROM_DDR_WIDTH	0x2D	/* enum (32,64) bit */
-#define I2C_PAD_CTRL  (PAD_CTL_PUS_100K_UP |                    \
-	PAD_CTL_SPEED_MED | PAD_CTL_DSE_40ohm | PAD_CTL_HYS |   \
-	PAD_CTL_ODE | PAD_CTL_SRE_FAST)
-#define PC MUX_PAD_CTRL(I2C_PAD_CTRL)
-#define CONFIG_SYS_I2C_SPEED	100000
-
-/* I2C1: GSC */
-static struct i2c_pads_info mx6q_i2c_pad_info0 = {
-	.scl = {
-		.i2c_mode = MX6Q_PAD_EIM_D21__I2C1_SCL | PC,
-		.gpio_mode = MX6Q_PAD_EIM_D21__GPIO3_IO21 | PC,
-		.gp = IMX_GPIO_NR(3, 21)
-	},
-	.sda = {
-		.i2c_mode = MX6Q_PAD_EIM_D28__I2C1_SDA | PC,
-		.gpio_mode = MX6Q_PAD_EIM_D28__GPIO3_IO28 | PC,
-		.gp = IMX_GPIO_NR(3, 28)
-	}
-};
-static struct i2c_pads_info mx6dl_i2c_pad_info0 = {
-	.scl = {
-		.i2c_mode = MX6DL_PAD_EIM_D21__I2C1_SCL | PC,
-		.gpio_mode = MX6DL_PAD_EIM_D21__GPIO3_IO21 | PC,
-		.gp = IMX_GPIO_NR(3, 21)
-	},
-	.sda = {
-		.i2c_mode = MX6DL_PAD_EIM_D28__I2C1_SDA | PC,
-		.gpio_mode = MX6DL_PAD_EIM_D28__GPIO3_IO28 | PC,
-		.gp = IMX_GPIO_NR(3, 28)
-	}
-};
-
-static void i2c_setup_iomux(void)
-{
-	if (is_cpu_type(MXC_CPU_MX6Q))
-		setup_i2c(0, CONFIG_SYS_I2C_SPEED, 0x7f, &mx6q_i2c_pad_info0);
-	else
-		setup_i2c(0, CONFIG_SYS_I2C_SPEED, 0x7f, &mx6dl_i2c_pad_info0);
-}
 
 /* configure MX6Q/DUAL mmdc DDR io registers */
 struct mx6dq_iomux_ddr_regs mx6dq_ddr_ioregs = {
@@ -530,15 +489,18 @@ void board_init_f(ulong dummy)
 	struct ventana_board_info ventana_info;
 	int board_model;
 
+	/* setup clock gating */
+	ccgr_init();
+
 	/* setup AIPS and disable watchdog */
 	arch_cpu_init();
 
-	ccgr_init();
+	/* setup AXI */
 	gpr_init();
 
 	/* iomux and setup of i2c */
-	board_early_init_f();
-	i2c_setup_iomux();
+	setup_iomux_uart();
+	setup_ventana_i2c();
 
 	/* setup GP timer */
 	timer_init();
@@ -547,13 +509,14 @@ void board_init_f(ulong dummy)
 	preloader_console_init();
 
 	/* read/validate EEPROM info to determine board model and SDRAM cfg */
-	board_model = read_eeprom(I2C_GSC, &ventana_info);
+	board_model = read_eeprom(CONFIG_I2C_GSC, &ventana_info);
+
+	/* configure model-specific gpio */
+	setup_iomux_gpio(board_model, &ventana_info);
 
 	/* provide some some default: 32bit 128MB */
-	if (GW_UNKNOWN == board_model) {
-		ventana_info.sdram_width = 2;
-		ventana_info.sdram_size = 3;
-	}
+	if (GW_UNKNOWN == board_model)
+		hang();
 
 	/* configure MMDC for SDRAM width/size and per-model calibration */
 	spl_dram_init(8 << ventana_info.sdram_width,
@@ -563,9 +526,53 @@ void board_init_f(ulong dummy)
 	/* Clear the BSS. */
 	memset(__bss_start, 0, __bss_end - __bss_start);
 
-	/* load/boot image from boot device */
-	board_init_r(NULL, 0);
+	/* disable boot watchdog */
+	gsc_boot_wd_disable();
 }
+
+/* called from board_init_r after gd setup if CONFIG_SPL_BOARD_INIT defined */
+/* its our chance to print info about boot device */
+void spl_board_init(void)
+{
+	/* determine boot device from SRC_SBMR1 (BOOT_CFG[4:1]) or SRC_GPR9 */
+	u32 boot_device = spl_boot_device();
+
+	switch (boot_device) {
+	case BOOT_DEVICE_MMC1:
+		puts("Booting from MMC\n");
+		break;
+	case BOOT_DEVICE_NAND:
+		puts("Booting from NAND\n");
+		break;
+	case BOOT_DEVICE_SATA:
+		puts("Booting from SATA\n");
+		break;
+	default:
+		puts("Unknown boot device\n");
+	}
+
+	/* PMIC init */
+	setup_pmic();
+}
+
+#ifdef CONFIG_SPL_OS_BOOT
+/* return 1 if we wish to boot to uboot vs os (falcon mode) */
+int spl_start_uboot(void)
+{
+	int ret = 1;
+
+	debug("%s\n", __func__);
+#ifdef CONFIG_SPL_ENV_SUPPORT
+	env_init();
+	env_relocate_spec();
+	debug("boot_os=%s\n", getenv("boot_os"));
+	if (getenv_yesno("boot_os") == 1)
+		ret = 0;
+#endif
+	debug("%s booting %s\n", __func__, ret ? "uboot" : "linux");
+	return ret;
+}
+#endif
 
 void reset_cpu(ulong addr)
 {

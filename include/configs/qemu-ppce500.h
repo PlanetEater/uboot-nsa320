@@ -135,7 +135,6 @@ extern unsigned long long get_phys_ccsrbar_addr_early(void);
 
 #ifdef CONFIG_PCI
 #define CONFIG_PCI_INDIRECT_BRIDGE
-#define CONFIG_NET_MULTI
 #define CONFIG_PCI_PNP			/* do pci plug-and-play */
 #define CONFIG_E1000
 
@@ -167,11 +166,9 @@ extern unsigned long long get_phys_ccsrbar_addr_early(void);
 #define CONFIG_CMD_GREPENV
 #define CONFIG_CMD_IRQ
 #define CONFIG_CMD_PING
-#define CONFIG_CMD_SETEXPR
 
 #ifdef CONFIG_PCI
 #define CONFIG_CMD_PCI
-#define CONFIG_CMD_NET
 #endif
 
 /*

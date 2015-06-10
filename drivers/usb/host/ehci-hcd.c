@@ -125,14 +125,7 @@ static struct descriptor {
 static struct ehci_ctrl *ehci_get_ctrl(struct usb_device *udev)
 {
 #ifdef CONFIG_DM_USB
-	struct udevice *dev;
-
-	/* Find the USB controller */
-	for (dev = udev->dev;
-	     device_get_uclass_id(dev) != UCLASS_USB;
-	     dev = dev->parent)
-		;
-	return dev_get_priv(dev);
+	return dev_get_priv(usb_get_bus(udev->dev));
 #else
 	return udev->controller;
 #endif
@@ -310,23 +303,33 @@ static void ehci_update_endpt2_dev_n_port(struct usb_device *udev,
 	 * in the tree before that one!
 	 */
 #ifdef CONFIG_DM_USB
+	/*
+	 * When called from usb-uclass.c: usb_scan_device() udev->dev points
+	 * to the parent udevice, not the actual udevice belonging to the
+	 * udev as the device is not instantiated yet. So when searching
+	 * for the first usb-2 parent start with udev->dev not
+	 * udev->dev->parent .
+	 */
 	struct udevice *parent;
+	struct usb_device *uparent;
 
-	for (ttdev = udev; ; ) {
-		struct udevice *dev = ttdev->dev;
+	ttdev = udev;
+	parent = udev->dev;
+	uparent = dev_get_parentdata(parent);
 
-		if (dev->parent &&
-		    device_get_uclass_id(dev->parent) == UCLASS_USB_HUB)
-			parent = dev->parent;
-		else
-			parent = NULL;
-		if (!parent)
+	while (uparent->speed != USB_SPEED_HIGH) {
+		struct udevice *dev = parent;
+
+		if (device_get_uclass_id(dev->parent) != UCLASS_USB_HUB) {
+			printf("ehci: Error cannot find high speed parent of usb-1 device\n");
 			return;
-		ttdev = dev_get_parentdata(parent);
-		if (!ttdev->speed != USB_SPEED_HIGH)
-			break;
+		}
+
+		ttdev = dev_get_parentdata(dev);
+		parent = dev->parent;
+		uparent = dev_get_parentdata(parent);
 	}
-	parent_devnum = ttdev->devnum;
+	parent_devnum = uparent->devnum;
 #else
 	ttdev = udev;
 	while (ttdev->parent && ttdev->parent->speed != USB_SPEED_HIGH)
@@ -872,7 +875,7 @@ static int ehci_submit_root(struct usb_device *dev, unsigned long pipe,
 				      port - 1);
 				reg |= EHCI_PS_PO;
 				ehci_writel(status_reg, reg);
-				break;
+				return -ENXIO;
 			} else {
 				int ret;
 
@@ -894,11 +897,22 @@ static int ehci_submit_root(struct usb_device *dev, unsigned long pipe,
 				 */
 				ret = handshake(status_reg, EHCI_PS_PR, 0,
 						2 * 1000);
-				if (!ret)
-					ctrl->portreset |= 1 << port;
-				else
+				if (!ret) {
+					reg = ehci_readl(status_reg);
+					if ((reg & (EHCI_PS_PE | EHCI_PS_CS))
+					    == EHCI_PS_CS && !ehci_is_TDI()) {
+						debug("port %d full speed --> companion\n", port - 1);
+						reg &= ~EHCI_PS_CLEAR;
+						reg |= EHCI_PS_PO;
+						ehci_writel(status_reg, reg);
+						return -ENXIO;
+					} else {
+						ctrl->portreset |= 1 << port;
+					}
+				} else {
 					printf("port(%d) reset error\n",
 					       port - 1);
+				}
 			}
 			break;
 		case USB_PORT_FEAT_TEST:
@@ -1249,9 +1263,9 @@ disable_periodic(struct ehci_ctrl *ctrl)
 	return 0;
 }
 
-struct int_queue *
-create_int_queue(struct usb_device *dev, unsigned long pipe, int queuesize,
-		 int elementsize, void *buffer, int interval)
+static struct int_queue *_ehci_create_int_queue(struct usb_device *dev,
+			unsigned long pipe, int queuesize, int elementsize,
+			void *buffer, int interval)
 {
 	struct ehci_ctrl *ctrl = ehci_get_ctrl(dev);
 	struct int_queue *result = NULL;
@@ -1407,7 +1421,8 @@ fail1:
 	return NULL;
 }
 
-void *poll_int_queue(struct usb_device *dev, struct int_queue *queue)
+static void *_ehci_poll_int_queue(struct usb_device *dev,
+				  struct int_queue *queue)
 {
 	struct QH *cur = queue->current;
 	struct qTD *cur_td;
@@ -1442,8 +1457,8 @@ void *poll_int_queue(struct usb_device *dev, struct int_queue *queue)
 }
 
 /* Do not free buffers associated with QHs, they're owned by someone else */
-int
-destroy_int_queue(struct usb_device *dev, struct int_queue *queue)
+static int _ehci_destroy_int_queue(struct usb_device *dev,
+				   struct int_queue *queue)
 {
 	struct ehci_ctrl *ctrl = ehci_get_ctrl(dev);
 	int result = -1;
@@ -1500,12 +1515,12 @@ static int _ehci_submit_int_msg(struct usb_device *dev, unsigned long pipe,
 	debug("dev=%p, pipe=%lu, buffer=%p, length=%d, interval=%d",
 	      dev, pipe, buffer, length, interval);
 
-	queue = create_int_queue(dev, pipe, 1, length, buffer, interval);
+	queue = _ehci_create_int_queue(dev, pipe, 1, length, buffer, interval);
 	if (!queue)
 		return -1;
 
 	timeout = get_timer(0) + USB_TIMEOUT_MS(pipe);
-	while ((backbuffer = poll_int_queue(dev, queue)) == NULL)
+	while ((backbuffer = _ehci_poll_int_queue(dev, queue)) == NULL)
 		if (get_timer(0) > timeout) {
 			printf("Timeout poll on interrupt endpoint\n");
 			result = -ETIMEDOUT;
@@ -1518,7 +1533,7 @@ static int _ehci_submit_int_msg(struct usb_device *dev, unsigned long pipe,
 		return -EINVAL;
 	}
 
-	ret = destroy_int_queue(dev, queue);
+	ret = _ehci_destroy_int_queue(dev, queue);
 	if (ret < 0)
 		return ret;
 
@@ -1543,6 +1558,24 @@ int submit_int_msg(struct usb_device *dev, unsigned long pipe,
 		   void *buffer, int length, int interval)
 {
 	return _ehci_submit_int_msg(dev, pipe, buffer, length, interval);
+}
+
+struct int_queue *create_int_queue(struct usb_device *dev,
+		unsigned long pipe, int queuesize, int elementsize,
+		void *buffer, int interval)
+{
+	return _ehci_create_int_queue(dev, pipe, queuesize, elementsize,
+				      buffer, interval);
+}
+
+void *poll_int_queue(struct usb_device *dev, struct int_queue *queue)
+{
+	return _ehci_poll_int_queue(dev, queue);
+}
+
+int destroy_int_queue(struct usb_device *dev, struct int_queue *queue)
+{
+	return _ehci_destroy_int_queue(dev, queue);
 }
 #endif
 
@@ -1572,15 +1605,41 @@ static int ehci_submit_int_msg(struct udevice *dev, struct usb_device *udev,
 	return _ehci_submit_int_msg(udev, pipe, buffer, length, interval);
 }
 
+static struct int_queue *ehci_create_int_queue(struct udevice *dev,
+		struct usb_device *udev, unsigned long pipe, int queuesize,
+		int elementsize, void *buffer, int interval)
+{
+	debug("%s: dev='%s', udev=%p\n", __func__, dev->name, udev);
+	return _ehci_create_int_queue(udev, pipe, queuesize, elementsize,
+				      buffer, interval);
+}
+
+static void *ehci_poll_int_queue(struct udevice *dev, struct usb_device *udev,
+				 struct int_queue *queue)
+{
+	debug("%s: dev='%s', udev=%p\n", __func__, dev->name, udev);
+	return _ehci_poll_int_queue(udev, queue);
+}
+
+static int ehci_destroy_int_queue(struct udevice *dev, struct usb_device *udev,
+				  struct int_queue *queue)
+{
+	debug("%s: dev='%s', udev=%p\n", __func__, dev->name, udev);
+	return _ehci_destroy_int_queue(udev, queue);
+}
+
 int ehci_register(struct udevice *dev, struct ehci_hccr *hccr,
 		  struct ehci_hcor *hcor, const struct ehci_ops *ops,
 		  uint tweaks, enum usb_init_type init)
 {
+	struct usb_bus_priv *priv = dev_get_uclass_priv(dev);
 	struct ehci_ctrl *ctrl = dev_get_priv(dev);
 	int ret;
 
 	debug("%s: dev='%s', ctrl=%p, hccr=%p, hcor=%p, init=%d\n", __func__,
 	      dev->name, ctrl, hccr, hcor, init);
+
+	priv->desc_before_addr = true;
 
 	ehci_setup_ops(ctrl, ops);
 	ctrl->hccr = hccr;
@@ -1617,6 +1676,9 @@ struct dm_usb_ops ehci_usb_ops = {
 	.control = ehci_submit_control_msg,
 	.bulk = ehci_submit_bulk_msg,
 	.interrupt = ehci_submit_int_msg,
+	.create_int_queue = ehci_create_int_queue,
+	.poll_int_queue = ehci_poll_int_queue,
+	.destroy_int_queue = ehci_destroy_int_queue,
 };
 
 #endif

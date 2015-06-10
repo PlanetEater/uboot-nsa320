@@ -211,6 +211,10 @@ obj-$(CONFIG_UPDATE_TFTP) += update.o
 obj-$(CONFIG_USB_KEYBOARD) += usb_kbd.o
 obj-$(CONFIG_CMD_DFU) += cmd_dfu.o
 obj-$(CONFIG_CMD_GPT) += cmd_gpt.o
+
+# Power
+obj-$(CONFIG_CMD_PMIC) += cmd_pmic.o
+obj-$(CONFIG_CMD_REGULATOR) += cmd_regulator.o
 endif
 
 ifdef CONFIG_SPL_BUILD

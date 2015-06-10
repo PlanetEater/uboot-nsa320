@@ -50,10 +50,14 @@
 
 /* NAND support */
 #define CONFIG_CMD_NAND
-#define CONFIG_NAND_VF610_NFC
-#define CONFIG_SYS_NAND_SELF_INIT
+#define CONFIG_SYS_NAND_ONFI_DETECTION
 #define CONFIG_SYS_MAX_NAND_DEVICE	1
 #define CONFIG_SYS_NAND_BASE		NFC_BASE_ADDR
+
+/* GPIO support */
+#define CONFIG_DM_GPIO
+#define CONFIG_CMD_GPIO
+#define CONFIG_VYBRID_GPIO
 
 /* Dynamic MTD partition support */
 #define CONFIG_CMD_MTDPARTS	/* Enable 'mtdparts' command line support */
@@ -93,7 +97,6 @@
 #define CONFIG_CMD_PING
 #define CONFIG_CMD_DHCP
 #define CONFIG_CMD_MII
-#define CONFIG_CMD_NET
 #define CONFIG_FEC_MXC
 #define CONFIG_MII
 #define IMX_FEC_BASE			ENET1_BASE_ADDR
@@ -267,5 +270,12 @@
 #define CONFIG_USB_STORAGE
 #define CONFIG_USB_GADGET_MASS_STORAGE
 #define CONFIG_CMD_USB_MASS_STORAGE
+
+/* Enable SPI support */
+#ifdef CONFIG_OF_CONTROL
+#define CONFIG_DM_SPI
+#define CONFIG_CMD_SPI
+#define CONFIG_FSL_DSPI
+#endif
 
 #endif /* __CONFIG_H */

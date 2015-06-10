@@ -8,10 +8,10 @@
 #include <dm.h>
 #include <asm/io.h>
 #include <dm/test.h>
-#include <dm/ut.h>
+#include <test/ut.h>
 
 /* Test that sandbox PCI works correctly */
-static int dm_test_pci_base(struct dm_test_state *dms)
+static int dm_test_pci_base(struct unit_test_state *uts)
 {
 	struct udevice *bus;
 
@@ -21,8 +21,19 @@ static int dm_test_pci_base(struct dm_test_state *dms)
 }
 DM_TEST(dm_test_pci_base, DM_TESTF_SCAN_PDATA | DM_TESTF_SCAN_FDT);
 
+/* Test that sandbox PCI bus numbering works correctly */
+static int dm_test_pci_busnum(struct unit_test_state *uts)
+{
+	struct udevice *bus;
+
+	ut_assertok(uclass_get_device_by_seq(UCLASS_PCI, 0, &bus));
+
+	return 0;
+}
+DM_TEST(dm_test_pci_busnum, DM_TESTF_SCAN_PDATA | DM_TESTF_SCAN_FDT);
+
 /* Test that we can use the swapcase device correctly */
-static int dm_test_pci_swapcase(struct dm_test_state *dms)
+static int dm_test_pci_swapcase(struct unit_test_state *uts)
 {
 	pci_dev_t pci_dev = PCI_BDF(0, 0x1f, 0);
 	struct pci_controller *hose;

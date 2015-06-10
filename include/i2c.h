@@ -54,6 +54,7 @@ struct dm_i2c_chip {
 	uint flags;
 #ifdef CONFIG_SANDBOX
 	struct udevice *emul;
+	bool test_mode;
 #endif
 };
 
@@ -124,6 +125,27 @@ int dm_i2c_probe(struct udevice *bus, uint chip_addr, uint chip_flags,
 		 struct udevice **devp);
 
 /**
+ * dm_i2c_reg_read() - Read a value from an I2C register
+ *
+ * This reads a single value from the given address in an I2C chip
+ *
+ * @addr:	Address to read from
+ * @return value read, or -ve on error
+ */
+int dm_i2c_reg_read(struct udevice *dev, uint offset);
+
+/**
+ * dm_i2c_reg_write() - Write a value to an I2C register
+ *
+ * This writes a single value to the given address in an I2C chip
+ *
+ * @addr:	Address to write to
+ * @val:	Value to write (normally a byte)
+ * @return 0 on success, -ve on error
+ */
+int dm_i2c_reg_write(struct udevice *dev, uint offset, unsigned int val);
+
+/**
  * dm_i2c_set_bus_speed() - set the speed of a bus
  *
  * @bus:	Bus to adjust
@@ -171,8 +193,15 @@ int i2c_get_chip_flags(struct udevice *dev, uint *flagsp);
  *
  * @offset_len:	New offset length value (typically 1 or 2)
  */
-
 int i2c_set_chip_offset_len(struct udevice *dev, uint offset_len);
+
+/**
+ * i2c_get_offset_len() - get the offset length for a chip
+ *
+ * @return:	Current offset length value (typically 1 or 2)
+ */
+int i2c_get_chip_offset_len(struct udevice *dev);
+
 /**
  * i2c_deblock() - recover a bus that is in an unknown state
  *

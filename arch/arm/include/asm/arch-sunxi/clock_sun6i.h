@@ -215,11 +215,14 @@ struct sunxi_ccm_reg {
 #define AHB_GATE_OFFSET_USB0		24
 #define AHB_GATE_OFFSET_MCTL		14
 #define AHB_GATE_OFFSET_GMAC		17
+#define AHB_GATE_OFFSET_NAND0		13
+#define AHB_GATE_OFFSET_NAND1		12
 #define AHB_GATE_OFFSET_MMC3		11
 #define AHB_GATE_OFFSET_MMC2		10
 #define AHB_GATE_OFFSET_MMC1		9
 #define AHB_GATE_OFFSET_MMC0		8
 #define AHB_GATE_OFFSET_MMC(n)		(AHB_GATE_OFFSET_MMC0 + (n))
+#define AHB_GATE_OFFSET_DMA		6
 #define AHB_GATE_OFFSET_SS		5
 
 /* ahb_gate1 offsets */
@@ -246,6 +249,8 @@ struct sunxi_ccm_reg {
 #define CCM_USB_CTRL_PHY0_CLK (0x1 << 8)
 #define CCM_USB_CTRL_PHY1_CLK (0x1 << 9)
 #define CCM_USB_CTRL_PHY2_CLK (0x1 << 10)
+#define CCM_USB_CTRL_OHCI0_CLK (0x1 << 16)
+#define CCM_USB_CTRL_OHCI1_CLK (0x1 << 17)
 
 #define CCM_GMAC_CTRL_TX_CLK_SRC_MII	0x0
 #define CCM_GMAC_CTRL_TX_CLK_SRC_EXT_RGMII 0x1
@@ -328,6 +333,9 @@ struct sunxi_ccm_reg {
 #define AHB_RESET_OFFSET_HDMI		11
 #define AHB_RESET_OFFSET_LCD1		5
 #define AHB_RESET_OFFSET_LCD0		4
+
+/* ahb_reset2 offsets */
+#define AHB_RESET_OFFSET_LVDS		0
 
 /* apb2 reset */
 #define APB2_RESET_UART_SHIFT		(16)

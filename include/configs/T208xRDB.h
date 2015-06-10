@@ -568,7 +568,6 @@ unsigned long get_board_ddr_clk(void);
 #ifdef CONFIG_PCI
 #define CONFIG_PCI_INDIRECT_BRIDGE
 #define CONFIG_FSL_PCIE_RESET           /* need PCIe reset errata LSZ ADD */
-#define CONFIG_NET_MULTI
 #define CONFIG_E1000
 #define CONFIG_PCI_PNP		/* do pci plug-and-play */
 #define CONFIG_PCI_SCAN_SHOW	/* show pci devices on startup */
@@ -759,13 +758,11 @@ unsigned long get_board_ddr_clk(void);
 #define CONFIG_CMD_I2C
 #define CONFIG_CMD_PING
 #define CONFIG_CMD_ECHO
-#define CONFIG_CMD_SETEXPR
 #define CONFIG_CMD_REGINFO
 #define CONFIG_CMD_BDI
 
 #ifdef CONFIG_PCI
 #define CONFIG_CMD_PCI
-#define CONFIG_CMD_NET
 #endif
 
 /* Hash command with SHA acceleration supported in hardware */

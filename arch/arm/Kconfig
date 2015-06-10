@@ -64,6 +64,7 @@ config SEMIHOSTING
 
 choice
 	prompt "Target select"
+	optional
 
 config ARCH_AT91
 	bool "Atmel AT91"
@@ -498,6 +499,7 @@ config TARGET_UDOO
 config TARGET_WANDBOARD
 	bool "Support wandboard"
 	select CPU_V7
+	select SUPPORT_SPL
 
 config TARGET_WARP
 	bool "Support WaRP"
@@ -521,6 +523,10 @@ config TARGET_EMBESTMX6BOARDS
 
 config TARGET_ARISTAINETOS
 	bool "Support aristainetos"
+	select CPU_V7
+
+config TARGET_ARISTAINETOS2
+	bool "Support aristainetos2"
 	select CPU_V7
 
 config TARGET_MX6QARM2
@@ -560,10 +566,6 @@ config TARGET_GW_VENTANA
 	bool "Support gw_ventana"
 	select CPU_V7
 	select SUPPORT_SPL
-
-config TARGET_HUMMINGBOARD
-	bool "Support hummingboard"
-	select CPU_V7
 
 config TARGET_KOSAGI_NOVENA
 	bool "Support Kosagi Novena"
@@ -619,16 +621,8 @@ config TARGET_CM_FX6
 	select DM_SERIAL
 	select DM_GPIO
 
-config TARGET_SOCFPGA_ARRIA5
-	bool "Support socfpga_arria5"
-	select CPU_V7
-	select SUPPORT_SPL
-	select DM
-	select DM_SPI_FLASH
-	select DM_SPI
-
-config TARGET_SOCFPGA_CYCLONE5
-	bool "Support socfpga_cyclone5"
+config ARCH_SOCFPGA
+	bool "Altera SOCFPGA family"
 	select CPU_V7
 	select SUPPORT_SPL
 	select DM
@@ -792,7 +786,7 @@ config TARGET_JORNADA
 	select CPU_SA1100
 
 config ARCH_UNIPHIER
-	bool "Panasonic UniPhier platform"
+	bool "Socionext UniPhier SoCs"
 	select CPU_V7
 	select SUPPORT_SPL
 	select SPL
@@ -800,6 +794,9 @@ config ARCH_UNIPHIER
 	select DM
 	select DM_SERIAL
 	select DM_I2C
+	help
+	  Support for UniPhier SoC family developed by Socionext Inc.
+	  (formerly, System LSI Business Division of Panasonic Corporation)
 
 config TARGET_STM32F429_DISCOVERY
 	bool "Support STM32F429 Discovery"
@@ -841,6 +838,8 @@ source "arch/arm/cpu/armv7/rmobile/Kconfig"
 
 source "arch/arm/cpu/armv7/s5pc1xx/Kconfig"
 
+source "arch/arm/mach-socfpga/Kconfig"
+
 source "arch/arm/mach-tegra/Kconfig"
 
 source "arch/arm/mach-uniphier/Kconfig"
@@ -863,7 +862,6 @@ source "board/Marvell/aspenite/Kconfig"
 source "board/Marvell/db-88f6820-gp/Kconfig"
 source "board/Marvell/db-mv784mp-gp/Kconfig"
 source "board/Marvell/gplugd/Kconfig"
-source "board/altera/socfpga/Kconfig"
 source "board/armadeus/apf27/Kconfig"
 source "board/armltd/vexpress/Kconfig"
 source "board/armltd/vexpress64/Kconfig"
@@ -939,7 +937,6 @@ source "board/siemens/pxm2/Kconfig"
 source "board/siemens/rut/Kconfig"
 source "board/silica/pengwyn/Kconfig"
 source "board/solidrun/mx6cuboxi/Kconfig"
-source "board/solidrun/hummingboard/Kconfig"
 source "board/spear/spear300/Kconfig"
 source "board/spear/spear310/Kconfig"
 source "board/spear/spear320/Kconfig"

@@ -148,6 +148,32 @@ int usb_stop(void)
 	return 0;
 }
 
+/******************************************************************************
+ * Detect if a USB device has been plugged or unplugged.
+ */
+int usb_detect_change(void)
+{
+	int i, j;
+	int change = 0;
+
+	for (j = 0; j < USB_MAX_DEVICE; j++) {
+		for (i = 0; i < usb_dev[j].maxchild; i++) {
+			struct usb_port_status status;
+
+			if (usb_get_port_status(&usb_dev[j], i + 1,
+						&status) < 0)
+				/* USB request failed */
+				continue;
+
+			if (le16_to_cpu(status.wPortChange) &
+			    USB_PORT_STAT_C_CONNECTION)
+				change++;
+		}
+	}
+
+	return change;
+}
+
 /*
  * disables the asynch behaviour of the control message. This is used for data
  * transfers that uses the exclusiv access to the control and bulk messages.
@@ -192,6 +218,7 @@ int usb_control_msg(struct usb_device *dev, unsigned int pipe,
 			void *data, unsigned short size, int timeout)
 {
 	ALLOC_CACHE_ALIGN_BUFFER(struct devrequest, setup_packet, 1);
+	int err;
 
 	if ((timeout == 0) && (!asynch_allowed)) {
 		/* request for a asynch control pipe is not allowed */
@@ -209,8 +236,9 @@ int usb_control_msg(struct usb_device *dev, unsigned int pipe,
 	      request, requesttype, value, index, size);
 	dev->status = USB_ST_NOT_PROC; /*not yet processed */
 
-	if (submit_control_msg(dev, pipe, data, size, setup_packet) < 0)
-		return -EIO;
+	err = submit_control_msg(dev, pipe, data, size, setup_packet);
+	if (err < 0)
+		return err;
 	if (timeout == 0)
 		return (int)size;
 
@@ -931,8 +959,6 @@ static int get_descriptor_len(struct usb_device *dev, int len, int expect_len)
 
 static int usb_setup_descriptor(struct usb_device *dev, bool do_read)
 {
-	__maybe_unused struct usb_device_descriptor *desc;
-
 	/*
 	 * This is a Windows scheme of initialization sequence, with double
 	 * reset of the device (Linux uses the same sequence)
@@ -946,13 +972,18 @@ static int usb_setup_descriptor(struct usb_device *dev, bool do_read)
 	 * send 64-byte GET-DEVICE-DESCRIPTOR request.  Since the descriptor is
 	 * only 18 bytes long, this will terminate with a short packet.  But if
 	 * the maxpacket size is 8 or 16 the device may be waiting to transmit
-	 * some more, or keeps on retransmitting the 8 byte header. */
+	 * some more, or keeps on retransmitting the 8 byte header.
+	 */
 
-	dev->descriptor.bMaxPacketSize0 = 64;	    /* Start off at 64 bytes  */
-	/* Default to 64 byte max packet size */
-	dev->maxpacketsize = PACKET_SIZE_64;
-	dev->epmaxpacketin[0] = 64;
-	dev->epmaxpacketout[0] = 64;
+	if (dev->speed == USB_SPEED_LOW) {
+		dev->descriptor.bMaxPacketSize0 = 8;
+		dev->maxpacketsize = PACKET_SIZE_8;
+	} else {
+		dev->descriptor.bMaxPacketSize0 = 64;
+		dev->maxpacketsize = PACKET_SIZE_64;
+	}
+	dev->epmaxpacketin[0] = dev->descriptor.bMaxPacketSize0;
+	dev->epmaxpacketout[0] = dev->descriptor.bMaxPacketSize0;
 
 	if (do_read) {
 		int err;

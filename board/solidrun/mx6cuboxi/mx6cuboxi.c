@@ -18,17 +18,22 @@
 #include <asm/arch/imx-regs.h>
 #include <asm/arch/iomux.h>
 #include <asm/arch/mx6-pins.h>
+#include <asm/arch/mxc_hdmi.h>
 #include <asm/errno.h>
 #include <asm/gpio.h>
 #include <asm/imx-common/iomux-v3.h>
+#include <asm/imx-common/video.h>
 #include <mmc.h>
 #include <fsl_esdhc.h>
+#include <malloc.h>
 #include <miiphy.h>
 #include <netdev.h>
 #include <asm/arch/crm_regs.h>
 #include <asm/io.h>
 #include <asm/arch/sys_proto.h>
 #include <spl.h>
+#include <usb.h>
+#include <usb/ehci-fsl.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -50,6 +55,7 @@ DECLARE_GLOBAL_DATA_PTR;
 	PAD_CTL_SPEED_MED | PAD_CTL_DSE_40ohm | PAD_CTL_SRE_FAST)
 
 #define ETH_PHY_RESET	IMX_GPIO_NR(4, 15)
+#define USB_H1_VBUS	IMX_GPIO_NR(1, 0)
 
 int dram_init(void)
 {
@@ -75,6 +81,10 @@ static iomux_v3_cfg_t const hb_cbi_sense[] = {
 	/* These pins are for sensing if it is a CuBox-i or a HummingBoard */
 	IOMUX_PADS(PAD_KEY_ROW1__GPIO4_IO09  | MUX_PAD_CTRL(UART_PAD_CTRL)),
 	IOMUX_PADS(PAD_EIM_DA4__GPIO3_IO04   | MUX_PAD_CTRL(UART_PAD_CTRL)),
+};
+
+static iomux_v3_cfg_t const usb_pads[] = {
+	IOMUX_PADS(PAD_GPIO_0__GPIO1_IO00 | MUX_PAD_CTRL(NO_PAD_CTRL)),
 };
 
 static void setup_iomux_uart(void)
@@ -124,6 +134,8 @@ static iomux_v3_cfg_t const enet_pads[] = {
 	IOMUX_PADS(PAD_RGMII_RD2__RGMII_RD2 | MUX_PAD_CTRL(ENET_PAD_CTRL)),
 	IOMUX_PADS(PAD_RGMII_RD3__RGMII_RD3 | MUX_PAD_CTRL(ENET_PAD_CTRL)),
 	IOMUX_PADS(PAD_RGMII_RX_CTL__RGMII_RX_CTL | MUX_PAD_CTRL(ENET_PAD_CTRL_PD)),
+	IOMUX_PADS(PAD_ENET_RXD0__GPIO1_IO27 | MUX_PAD_CTRL(ENET_PAD_CTRL_PD)),
+	IOMUX_PADS(PAD_ENET_RXD1__GPIO1_IO26 | MUX_PAD_CTRL(ENET_PAD_CTRL_PD)),
 };
 
 static void setup_iomux_enet(void)
@@ -143,9 +155,14 @@ int board_phy_config(struct phy_device *phydev)
 	return 0;
 }
 
+/* On Cuboxi Ethernet PHY can be located at addresses 0x0 or 0x4 */
+#define ETH_PHY_MASK	((1 << 0x0) | (1 << 0x4))
+
 int board_eth_init(bd_t *bis)
 {
 	struct iomuxc *const iomuxc_regs = (struct iomuxc *)IOMUXC_BASE_ADDR;
+	struct mii_dev *bus;
+	struct phy_device *phydev;
 
 	int ret = enable_fec_anatop_clock(ENET_25MHZ);
 	if (ret)
@@ -156,13 +173,150 @@ int board_eth_init(bd_t *bis)
 
 	setup_iomux_enet();
 
-	return cpu_eth_init(bis);
+	bus = fec_get_miibus(IMX_FEC_BASE, -1);
+	if (!bus)
+		return -EINVAL;
+
+	phydev = phy_find_by_mask(bus, ETH_PHY_MASK, PHY_INTERFACE_MODE_RGMII);
+	if (!phydev) {
+		ret = -EINVAL;
+		goto free_bus;
+	}
+
+	debug("using phy at address %d\n", phydev->addr);
+	ret = fec_probe(bis, -1, IMX_FEC_BASE, bus, phydev);
+	if (ret)
+		goto free_phydev;
+
+	return 0;
+
+free_phydev:
+	free(phydev);
+free_bus:
+	free(bus);
+	return ret;
 }
+
+#ifdef CONFIG_VIDEO_IPUV3
+static void do_enable_hdmi(struct display_info_t const *dev)
+{
+	imx_enable_hdmi_phy();
+}
+
+struct display_info_t const displays[] = {
+	{
+		.bus	= -1,
+		.addr	= 0,
+		.pixfmt	= IPU_PIX_FMT_RGB24,
+		.detect	= detect_hdmi,
+		.enable	= do_enable_hdmi,
+		.mode	= {
+			.name           = "HDMI",
+			/* 1024x768@60Hz (VESA)*/
+			.refresh        = 60,
+			.xres           = 1024,
+			.yres           = 768,
+			.pixclock       = 15384,
+			.left_margin    = 160,
+			.right_margin   = 24,
+			.upper_margin   = 29,
+			.lower_margin   = 3,
+			.hsync_len      = 136,
+			.vsync_len      = 6,
+			.sync           = FB_SYNC_EXT,
+			.vmode          = FB_VMODE_NONINTERLACED
+		}
+	}
+};
+
+size_t display_count = ARRAY_SIZE(displays);
+
+static int setup_display(void)
+{
+	struct mxc_ccm_reg *ccm = (struct mxc_ccm_reg *)CCM_BASE_ADDR;
+	int reg;
+	int timeout = 100000;
+
+	enable_ipu_clock();
+	imx_setup_hdmi();
+
+	/* set video pll to 455MHz (24MHz * (37+11/12) / 2) */
+	setbits_le32(&ccm->analog_pll_video, BM_ANADIG_PLL_VIDEO_POWERDOWN);
+
+	reg = readl(&ccm->analog_pll_video);
+	reg &= ~BM_ANADIG_PLL_VIDEO_DIV_SELECT;
+	reg |= BF_ANADIG_PLL_VIDEO_DIV_SELECT(37);
+	reg &= ~BM_ANADIG_PLL_VIDEO_POST_DIV_SELECT;
+	reg |= BF_ANADIG_PLL_VIDEO_POST_DIV_SELECT(1);
+	writel(reg, &ccm->analog_pll_video);
+
+	writel(BF_ANADIG_PLL_VIDEO_NUM_A(11), &ccm->analog_pll_video_num);
+	writel(BF_ANADIG_PLL_VIDEO_DENOM_B(12), &ccm->analog_pll_video_denom);
+
+	reg &= ~BM_ANADIG_PLL_VIDEO_POWERDOWN;
+	writel(reg, &ccm->analog_pll_video);
+
+	while (timeout--)
+		if (readl(&ccm->analog_pll_video) & BM_ANADIG_PLL_VIDEO_LOCK)
+			break;
+	if (timeout < 0) {
+		printf("Warning: video pll lock timeout!\n");
+		return -ETIMEDOUT;
+	}
+
+	reg = readl(&ccm->analog_pll_video);
+	reg |= BM_ANADIG_PLL_VIDEO_ENABLE;
+	reg &= ~BM_ANADIG_PLL_VIDEO_BYPASS;
+	writel(reg, &ccm->analog_pll_video);
+
+	/* gate ipu1_di0_clk */
+	clrbits_le32(&ccm->CCGR3, MXC_CCM_CCGR3_LDB_DI0_MASK);
+
+	/* select video_pll clock / 7  for ipu1_di0_clk -> 65MHz pixclock */
+	reg = readl(&ccm->chsccdr);
+	reg &= ~(MXC_CCM_CHSCCDR_IPU1_DI0_PRE_CLK_SEL_MASK |
+		 MXC_CCM_CHSCCDR_IPU1_DI0_PODF_MASK |
+		 MXC_CCM_CHSCCDR_IPU1_DI0_CLK_SEL_MASK);
+	reg |= (2 << MXC_CCM_CHSCCDR_IPU1_DI0_PRE_CLK_SEL_OFFSET) |
+	       (6 << MXC_CCM_CHSCCDR_IPU1_DI0_PODF_OFFSET) |
+	       (0 << MXC_CCM_CHSCCDR_IPU1_DI0_CLK_SEL_OFFSET);
+	writel(reg, &ccm->chsccdr);
+
+	/* enable ipu1_di0_clk */
+	setbits_le32(&ccm->CCGR3, MXC_CCM_CCGR3_LDB_DI0_MASK);
+
+	return 0;
+}
+#endif /* CONFIG_VIDEO_IPUV3 */
+
+#ifdef CONFIG_USB_EHCI_MX6
+static void setup_usb(void)
+{
+	SETUP_IOMUX_PADS(usb_pads);
+}
+
+int board_ehci_hcd_init(int port)
+{
+	if (port == 1)
+		gpio_direction_output(USB_H1_VBUS, 1);
+
+	return 0;
+}
+#endif
 
 int board_early_init_f(void)
 {
+	int ret = 0;
 	setup_iomux_uart();
-	return 0;
+
+#ifdef CONFIG_VIDEO_IPUV3
+	ret = setup_display();
+#endif
+
+#ifdef CONFIG_USB_EHCI_MX6
+	setup_usb();
+#endif
+	return ret;
 }
 
 int board_init(void)

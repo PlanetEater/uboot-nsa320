@@ -125,6 +125,8 @@
 	func(HOST, host, 1) \
 	func(HOST, host, 0)
 
+#define CONFIG_BOOTCOMMAND ""
+
 #include <config_distro_bootcmd.h>
 
 #define CONFIG_KEEP_SERVERADDR
@@ -150,6 +152,11 @@
 #define CONFIG_SHA256
 
 #define CONFIG_CMD_SANDBOX
+
+#define CONFIG_CMD_ENV_FLAGS
+#define CONFIG_CMD_ENV_CALLBACK
+#define CONFIG_CMD_GREPENV
+#define CONFIG_CMD_ASKENV
 
 #define CONFIG_BOOTARGS ""
 
@@ -207,5 +214,6 @@
 
 #define CONFIG_CMD_LZMADEC
 #define CONFIG_CMD_USB
+#define CONFIG_CMD_DATE
 
 #endif

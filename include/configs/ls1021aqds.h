@@ -124,7 +124,7 @@ unsigned long get_board_ddr_clk(void);
 #endif
 
 #ifndef CONFIG_SYS_TEXT_BASE
-#define CONFIG_SYS_TEXT_BASE		0x67f80000
+#define CONFIG_SYS_TEXT_BASE		0x60100000
 #endif
 
 #define CONFIG_NR_DRAM_BANKS		1
@@ -526,18 +526,15 @@ unsigned long get_board_ddr_clk(void);
 #define CONFIG_SYS_PCIE_MEM_SIZE	0x08000000	/* 128M */
 
 #ifdef CONFIG_PCI
-#define CONFIG_NET_MULTI
 #define CONFIG_PCI_PNP
 #define CONFIG_E1000
 #define CONFIG_PCI_SCAN_SHOW
 #define CONFIG_CMD_PCI
-#define CONFIG_CMD_NET
 #endif
 
 #define CONFIG_CMD_PING
 #define CONFIG_CMD_DHCP
 #define CONFIG_CMD_MII
-#define CONFIG_CMD_NET
 
 #define CONFIG_CMDLINE_TAG
 #define CONFIG_CMDLINE_EDITING

@@ -1,7 +1,7 @@
 VERSION = 2015
 PATCHLEVEL = 07
 SUBLEVEL =
-EXTRAVERSION = -rc1
+EXTRAVERSION = -rc2
 NAME =
 
 # *DOCUMENTATION*
@@ -645,7 +645,8 @@ libs-y += drivers/power/ \
 	drivers/power/fuel_gauge/ \
 	drivers/power/mfd/ \
 	drivers/power/pmic/ \
-	drivers/power/battery/
+	drivers/power/battery/ \
+	drivers/power/regulator/
 libs-y += drivers/spi/
 libs-$(CONFIG_FMAN_ENET) += drivers/net/fm/
 libs-$(CONFIG_SYS_FSL_DDR) += drivers/ddr/fsl/
@@ -665,6 +666,7 @@ libs-$(CONFIG_API) += api/
 libs-$(CONFIG_HAS_POST) += post/
 libs-y += test/
 libs-y += test/dm/
+libs-$(CONFIG_UT_ENV) += test/env/
 
 libs-y += $(if $(BOARDDIR),board/$(BOARDDIR)/)
 
@@ -874,7 +876,7 @@ endif
 # Create a file containing the configuration options the image was built with
 quiet_cmd_cpp_cfg = CFG     $@
 cmd_cpp_cfg = $(CPP) -Wp,-MD,$(depfile) $(cpp_flags) $(LDPPFLAGS) -ansi \
-		-D__ASSEMBLY__ -x assembler-with-cpp -P -dM -E -o $@ $<
+	-DDO_DEPS_ONLY -D__ASSEMBLY__ -x assembler-with-cpp -P -dM -E -o $@ $<
 
 MKIMAGEFLAGS_u-boot.img = -A $(ARCH) -T firmware -C none -O u-boot \
 	-a $(CONFIG_SYS_TEXT_BASE) -e $(CONFIG_SYS_UBOOT_START) \
@@ -1230,7 +1232,8 @@ endef
 
 define filechk_timestamp.h
 	(LC_ALL=C date +'#define U_BOOT_DATE "%b %d %C%y"'; \
-	LC_ALL=C date +'#define U_BOOT_TIME "%T"')
+	LC_ALL=C date +'#define U_BOOT_TIME "%T"'; \
+	LC_ALL=C date +'#define U_BOOT_TZ "%z"')
 endef
 
 $(version_h): include/config/uboot.release FORCE
@@ -1272,6 +1275,7 @@ FINDFLAGS := -L
 tags ctags:
 		ctags -w -o ctags `$(FIND) $(FINDFLAGS) $(TAG_SUBDIRS) \
 						-name '*.[chS]' -print`
+		ln -s ctags tags
 
 etags:
 		etags -a -o etags `$(FIND) $(FINDFLAGS) $(TAG_SUBDIRS) \

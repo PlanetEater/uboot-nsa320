@@ -9,11 +9,13 @@
 #include <common.h>
 #include <command.h>
 #include <dm.h>
+#include <environment.h>
 #include <net.h>
 #include <miiphy.h>
 #include <phy.h>
 #include <asm/errno.h>
 #include <dm/device-internal.h>
+#include <dm/uclass-internal.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -60,16 +62,6 @@ static inline int eth_setenv_enetaddr_by_index(const char *base_name, int index,
 	return eth_setenv_enetaddr(enetvar, enetaddr);
 }
 
-static void eth_env_init(void)
-{
-	const char *s;
-
-	s = getenv("bootfile");
-	if (s != NULL)
-		copy_filename(net_boot_file_name, s,
-			      sizeof(net_boot_file_name));
-}
-
 static int eth_mac_skip(int index)
 {
 	char enetvar[15];
@@ -103,8 +95,6 @@ static void eth_common_init(void)
 #ifdef CONFIG_PHYLIB
 	phy_init();
 #endif
-
-	eth_env_init();
 
 	/*
 	 * If board-specific initialization exists, call it.
@@ -281,6 +271,58 @@ int eth_get_dev_index(void)
 	return -1;
 }
 
+static int eth_write_hwaddr(struct udevice *dev)
+{
+	struct eth_pdata *pdata = dev->platdata;
+	int ret = 0;
+
+	if (!dev || !device_active(dev))
+		return -EINVAL;
+
+	/* seq is valid since the device is active */
+	if (eth_get_ops(dev)->write_hwaddr && !eth_mac_skip(dev->seq)) {
+		if (!is_valid_ethaddr(pdata->enetaddr)) {
+			printf("\nError: %s address %pM illegal value\n",
+			       dev->name, pdata->enetaddr);
+			return -EINVAL;
+		}
+
+		ret = eth_get_ops(dev)->write_hwaddr(dev);
+		if (ret)
+			printf("\nWarning: %s failed to set MAC address\n",
+			       dev->name);
+	}
+
+	return ret;
+}
+
+static int on_ethaddr(const char *name, const char *value, enum env_op op,
+	int flags)
+{
+	int index;
+	int retval;
+	struct udevice *dev;
+
+	/* look for an index after "eth" */
+	index = simple_strtoul(name + 3, NULL, 10);
+
+	retval = uclass_find_device_by_seq(UCLASS_ETH, index, false, &dev);
+	if (!retval) {
+		struct eth_pdata *pdata = dev->platdata;
+		switch (op) {
+		case env_op_create:
+		case env_op_overwrite:
+			eth_parse_enetaddr(value, pdata->enetaddr);
+			break;
+		case env_op_delete:
+			memset(pdata->enetaddr, 0, 6);
+		}
+	}
+
+	return 0;
+}
+U_BOOT_ENV_CALLBACK(ethaddr, on_ethaddr);
+
 int eth_init(void)
 {
 	struct udevice *current;
@@ -298,16 +340,6 @@ int eth_init(void)
 		debug("Trying %s\n", current->name);
 
 		if (device_active(current)) {
-			uchar env_enetaddr[6];
-			struct eth_pdata *pdata = current->platdata;
-
-			/* Sync environment with network device */
-			if (eth_getenv_enetaddr_by_index("eth", current->seq,
-							 env_enetaddr))
-				memcpy(pdata->enetaddr, env_enetaddr, 6);
-			else
-				memset(pdata->enetaddr, 0, 6);
-
 			ret = eth_get_ops(current)->start(current);
 			if (ret >= 0) {
 				struct eth_device_priv *priv =
@@ -398,31 +430,6 @@ int eth_rx(void)
 		/* We cannot completely return the error at present */
 		debug("%s: recv() returned error %d\n", __func__, ret);
 	}
-	return ret;
-}
-
-static int eth_write_hwaddr(struct udevice *dev)
-{
-	struct eth_pdata *pdata = dev->platdata;
-	int ret = 0;
-
-	if (!dev || !device_active(dev))
-		return -EINVAL;
-
-	/* seq is valid since the device is active */
-	if (eth_get_ops(dev)->write_hwaddr && !eth_mac_skip(dev->seq)) {
-		if (!is_valid_ethaddr(pdata->enetaddr)) {
-			printf("\nError: %s address %pM illegal value\n",
-			       dev->name, pdata->enetaddr);
-			return -EINVAL;
-		}
-
-		ret = eth_get_ops(dev)->write_hwaddr(dev);
-		if (ret)
-			printf("\nWarning: %s failed to set MAC address\n",
-			       dev->name);
-	}
-
 	return ret;
 }
 
@@ -529,9 +536,15 @@ static int eth_post_probe(struct udevice *dev)
 		printf("\nWarning: %s using MAC address from ROM\n",
 		       dev->name);
 	} else if (is_zero_ethaddr(pdata->enetaddr)) {
+#ifdef CONFIG_NET_RANDOM_ETHADDR
+		net_random_ethaddr(pdata->enetaddr);
+		printf("\nWarning: %s (eth%d) using random MAC address - %pM\n",
+		       dev->name, dev->seq, pdata->enetaddr);
+#else
 		printf("\nError: %s address not set.\n",
 		       dev->name);
 		return -EINVAL;
+#endif
 	}
 
 	return 0;
@@ -631,6 +644,36 @@ int eth_get_dev_index(void)
 	return eth_current->index;
 }
 
+static int on_ethaddr(const char *name, const char *value, enum env_op op,
+	int flags)
+{
+	int index;
+	struct eth_device *dev;
+
+	if (!eth_devices)
+		return 0;
+
+	/* look for an index after "eth" */
+	index = simple_strtoul(name + 3, NULL, 10);
+
+	dev = eth_devices;
+	do {
+		if (dev->index == index) {
+			switch (op) {
+			case env_op_create:
+			case env_op_overwrite:
+				eth_parse_enetaddr(value, dev->enetaddr);
+				break;
+			case env_op_delete:
+				memset(dev->enetaddr, 0, 6);
+			}
+		}
+	} while (dev != eth_devices);
+
+	return 0;
+}
+U_BOOT_ENV_CALLBACK(ethaddr, on_ethaddr);
+
 int eth_write_hwaddr(struct eth_device *dev, const char *base_name,
 		   int eth_number)
 {
@@ -657,9 +700,15 @@ int eth_write_hwaddr(struct eth_device *dev, const char *base_name,
 		printf("\nWarning: %s using MAC address from net device\n",
 		       dev->name);
 	} else if (is_zero_ethaddr(dev->enetaddr)) {
+#ifdef CONFIG_NET_RANDOM_ETHADDR
+		net_random_ethaddr(dev->enetaddr);
+		printf("\nWarning: %s (eth%d) using random MAC address - %pM\n",
+		       dev->name, eth_number, dev->enetaddr);
+#else
 		printf("\nError: %s address not set.\n",
 		       dev->name);
 		return -EINVAL;
+#endif
 	}
 
 	if (dev->write_hwaddr && !eth_mac_skip(eth_number)) {
@@ -823,24 +872,12 @@ u32 ether_crc(size_t len, unsigned char const *p)
 
 int eth_init(void)
 {
-	struct eth_device *old_current, *dev;
+	struct eth_device *old_current;
 
 	if (!eth_current) {
 		puts("No ethernet found.\n");
 		return -ENODEV;
 	}
-
-	/* Sync environment with network devices */
-	dev = eth_devices;
-	do {
-		uchar env_enetaddr[6];
-
-		if (eth_getenv_enetaddr_by_index("eth", dev->index,
-						 env_enetaddr))
-			memcpy(dev->enetaddr, env_enetaddr, 6);
-
-		dev = dev->next;
-	} while (dev != eth_devices);
 
 	old_current = eth_current;
 	do {

@@ -36,6 +36,17 @@ config SYS_VSNPRINTF
 	  Thumb-2, about 420 bytes). Enable this option for safety when
 	  using sprintf() with data you do not control.
 
+config REGEX
+	bool "Enable regular expression support"
+	help
+	  If this variable is defined, U-Boot is linked against the
+	  SLRE (Super Light Regular Expression) library, which adds
+	  regex support to some commands, for example "env grep" and
+	  "setexpr".
+
+config LIB_RAND
+	bool
+
 source lib/rsa/Kconfig
 
 menu "Hashing Support"
@@ -73,5 +84,13 @@ config SHA_PROG_HW_ACCEL
 	  Data can be streamed in a block at a time and the hashing
 	  is performed in hardware.
 endmenu
+
+config ERRNO_STR
+	bool "Enable function for getting errno-related string message"
+	help
+	  The function errno_str(int errno), returns a pointer to the errno
+	  corresponding text message:
+	  - if errno is null or positive number - a pointer to "Success" message
+	  - if errno is negative - a pointer to errno related message
 
 endmenu

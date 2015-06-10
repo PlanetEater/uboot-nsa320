@@ -198,7 +198,7 @@ int submit_control_msg(struct usb_device *dev, unsigned long pipe, void *buffer,
 int submit_int_msg(struct usb_device *dev, unsigned long pipe, void *buffer,
 			int transfer_len, int interval);
 
-#if defined CONFIG_USB_EHCI || defined CONFIG_MUSB_HOST
+#if defined CONFIG_USB_EHCI || defined CONFIG_MUSB_HOST || defined(CONFIG_DM_USB)
 struct int_queue *create_int_queue(struct usb_device *dev, unsigned long pipe,
 	int queuesize, int elementsize, void *buffer, int interval);
 int destroy_int_queue(struct usb_device *dev, struct int_queue *queue);
@@ -265,6 +265,7 @@ int usb_kbd_deregister(int force);
 /* routines */
 int usb_init(void); /* initialize the USB Controller */
 int usb_stop(void); /* stop the USB Controller */
+int usb_detect_change(void); /* detect if a USB device has been (un)plugged */
 
 
 int usb_set_protocol(struct usb_device *dev, int ifnum, int protocol);
@@ -290,6 +291,7 @@ int usb_get_class_descriptor(struct usb_device *dev, int ifnum,
 int usb_clear_halt(struct usb_device *dev, int pipe);
 int usb_string(struct usb_device *dev, int index, char *buf, size_t size);
 int usb_set_interface(struct usb_device *dev, int interface, int alternate);
+int usb_get_port_status(struct usb_device *dev, int port, void *data);
 
 /* big endian -> little endian conversion */
 /* some CPUs are already little endian e.g. the ARM920T */
@@ -571,20 +573,23 @@ struct usb_platdata {
  * This is used by sandbox to provide emulation data also.
  *
  * @id:		ID used to match this device
- * @speed:	Stores the speed associated with a USB device
  * @devnum:	Device address on the USB bus
- * @slot_id:	USB3 slot ID, which is separate from the device address
- * @portnr:	Port number of this device on its parent hub, numbered from 1
- *		(0 mean this device is the root hub)
+ * @udev:	usb-uclass internal use only do NOT use
  * @strings:	List of descriptor strings (for sandbox emulation purposes)
  * @desc_list:	List of descriptors (for sandbox emulation purposes)
  */
 struct usb_dev_platdata {
 	struct usb_device_id id;
-	enum usb_device_speed speed;
 	int devnum;
-	int slot_id;
-	int portnr;	/* Hub port number, 1..n */
+	/*
+	 * This pointer is used to pass the usb_device used in usb_scan_device,
+	 * to get the usb descriptors before the driver is known, to the
+	 * actual udevice once the driver is known and the udevice is created.
+	 * This will be NULL except during probe, do NOT use.
+	 *
+	 * This should eventually go away.
+	 */
+	struct usb_device *udev;
 #ifdef CONFIG_SANDBOX
 	struct usb_string *strings;
 	/* NULL-terminated list of descriptor pointers */
@@ -605,10 +610,13 @@ struct usb_dev_platdata {
  * @desc_before_addr:	true if we can read a device descriptor before it
  *		has been assigned an address. For XHCI this is not possible
  *		so this will be false.
+ * @companion:  True if this is a companion controller to another USB
+ *		controller
  */
 struct usb_bus_priv {
 	int next_addr;
 	bool desc_before_addr;
+	bool companion;
 };
 
 /**
@@ -657,6 +665,52 @@ struct dm_usb_ops {
 	int (*interrupt)(struct udevice *bus, struct usb_device *udev,
 			 unsigned long pipe, void *buffer, int length,
 			 int interval);
+
+	/**
+	 * create_int_queue() - Create and queue interrupt packets
+	 *
+	 * Create and queue @queuesize number of interrupt usb packets of
+	 * @elementsize bytes each. @buffer must be atleast @queuesize *
+	 * @elementsize bytes.
+	 *
+	 * Note some controllers only support a queuesize of 1.
+	 *
+	 * @interval: Interrupt interval
+	 *
+	 * @return A pointer to the created interrupt queue or NULL on error
+	 */
+	struct int_queue * (*create_int_queue)(struct udevice *bus,
+				struct usb_device *udev, unsigned long pipe,
+				int queuesize, int elementsize, void *buffer,
+				int interval);
+
+	/**
+	 * poll_int_queue() - Poll an interrupt queue for completed packets
+	 *
+	 * Poll an interrupt queue for completed packets. The return value
+	 * points to the part of the buffer passed to create_int_queue()
+	 * corresponding to the completed packet.
+	 *
+	 * @queue: queue to poll
+	 *
+	 * @return Pointer to the data of the first completed packet, or
+	 *         NULL if no packets are ready
+	 */
+	void * (*poll_int_queue)(struct udevice *bus, struct usb_device *udev,
+				 struct int_queue *queue);
+
+	/**
+	 * destroy_int_queue() - Destroy an interrupt queue
+	 *
+	 * Destroy an interrupt queue created by create_int_queue().
+	 *
+	 * @queue: queue to poll
+	 *
+	 * @return 0 if OK, -ve on error
+	 */
+	int (*destroy_int_queue)(struct udevice *bus, struct usb_device *udev,
+				 struct int_queue *queue);
+
 	/**
 	 * alloc_device() - Allocate a new device context (XHCI)
 	 *
@@ -742,11 +796,10 @@ int usb_scan_device(struct udevice *parent, int port,
  * will be a device with uclass UCLASS_USB.
  *
  * @dev:	Device to check
- * @busp:	Returns bus, or NULL if not found
- * @return 0 if OK, -EXDEV is somehow this bus does not have a controller (this
- *	indicates a critical error in the USB stack
+ * @return The bus, or NULL if not found (this indicates a critical error in
+ *	the USB stack
  */
-int usb_get_bus(struct udevice *dev, struct udevice **busp);
+struct udevice *usb_get_bus(struct udevice *dev);
 
 /**
  * usb_select_config() - Set up a device ready for use

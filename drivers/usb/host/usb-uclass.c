@@ -21,6 +21,10 @@ DECLARE_GLOBAL_DATA_PTR;
 extern bool usb_started; /* flag for the started/stopped USB status */
 static bool asynch_allowed;
 
+struct usb_uclass_priv {
+	int companion_device_count;
+};
+
 int usb_disable_asynch(int disable)
 {
 	int old_value = asynch_allowed;
@@ -46,11 +50,22 @@ int submit_control_msg(struct usb_device *udev, unsigned long pipe,
 {
 	struct udevice *bus = udev->controller_dev;
 	struct dm_usb_ops *ops = usb_get_ops(bus);
+	struct usb_uclass_priv *uc_priv = bus->uclass->priv;
+	int err;
 
 	if (!ops->control)
 		return -ENOSYS;
 
-	return ops->control(bus, udev, pipe, buffer, length, setup);
+	err = ops->control(bus, udev, pipe, buffer, length, setup);
+	if (setup->request == USB_REQ_SET_FEATURE &&
+	    setup->requesttype == USB_RT_PORT &&
+	    setup->value == cpu_to_le16(USB_PORT_FEAT_RESET) &&
+	    err == -ENXIO) {
+		/* Device handed over to companion after port reset */
+		uc_priv->companion_device_count++;
+	}
+
+	return err;
 }
 
 int submit_bulk_msg(struct usb_device *udev, unsigned long pipe, void *buffer,
@@ -63,6 +78,42 @@ int submit_bulk_msg(struct usb_device *udev, unsigned long pipe, void *buffer,
 		return -ENOSYS;
 
 	return ops->bulk(bus, udev, pipe, buffer, length);
+}
+
+struct int_queue *create_int_queue(struct usb_device *udev,
+		unsigned long pipe, int queuesize, int elementsize,
+		void *buffer, int interval)
+{
+	struct udevice *bus = udev->controller_dev;
+	struct dm_usb_ops *ops = usb_get_ops(bus);
+
+	if (!ops->create_int_queue)
+		return NULL;
+
+	return ops->create_int_queue(bus, udev, pipe, queuesize, elementsize,
+				     buffer, interval);
+}
+
+void *poll_int_queue(struct usb_device *udev, struct int_queue *queue)
+{
+	struct udevice *bus = udev->controller_dev;
+	struct dm_usb_ops *ops = usb_get_ops(bus);
+
+	if (!ops->poll_int_queue)
+		return NULL;
+
+	return ops->poll_int_queue(bus, udev, queue);
+}
+
+int destroy_int_queue(struct usb_device *udev, struct int_queue *queue)
+{
+	struct udevice *bus = udev->controller_dev;
+	struct dm_usb_ops *ops = usb_get_ops(bus);
+
+	if (!ops->destroy_int_queue)
+		return -ENOSYS;
+
+	return ops->destroy_int_queue(bus, udev, queue);
 }
 
 int usb_alloc_device(struct usb_device *udev)
@@ -81,12 +132,16 @@ int usb_stop(void)
 {
 	struct udevice *bus;
 	struct uclass *uc;
+	struct usb_uclass_priv *uc_priv;
 	int err = 0, ret;
 
 	/* De-activate any devices that have been activated */
 	ret = uclass_get(UCLASS_USB, &uc);
 	if (ret)
 		return ret;
+
+	uc_priv = uc->priv;
+
 	uclass_foreach_dev(bus, uc) {
 		ret = device_remove(bus);
 		if (ret && !err)
@@ -106,12 +161,13 @@ int usb_stop(void)
 #endif
 	usb_stor_reset();
 	usb_hub_reset();
+	uc_priv->companion_device_count = 0;
 	usb_started = 0;
 
 	return err;
 }
 
-static int usb_scan_bus(struct udevice *bus, bool recurse)
+static void usb_scan_bus(struct udevice *bus, bool recurse)
 {
 	struct usb_bus_priv *priv;
 	struct udevice *dev;
@@ -121,16 +177,22 @@ static int usb_scan_bus(struct udevice *bus, bool recurse)
 
 	assert(recurse);	/* TODO: Support non-recusive */
 
+	printf("scanning bus %d for devices... ", bus->seq);
+	debug("\n");
 	ret = usb_scan_device(bus, 0, USB_SPEED_FULL, &dev);
 	if (ret)
-		return ret;
-
-	return priv->next_addr;
+		printf("failed, error %d\n", ret);
+	else if (priv->next_addr == 0)
+		printf("No USB Device found\n");
+	else
+		printf("%d USB Device(s) found\n", priv->next_addr);
 }
 
 int usb_init(void)
 {
 	int controllers_initialized = 0;
+	struct usb_uclass_priv *uc_priv;
+	struct usb_bus_priv *priv;
 	struct udevice *bus;
 	struct uclass *uc;
 	int count = 0;
@@ -143,11 +205,12 @@ int usb_init(void)
 	if (ret)
 		return ret;
 
+	uc_priv = uc->priv;
+
 	uclass_foreach_dev(bus, uc) {
 		/* init low_level USB */
+		printf("USB%d:   ", count);
 		count++;
-		printf("USB");
-		printf("%d:   ", bus->seq);
 		ret = device_probe(bus);
 		if (ret == -ENODEV) {	/* No such device. */
 			puts("Port not available.\n");
@@ -159,21 +222,37 @@ int usb_init(void)
 			printf("probe failed, error %d\n", ret);
 			continue;
 		}
-		/*
-		 * lowlevel init is OK, now scan the bus for devices
-		 * i.e. search HUBs and configure them
-		 */
 		controllers_initialized++;
-		printf("scanning bus %d for devices... ", bus->seq);
-		debug("\n");
-		ret = usb_scan_bus(bus, true);
-		if (ret < 0)
-			printf("failed, error %d\n", ret);
-		else if (!ret)
-			printf("No USB Device found\n");
-		else
-			printf("%d USB Device(s) found\n", ret);
 		usb_started = true;
+	}
+
+	/*
+	 * lowlevel init done, now scan the bus for devices i.e. search HUBs
+	 * and configure them, first scan primary controllers.
+	 */
+	uclass_foreach_dev(bus, uc) {
+		if (!device_active(bus))
+			continue;
+
+		priv = dev_get_uclass_priv(bus);
+		if (!priv->companion)
+			usb_scan_bus(bus, true);
+	}
+
+	/*
+	 * Now that the primary controllers have been scanned and have handed
+	 * over any devices they do not understand to their companions, scan
+	 * the companions if necessary.
+	 */
+	if (uc_priv->companion_device_count) {
+		uclass_foreach_dev(bus, uc) {
+			if (!device_active(bus))
+				continue;
+
+			priv = dev_get_uclass_priv(bus);
+			if (priv->companion)
+				usb_scan_bus(bus, true);
+		}
 	}
 
 	debug("scan end\n");
@@ -477,9 +556,7 @@ int usb_scan_device(struct udevice *parent, int port,
 
 	*devp = NULL;
 	memset(udev, '\0', sizeof(*udev));
-	ret = usb_get_bus(parent, &udev->controller_dev);
-	if (ret)
-		return ret;
+	udev->controller_dev = usb_get_bus(parent);
 	priv = dev_get_uclass_priv(udev->controller_dev);
 
 	/*
@@ -536,11 +613,7 @@ int usb_scan_device(struct udevice *parent, int port,
 	plat = dev_get_parent_platdata(dev);
 	debug("%s: Probing '%s', plat=%p\n", __func__, dev->name, plat);
 	plat->devnum = udev->devnum;
-	plat->speed = udev->speed;
-	plat->slot_id = udev->slot_id;
-	plat->portnr = port;
-	debug("** device '%s': stashing slot_id=%d\n", dev->name,
-	      plat->slot_id);
+	plat->udev = udev;
 	priv->next_addr++;
 	ret = device_probe(dev);
 	if (ret) {
@@ -579,45 +652,55 @@ int usb_child_post_bind(struct udevice *dev)
 	return 0;
 }
 
-int usb_get_bus(struct udevice *dev, struct udevice **busp)
+struct udevice *usb_get_bus(struct udevice *dev)
 {
 	struct udevice *bus;
 
-	*busp = NULL;
 	for (bus = dev; bus && device_get_uclass_id(bus) != UCLASS_USB; )
 		bus = bus->parent;
 	if (!bus) {
 		/* By design this cannot happen */
 		assert(bus);
 		debug("USB HUB '%s' does not have a controller\n", dev->name);
-		return -EXDEV;
 	}
-	*busp = bus;
 
-	return 0;
+	return bus;
 }
 
 int usb_child_pre_probe(struct udevice *dev)
 {
-	struct udevice *bus;
 	struct usb_device *udev = dev_get_parentdata(dev);
 	struct usb_dev_platdata *plat = dev_get_parent_platdata(dev);
 	int ret;
 
-	ret = usb_get_bus(dev, &bus);
-	if (ret)
-		return ret;
-	udev->controller_dev = bus;
-	udev->dev = dev;
-	udev->devnum = plat->devnum;
-	udev->slot_id = plat->slot_id;
-	udev->portnr = plat->portnr;
-	udev->speed = plat->speed;
-	debug("** device '%s': getting slot_id=%d\n", dev->name, plat->slot_id);
+	if (plat->udev) {
+		/*
+		 * Copy over all the values set in the on stack struct
+		 * usb_device in usb_scan_device() to our final struct
+		 * usb_device for this dev.
+		 */
+		*udev = *(plat->udev);
+		/* And clear plat->udev as it will not be valid for long */
+		plat->udev = NULL;
+		udev->dev = dev;
+	} else {
+		/*
+		 * This happens with devices which are explicitly bound
+		 * instead of being discovered through usb_scan_device()
+		 * such as sandbox emul devices.
+		 */
+		udev->dev = dev;
+		udev->controller_dev = usb_get_bus(dev);
+		udev->devnum = plat->devnum;
 
-	ret = usb_select_config(udev);
-	if (ret)
-		return ret;
+		/*
+		 * udev did not go through usb_scan_device(), so we need to
+		 * select the config and read the config descriptors.
+		 */
+		ret = usb_select_config(udev);
+		if (ret)
+			return ret;
+	}
 
 	return 0;
 }
@@ -627,6 +710,7 @@ UCLASS_DRIVER(usb) = {
 	.name		= "usb",
 	.flags		= DM_UC_FLAG_SEQ_ALIAS,
 	.post_bind	= usb_post_bind,
+	.priv_auto_alloc_size = sizeof(struct usb_uclass_priv),
 	.per_child_auto_alloc_size = sizeof(struct usb_device),
 	.per_device_auto_alloc_size = sizeof(struct usb_bus_priv),
 	.child_post_bind = usb_child_post_bind,

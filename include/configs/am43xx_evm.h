@@ -295,6 +295,7 @@
 			"setenv fdtfile am437x-idk-evm.dtb; fi; " \
 		"if test $fdtfile = undefined; then " \
 			"echo WARNING: Could not determine device tree; fi; \0" \
+	NETARGS \
 	DFUARGS \
 
 #define CONFIG_BOOTCOMMAND \
@@ -305,7 +306,6 @@
 #endif
 
 /* CPSW Ethernet */
-#define CONFIG_CMD_NET
 #define CONFIG_CMD_DHCP
 #define CONFIG_CMD_PING
 #define CONFIG_CMD_MII
@@ -318,7 +318,6 @@
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_SUBNETMASK
 #define CONFIG_NET_RETRY_COUNT		10
-#define CONFIG_NET_MULTI
 #define CONFIG_PHY_GIGE
 #define CONFIG_PHYLIB
 

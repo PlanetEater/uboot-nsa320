@@ -424,7 +424,6 @@
 #define CONFIG_PCI_PNP	/* do pci plug-and-play */
 #define CONFIG_E1000	/* Defind e1000 pci Ethernet card*/
 #define CONFIG_CMD_PCI
-#define CONFIG_CMD_NET
 
 #define CONFIG_PCI_SCAN_SHOW	/* show pci devices on startup */
 #define CONFIG_DOS_PARTITION
@@ -505,7 +504,6 @@
 #define CONFIG_CMD_IRQ
 #define CONFIG_CMD_MII
 #define CONFIG_CMD_PING
-#define CONFIG_CMD_SETEXPR
 #define CONFIG_CMD_REGINFO
 #define CONFIG_CMD_ERRATA
 #define CONFIG_CMD_CRAMFS
@@ -627,17 +625,6 @@
 
 /* default location for tftp and bootm */
 #define CONFIG_LOADADDR		1000000
-
-/*
- * Autobooting
- */
-#define CONFIG_AUTOBOOT_KEYED
-#define CONFIG_AUTOBOOT_STOP_STR	"\x1b"
-#define DEBUG_BOOTKEYS			0
-#undef CONFIG_AUTOBOOT_DELAY_STR
-#undef CONFIG_BOOTARGS
-#define CONFIG_AUTOBOOT_PROMPT	"Autobooting in %d seconds, "	\
-				"press \"<Esc>\" to stop\n", bootdelay
 
 #define CONFIG_BOOTARGS	/* the boot command will set bootargs */
 

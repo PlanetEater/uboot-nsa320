@@ -77,6 +77,7 @@ void armv8_switch_to_el1(void);
 void gic_init(void);
 void gic_send_sgi(unsigned long sgino);
 void wait_for_wakeup(void);
+void protect_secure_region(void);
 void smp_kick_all_cpus(void);
 
 void flush_l3_cache(void);
@@ -157,6 +158,22 @@ void flush_l3_cache(void);
  *
  * void save_boot_params(u32 r0, u32 r1, u32 r2, u32 r3);
  */
+
+/**
+ * save_boot_params_ret() - Return from save_boot_params()
+ *
+ * If you provide save_boot_params(), then you should jump back to this
+ * function when done. Try to preserve all registers.
+ *
+ * If your implementation of save_boot_params() is in C then it is acceptable
+ * to simply call save_boot_params_ret() at the end of your function. Since
+ * there is no link register set up, you cannot just exit the function. U-Boot
+ * will return to the (initialised) value of lr, and likely crash/hang.
+ *
+ * If your implementation of save_boot_params() is in assembler then you
+ * should use 'b' or 'bx' to return to save_boot_params_ret.
+ */
+void save_boot_params_ret(void);
 
 #define isb() __asm__ __volatile__ ("" : : : "memory")
 

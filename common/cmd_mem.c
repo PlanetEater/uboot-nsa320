@@ -1227,7 +1227,7 @@ static int do_mem_crc(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 	ac = argc - 1;
 #ifdef CONFIG_HASH_VERIFY
 	if (strcmp(*av, "-v") == 0) {
-		flags |= HASH_FLAG_VERIFY;
+		flags |= HASH_FLAG_VERIFY | HASH_FLAG_ENV;
 		av++;
 		ac--;
 	}
@@ -1303,7 +1303,7 @@ U_BOOT_CMD(
 
 #ifdef CONFIG_CMD_CRC32
 
-#ifndef CONFIG_CRC32_VERIFY
+#ifndef CONFIG_HASH_VERIFY
 
 U_BOOT_CMD(
 	crc32,	4,	1,	do_mem_crc,
@@ -1311,7 +1311,7 @@ U_BOOT_CMD(
 	"address count [addr]\n    - compute CRC32 checksum [save at addr]"
 );
 
-#else	/* CONFIG_CRC32_VERIFY */
+#else	/* CONFIG_HASH_VERIFY */
 
 U_BOOT_CMD(
 	crc32,	5,	1,	do_mem_crc,
@@ -1320,12 +1320,12 @@ U_BOOT_CMD(
 	"-v address count crc\n    - verify crc of memory area"
 );
 
-#endif	/* CONFIG_CRC32_VERIFY */
+#endif	/* CONFIG_HASH_VERIFY */
 
 #endif
 
 #ifdef CONFIG_CMD_MEMINFO
-__weak void board_show_dram(ulong size)
+__weak void board_show_dram(phys_size_t size)
 {
 	puts("DRAM:  ");
 	print_size(size, "\n");

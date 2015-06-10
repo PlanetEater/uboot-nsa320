@@ -13,8 +13,6 @@
 
 #define CONFIG_SYS_THUMB_BUILD
 
-#define CONFIG_SOCFPGA
-
 /*
  * High level configuration
  */
@@ -99,7 +97,6 @@
  * Ethernet on SoC (EMAC)
  */
 #if defined(CONFIG_CMD_NET) && !defined(CONFIG_SOCFPGA_VIRTUAL_TARGET)
-#define CONFIG_NET_MULTI
 #define CONFIG_DW_ALTDESCRIPTOR
 #define CONFIG_MII
 #define CONFIG_AUTONEG_TIMEOUT		(15 * CONFIG_SYS_HZ)
@@ -298,7 +295,7 @@ unsigned int cm_get_qspi_controller_clk_hz(void);
 #define CONFIG_CRC32_VERIFY
 
 /* Linker script for SPL */
-#define CONFIG_SPL_LDSCRIPT	"arch/arm/cpu/armv7/socfpga/u-boot-spl.lds"
+#define CONFIG_SPL_LDSCRIPT	"arch/arm/mach-socfpga/u-boot-spl.lds"
 
 #define CONFIG_SPL_LIBCOMMON_SUPPORT
 #define CONFIG_SPL_LIBGENERIC_SUPPORT

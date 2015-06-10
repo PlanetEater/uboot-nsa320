@@ -79,7 +79,7 @@ static int usb_get_hub_status(struct usb_device *dev, void *data)
 			data, sizeof(struct usb_hub_status), USB_CNTL_TIMEOUT);
 }
 
-static int usb_get_port_status(struct usb_device *dev, int port, void *data)
+int usb_get_port_status(struct usb_device *dev, int port, void *data)
 {
 	return usb_control_msg(dev, usb_rcvctrlpipe(dev, 0),
 			USB_REQ_GET_STATUS, USB_DIR_IN | USB_RT_PORT, 0, port,
@@ -157,7 +157,7 @@ static inline char *portspeed(int portstatus)
 int legacy_hub_port_reset(struct usb_device *dev, int port,
 			unsigned short *portstat)
 {
-	int tries;
+	int err, tries;
 	ALLOC_CACHE_ALIGN_BUFFER(struct usb_port_status, portsts, 1);
 	unsigned short portstatus, portchange;
 
@@ -168,8 +168,10 @@ int legacy_hub_port_reset(struct usb_device *dev, int port,
 	debug("%s: resetting port %d...\n", __func__, port + 1);
 #endif
 	for (tries = 0; tries < MAX_TRIES; tries++) {
+		err = usb_set_port_feature(dev, port + 1, USB_PORT_FEAT_RESET);
+		if (err < 0)
+			return err;
 
-		usb_set_port_feature(dev, port + 1, USB_PORT_FEAT_RESET);
 		mdelay(200);
 
 		if (usb_get_port_status(dev, port + 1, portsts) < 0) {
@@ -269,7 +271,8 @@ int usb_hub_port_connect_change(struct usb_device *dev, int port)
 	/* Reset the port */
 	ret = legacy_hub_port_reset(dev, port, &portstatus);
 	if (ret < 0) {
-		printf("cannot reset port %i!?\n", port + 1);
+		if (ret != -ENXIO)
+			printf("cannot reset port %i!?\n", port + 1);
 		return ret;
 	}
 

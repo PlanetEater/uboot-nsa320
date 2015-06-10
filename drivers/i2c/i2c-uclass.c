@@ -186,6 +186,25 @@ int dm_i2c_write(struct udevice *dev, uint offset, const uint8_t *buffer,
 	}
 }
 
+int dm_i2c_reg_read(struct udevice *dev, uint offset)
+{
+	uint8_t val;
+	int ret;
+
+	ret = dm_i2c_read(dev, offset, &val, 1);
+	if (ret < 0)
+		return ret;
+
+	return val;
+}
+
+int dm_i2c_reg_write(struct udevice *dev, uint offset, uint value)
+{
+	uint8_t val = value;
+
+	return dm_i2c_write(dev, offset, &val, 1);
+}
+
 /**
  * i2c_probe_chip() - probe for a chip on a bus
  *
@@ -394,6 +413,13 @@ int i2c_set_chip_offset_len(struct udevice *dev, uint offset_len)
 	chip->offset_len = offset_len;
 
 	return 0;
+}
+
+int i2c_get_chip_offset_len(struct udevice *dev)
+{
+	struct dm_i2c_chip *chip = dev_get_parent_platdata(dev);
+
+	return chip->offset_len;
 }
 
 int i2c_deblock(struct udevice *bus)

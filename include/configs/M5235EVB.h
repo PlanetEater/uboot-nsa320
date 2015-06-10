@@ -46,7 +46,6 @@
 #define CONFIG_CMD_MEMORY
 #define CONFIG_CMD_MISC
 #define CONFIG_CMD_MII
-#define CONFIG_CMD_NET
 #define CONFIG_CMD_PCI
 #define CONFIG_CMD_PING
 #define CONFIG_CMD_REGINFO
@@ -95,12 +94,10 @@
 #define CONFIG_BOOTDELAY	1	/* autoboot after 5 seconds */
 #define CONFIG_BOOTFILE		"u-boot.bin"
 #ifdef CONFIG_MCFFEC
-#	define CONFIG_ETHADDR	00:e0:0c:bc:e5:60
 #	define CONFIG_IPADDR	192.162.1.2
 #	define CONFIG_NETMASK	255.255.255.0
 #	define CONFIG_SERVERIP	192.162.1.1
 #	define CONFIG_GATEWAYIP	192.162.1.1
-#	define CONFIG_OVERWRITE_ETHADDR_ONCE
 #endif				/* FEC_ENET */
 
 #define CONFIG_HOSTNAME		M5235EVB

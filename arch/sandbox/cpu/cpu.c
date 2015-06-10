@@ -22,6 +22,8 @@ unsigned long map_len;
 
 void reset_cpu(ulong ignored)
 {
+	/* Do this here while it still has an effect */
+	os_fd_restore();
 	if (state_uninit())
 		os_exit(2);
 
@@ -43,11 +45,6 @@ int do_reset(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 void __udelay(unsigned long usec)
 {
 	os_usleep(usec);
-}
-
-unsigned long __attribute__((no_instrument_function)) timer_get_us(void)
-{
-	return os_get_nsec() / 1000;
 }
 
 int cleanup_before_linux(void)
