@@ -11,6 +11,12 @@
 
 #include "mx6_common.h"
 
+#ifdef CONFIG_SPL
+#define CONFIG_SPL_LIBCOMMON_SUPPORT
+#define CONFIG_SPL_MMC_SUPPORT
+#include "imx6_spl.h"
+#endif
+
 #define MACH_TYPE_MX6SLEVK		4307
 #define CONFIG_MACH_TYPE		MACH_TYPE_MX6SLEVK
 
@@ -190,11 +196,6 @@
 #define CONFIG_SYS_MMC_ENV_DEV		1	/* SDHC2*/
 #endif
 
-#define CONFIG_IMX6_THERMAL
-
-#define CONFIG_CMD_FUSE
-#if defined(CONFIG_CMD_FUSE) || defined(CONFIG_IMX6_THERMAL)
-#define CONFIG_MXC_OCOTP
-#endif
+#define CONFIG_IMX_THERMAL
 
 #endif				/* __CONFIG_H */
