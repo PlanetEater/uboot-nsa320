@@ -4,7 +4,7 @@ config SYS_BOARD
        default "nsa320"
 
 config SYS_VENDOR
-       default "Marvell"
+       default "zyxel"
 
 config SYS_CONFIG_NAME
        default "nsa320"

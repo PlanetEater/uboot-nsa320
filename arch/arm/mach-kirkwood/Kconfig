@@ -60,7 +60,7 @@ endchoice
 config SYS_SOC
 	default "kirkwood"
 
-source "board/Marvell/nsa320/Kconfig"
+source "board/zyxel/nsa320/Kconfig"
 source "board/Marvell/openrd/Kconfig"
 source "board/Marvell/dreamplug/Kconfig"
 source "board/Marvell/guruplug/Kconfig"
