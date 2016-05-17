@@ -29,7 +29,6 @@
 #define CONFIG_SYS_TEXT_BASE	0xFFF90000
 #endif
 
-#define CONFIG_SYS_GENERIC_BOARD
 #define CONFIG_DISPLAY_BOARDINFO
 
 #define CONFIG_SYS_CLK_FREQ	33333400
@@ -85,7 +84,6 @@
  * Serial Port
  *----------------------------------------------------------------------*/
 #define CONFIG_CONS_INDEX	1	/* Use UART0			*/
-#define CONFIG_SYS_NS16550
 #define CONFIG_SYS_NS16550_SERIAL
 #define CONFIG_SYS_NS16550_REG_SIZE	1
 #define CONFIG_SYS_NS16550_CLK		get_serial_clock()
@@ -159,8 +157,6 @@
 #define CONFIG_SYS_I2C_PPC4XX_CH1
 #define CONFIG_SYS_I2C_PPC4XX_SPEED_1		400000
 #define CONFIG_SYS_I2C_PPC4XX_SLAVE_1		0x7F
-
-#define CONFIG_SYS_I2C_MULTI_EEPROMS
 
 #define CONFIG_SYS_I2C_EEPROM_ADDR		0x54
 #define CONFIG_SYS_I2C_EEPROM_ADDR_LEN		2
@@ -273,17 +269,10 @@
 
 #define CONFIG_CMD_BSP
 #define CONFIG_CMD_DATE
-#define CONFIG_CMD_DHCP
 #define CONFIG_CMD_DTT
 #define CONFIG_CMD_EEPROM
-#define CONFIG_CMD_ELF
-#define CONFIG_CMD_FAT
-#define CONFIG_CMD_I2C
-#define CONFIG_CMD_MII
 #define CONFIG_CMD_NAND
 #define CONFIG_CMD_PCI
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_USB
 #define CONFIG_CMD_REGINFO
 
 /* POST support */
@@ -323,7 +312,6 @@
 #define CONFIG_SYS_EXTBDINFO		1	/* To use extended board_into (bd_t) */
 
 #define CONFIG_CMDLINE_EDITING	1	/* add command line history     */
-#define CONFIG_LOOPW		1	/* enable loopw command         */
 #define CONFIG_MX_CYCLIC	1	/* enable mdc/mwc commands      */
 #define CONFIG_ZERO_BOOTDELAY_CHECK	/* check for keypress on bootdelay==0 */
 #define CONFIG_VERSION_VARIABLE 1	/* include version env variable */
@@ -410,10 +398,6 @@
 #if defined(CONFIG_CMD_KGDB)
 #define CONFIG_KGDB_BAUDRATE	230400	/* speed to run kgdb serial port */
 #endif
-
-/* pass open firmware flat tree */
-#define CONFIG_OF_LIBFDT	1
-#define CONFIG_OF_BOARD_SETUP	1
 
 #define CONFIG_API		1
 

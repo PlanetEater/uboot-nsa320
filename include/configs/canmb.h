@@ -15,7 +15,6 @@
 
 #define CONFIG_MPC5200		1	/* This is a MPC5200 CPU */
 #define CONFIG_CANMB		1	/* ... on canmb board - we need this for FEC.C */
-#define CONFIG_SYS_GENERIC_BOARD
 #define CONFIG_DISPLAY_BOARDINFO
 
 /*
@@ -38,7 +37,6 @@
 #define CONFIG_BAUDRATE		115200	/* ... at 115200 bps */
 #define CONFIG_SYS_BAUDRATE_TABLE	{ 9600, 19200, 38400, 57600, 115200, 230400 }
 
-
 /*
  * BOOTP options
  */
@@ -47,18 +45,12 @@
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_HOSTNAME
 
-
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_ASKENV
 #define CONFIG_CMD_DATE
-#define CONFIG_CMD_DHCP
 #define CONFIG_CMD_IMMAP
-#define CONFIG_CMD_MII
 #define CONFIG_CMD_REGINFO
-#define CONFIG_CMD_SNTP
-
 
 /*
  * MUST be low boot - HIGHBOOT is not supported anymore
@@ -140,7 +132,6 @@
 /* Use SRAM until RAM will be available */
 #define CONFIG_SYS_INIT_RAM_ADDR	MPC5XXX_SRAM
 #define CONFIG_SYS_INIT_RAM_SIZE	MPC5XXX_SRAM_SIZE	/* Size of used area in DPRAM */
-
 
 #define CONFIG_SYS_GBL_DATA_OFFSET	(CONFIG_SYS_INIT_RAM_SIZE - GENERATED_GBL_DATA_SIZE)
 #define CONFIG_SYS_INIT_SP_OFFSET	CONFIG_SYS_GBL_DATA_OFFSET

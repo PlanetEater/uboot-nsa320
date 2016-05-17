@@ -14,6 +14,13 @@ config DM_GPIO
 	  particular GPIOs that they provide. The uclass interface
 	  is defined in include/asm-generic/gpio.h.
 
+config ALTERA_PIO
+	bool "Altera PIO driver"
+	depends on DM_GPIO
+	help
+	  Select this to enable PIO for Altera devices. Please find
+	  details on the "Embedded Peripherals IP User Guide" of Altera.
+
 config DWAPB_GPIO
 	bool "DWAPB GPIO driver"
 	depends on DM && DM_GPIO
@@ -21,12 +28,56 @@ config DWAPB_GPIO
 	help
 	  Support for the Designware APB GPIO driver.
 
+config ATMEL_PIO4
+	bool "ATMEL PIO4 driver"
+	depends on DM
+	default n
+	help
+	  Say yes here to support the Atmel PIO4 driver.
+	  The PIO4 is new version of Atmel PIO controller, which manages
+	  up to 128 fully programmable input/output lines. Each I/O line
+	  may be dedicated as a general purpose I/O or be assigned to
+	  a function of an embedded peripheral.
+
+config INTEL_BROADWELL_GPIO
+	bool "Intel Broadwell GPIO driver"
+	depends on DM
+	help
+	  This driver supports Broadwell U devices which have an expanded
+	  GPIO feature set. The difference is large enough to merit a separate
+	  driver from the common Intel ICH6 driver. It supports a total of
+	  95 GPIOs which can be configured from the device tree.
+
 config LPC32XX_GPIO
 	bool "LPC32XX GPIO driver"
 	depends on DM
 	default n
 	help
 	  Support for the LPC32XX GPIO driver.
+
+config MSM_GPIO
+	bool "Qualcomm GPIO driver"
+	depends on DM_GPIO
+	default n
+	help
+	  Support GPIO controllers on Qualcomm Snapdragon family of SoCs.
+	  This controller have single bank (default name "soc"), every
+	  gpio has it's own set of registers.
+	  Only simple GPIO operations are supported (get/set, change of
+	  direction and checking pin function).
+	  Supported devices:
+	  - APQ8016
+	  - MSM8916
+
+config PM8916_GPIO
+	bool "Qualcomm PM8916 PMIC GPIO/keypad driver"
+	depends on DM_GPIO && PMIC_PM8916
+	help
+	  Support for GPIO pins and power/reset buttons found on
+	  Qualcomm PM8916 PMIC.
+	  Default name for GPIO bank is "pm8916".
+	  Power and reset buttons are placed in "pm8916_key" bank and
+          have gpio numbers 0 and 1 respectively.
 
 config ROCKCHIP_GPIO
 	bool "Rockchip GPIO driver"
@@ -58,11 +109,38 @@ config SANDBOX_GPIO_COUNT
 	  of 'anonymous' GPIOs that do not belong to any device or bank.
 	  Select a suitable value depending on your needs.
 
+config GPIO_UNIPHIER
+	bool "UniPhier GPIO"
+	depends on ARCH_UNIPHIER
+	help
+	  Say yes here to support UniPhier GPIOs.
+
 config VYBRID_GPIO
 	bool "Vybrid GPIO driver"
 	depends on DM
 	default n
 	help
 	  Say yes here to support Vybrid vf610 GPIOs.
+
+config PIC32_GPIO
+	bool "Microchip PIC32 GPIO driver"
+	depends on DM_GPIO && MACH_PIC32
+	default y
+	help
+	  Say yes here to support Microchip PIC32 GPIOs.
+
+config MVEBU_GPIO
+	bool "Marvell MVEBU GPIO driver"
+	depends on DM_GPIO && ARCH_MVEBU
+	default y
+	help
+	  Say yes here to support Marvell MVEBU (Armada XP/38x) GPIOs.
+
+config ZYNQ_GPIO
+	bool "Zynq GPIO driver"
+	depends on DM_GPIO && (ARCH_ZYNQ || ARCH_ZYNQMP)
+	default y
+	help
+	  Supports GPIO access on Zynq SoC.
 
 endmenu

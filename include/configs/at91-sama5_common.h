@@ -12,6 +12,8 @@
 
 #include <asm/hardware.h>
 
+#define CONFIG_SYS_CACHELINE_SIZE	32
+
 #define CONFIG_SYS_TEXT_BASE		0x26f00000
 
 /* ARM asynchronous clock */
@@ -28,10 +30,6 @@
 #define CONFIG_DISPLAY_CPUINFO
 
 #define CONFIG_ENV_VARS_UBOOT_CONFIG
-#define CONFIG_CMD_BOOTZ
-#define CONFIG_OF_LIBFDT		/* Device Tree support */
-
-#define CONFIG_SYS_GENERIC_BOARD
 
 /* general purpose I/O */
 #define CONFIG_AT91_GPIO
@@ -49,8 +47,6 @@
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_DHCP
 
 #ifdef CONFIG_SYS_USE_MMC
 
@@ -98,8 +94,8 @@
 #elif CONFIG_SYS_USE_SERIALFLASH
 /* u-boot env in serial flash, by default is bus 0 and cs 0 */
 #define CONFIG_ENV_IS_IN_SPI_FLASH
-#define CONFIG_ENV_OFFSET		0x4000
-#define CONFIG_ENV_SIZE			0x4000
+#define CONFIG_ENV_OFFSET		0x6000
+#define CONFIG_ENV_SIZE			0x2000
 #define CONFIG_ENV_SECT_SIZE		0x1000
 #define CONFIG_BOOTCOMMAND		"sf probe 0; "				\
 					"sf read 0x21000000 0x60000 0xc000; "	\
@@ -116,7 +112,6 @@
 #define CONFIG_SYS_LONGHELP
 #define CONFIG_CMDLINE_EDITING
 #define CONFIG_AUTO_COMPLETE
-#define CONFIG_SYS_HUSH_PARSER
 
 /* Size of malloc() pool */
 #define CONFIG_SYS_MALLOC_LEN		(4 * 1024 * 1024)

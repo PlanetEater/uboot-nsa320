@@ -6,30 +6,13 @@
 #ifndef __CONFIG_DENX_MCVEVK_H__
 #define __CONFIG_DENX_MCVEVK_H__
 
-#include <asm/arch/socfpga_base_addrs.h>
+#include <asm/arch/base_addr_ac5.h>
 
 /* U-Boot Commands */
 #define CONFIG_SYS_NO_FLASH
 #define CONFIG_DOS_PARTITION
 #define CONFIG_FAT_WRITE
 #define CONFIG_HW_WATCHDOG
-
-#define CONFIG_CMD_ASKENV
-#define CONFIG_CMD_BOOTZ
-#define CONFIG_CMD_CACHE
-#define CONFIG_CMD_DFU
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_EXT4
-#define CONFIG_CMD_EXT4_WRITE
-#define CONFIG_CMD_FAT
-#define CONFIG_CMD_FS_GENERIC
-#define CONFIG_CMD_GPIO
-#define CONFIG_CMD_GREPENV
-#define CONFIG_CMD_MII
-#define CONFIG_CMD_MMC
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_USB
-#define CONFIG_CMD_USB_MASS_STORAGE
 
 /* Memory configurations */
 #define PHYS_SDRAM_1_SIZE		0x40000000	/* 1GiB on MCV */
@@ -46,18 +29,8 @@
 /* Environment is in MMC */
 #define CONFIG_ENV_OVERWRITE
 #define CONFIG_ENV_IS_IN_MMC
-#define CONFIG_SYS_MMC_ENV_DEV		0	/* device 0 */
-#define CONFIG_ENV_OFFSET		512	/* just after the MBR */
-
-/* USB */
-#ifdef CONFIG_CMD_USB
-#define CONFIG_USB_DWC2_REG_ADDR	SOCFPGA_USB1_ADDRESS
-#endif
-#define CONFIG_G_DNL_MANUFACTURER	"DENX"
 
 /* Extra Environment */
-#define CONFIG_HOSTNAME			mcvevk
-
 #define CONFIG_EXTRA_ENV_SETTINGS					\
 	"consdev=ttyS0\0"						\
 	"baudrate=115200\0"						\
@@ -67,7 +40,7 @@
 	"netdev=eth0\0"							\
 	"hostname=mcvevk\0"						\
 	"kernel_addr_r=0x10000000\0"					\
-	"update_filename=u-boot-with-spl-dtb.sfp\0"			\
+	"update_filename=u-boot-with-spl.sfp\0"				\
 	"update_sd_offset=0x800\0"					\
 	"update_sd="		/* Update the SD firmware partition */	\
 		"if mmc rescan ; then "					\

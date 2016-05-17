@@ -32,6 +32,7 @@
 
 #define CONFIG_SKIP_LOWLEVEL_INIT	/* SDRAM is initialized by the bootstrap code */
 
+#define CONFIG_SYS_TEXT_BASE		0x87000000
 #define CONFIG_SYS_MONITOR_BASE		CONFIG_SYS_TEXT_BASE
 #define CONFIG_SYS_MONITOR_LEN		(256 << 10)
 #define CONFIG_SYS_MALLOC_LEN		(1 << 20)
@@ -54,7 +55,6 @@
 #endif
 
 #define CONFIG_SYS_NS16550_SERIAL
-#define CONFIG_SYS_NS16550
 #define CONFIG_SYS_NS16550_REG_SIZE	-4
 #define CONFIG_SYS_NS16550_COM1		UART_1_BASE
 #define CONFIG_CONS_INDEX		1
@@ -83,18 +83,13 @@
 /*
  * Commands
  */
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_ELF
 #define CONFIG_CMD_EEPROM
-#define CONFIG_CMD_I2C
 
 /*
  * Only Premium/Platinum have ethernet support right now
  */
 #if (defined(CONFIG_VCT_PREMIUM) || defined(CONFIG_VCT_PLATINUM)) && \
 	!defined(CONFIG_VCT_SMALL_IMAGE)
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_SNTP
 #endif
 
 /*
@@ -102,8 +97,6 @@
  */
 #if (defined(CONFIG_VCT_PREMIUM) || defined(CONFIG_VCT_PLATINUM)) && \
 	!defined(CONFIG_VCT_SMALL_IMAGE)
-#define CONFIG_CMD_USB
-#define CONFIG_CMD_FAT
 #endif
 
 #if defined(CONFIG_CMD_USB)
@@ -282,25 +275,14 @@ int vct_gpio_get(int pin);
  * (NOR/OneNAND) usage and Linux kernel booting.
  */
 #if defined(CONFIG_VCT_SMALL_IMAGE)
-#undef CONFIG_CMD_ASKENV
 #undef CONFIG_CMD_BEDBUG
-#undef CONFIG_CMD_CACHE
-#undef CONFIG_CMD_DHCP
 #undef CONFIG_CMD_EEPROM
 #undef CONFIG_CMD_EEPROM
-#undef CONFIG_CMD_ELF
-#undef CONFIG_CMD_FAT
-#undef CONFIG_CMD_I2C
-#undef CONFIG_CMD_I2C
 #undef CONFIG_CMD_IRQ
 #undef CONFIG_CMD_LOADY
-#undef CONFIG_CMD_MII
-#undef CONFIG_CMD_PING
 #undef CONFIG_CMD_REGINFO
-#undef CONFIG_CMD_SNTP
 #undef CONFIG_CMD_STRINGS
 #undef CONFIG_CMD_TERMINAL
-#undef CONFIG_CMD_USB
 
 #undef CONFIG_SMC911X
 #undef CONFIG_SYS_I2C_SOFT

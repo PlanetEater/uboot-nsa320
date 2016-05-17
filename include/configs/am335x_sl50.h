@@ -13,9 +13,6 @@
 #undef CONFIG_BOOTDELAY
 
 #ifndef CONFIG_SPL_BUILD
-#ifndef CONFIG_FIT
-# define CONFIG_FIT
-#endif
 # define CONFIG_TIMESTAMP
 # define CONFIG_LZO
 #endif
@@ -78,7 +75,6 @@
 #define CONFIG_ENV_EEPROM_IS_ON_I2C
 #define CONFIG_SYS_I2C_EEPROM_ADDR	0x50	/* Main EEPROM */
 #define CONFIG_SYS_I2C_EEPROM_ADDR_LEN	2
-#define CONFIG_SYS_I2C_MULTI_EEPROMS
 
 /* PMIC support */
 #define CONFIG_POWER_TPS65217

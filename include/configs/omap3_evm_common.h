@@ -15,7 +15,6 @@
 #define CONFIG_OMAP			/* This is TI OMAP core */
 #define CONFIG_OMAP_GPIO
 #define CONFIG_OMAP_COMMON
-#define CONFIG_SYS_GENERIC_BOARD
 /* Common ARM Erratas */
 #define CONFIG_ARM_ERRATA_454179
 #define CONFIG_ARM_ERRATA_430973
@@ -73,7 +72,6 @@
  */
 #define V_NS16550_CLK			48000000	/* 48MHz (APLL96/2) */
 
-#define CONFIG_SYS_NS16550
 #define CONFIG_SYS_NS16550_SERIAL
 #define CONFIG_SYS_NS16550_REG_SIZE	(-4)
 #define CONFIG_SYS_NS16550_CLK		V_NS16550_CLK
@@ -148,11 +146,9 @@
 #ifdef CONFIG_USB_OMAP3
 
 #ifdef CONFIG_USB_MUSB_HCD
-#define CONFIG_CMD_USB
 
 #define CONFIG_USB_STORAGE
 #define CONGIG_CMD_STORAGE
-#define CONFIG_CMD_FAT
 
 #ifdef CONFIG_USB_KEYBOARD
 #define CONFIG_SYS_USB_EVENT_POLL
@@ -177,7 +173,7 @@
 #endif /* CONFIG_USB_OMAP3 */
 
 /* ----------------------------------------------------------------------------
- * U-boot features
+ * U-Boot features
  * ----------------------------------------------------------------------------
  */
 #define CONFIG_SYS_MAXARGS		16	/* max args for a command */

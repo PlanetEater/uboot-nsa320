@@ -33,7 +33,7 @@
 #include <asm/arch/sys_proto.h>
 #include <spl.h>
 #include <usb.h>
-#include <usb/ehci-fsl.h>
+#include <usb/ehci-ci.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -143,8 +143,9 @@ static void setup_iomux_enet(void)
 	SETUP_IOMUX_PADS(enet_pads);
 
 	gpio_direction_output(ETH_PHY_RESET, 0);
-	mdelay(2);
+	mdelay(10);
 	gpio_set_value(ETH_PHY_RESET, 1);
+	udelay(100);
 }
 
 int board_phy_config(struct phy_device *phydev)
@@ -594,10 +595,6 @@ static void gpr_init(void)
 	writel(0x007F007F, &iomux->gpr[7]);
 }
 
-/*
- * This section requires the differentiation between Solidrun mx6 boards, but
- * for now, it will configure only for the mx6dual hummingboard version.
- */
 static void spl_dram_init(int width)
 {
 	struct mx6_ddr_sysinfo sysinfo = {

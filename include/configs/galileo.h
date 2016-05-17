@@ -21,7 +21,6 @@
 /* ns16550 UART is memory-mapped in Quark SoC */
 #undef  CONFIG_SYS_NS16550_PORT_MAPPED
 
-#define CONFIG_SYS_EARLY_PCI_INIT
 #define CONFIG_PCI_PNP
 
 #define CONFIG_STD_DEVICES_SETTINGS	"stdin=serial\0" \
@@ -41,12 +40,10 @@
 #define CONFIG_SDHCI
 #define CONFIG_GENERIC_MMC
 #define CONFIG_MMC_SDMA
-#define CONFIG_CMD_MMC
 
 /* 10/100M Ethernet support */
 #define CONFIG_DESIGNWARE_ETH
 #define CONFIG_DW_ALTDESCRIPTOR
-#define CONFIG_PHYLIB
 
 /* Environment configuration */
 #define CONFIG_ENV_SECT_SIZE		0x1000

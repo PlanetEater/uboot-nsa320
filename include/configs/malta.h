@@ -7,9 +7,6 @@
 #ifndef _MALTA_CONFIG_H
 #define _MALTA_CONFIG_H
 
-#include <asm/addrspace.h>
-#include <asm/malta.h>
-
 /*
  * System configuration
  */
@@ -56,22 +53,11 @@
 #define CONFIG_SYS_BOOTPARAMS_LEN	(128 * 1024)
 #define CONFIG_SYS_BOOTM_LEN		(64 * 1024 * 1024)
 
-/*
- * Console configuration
- */
-#undef CONFIG_SYS_PROMPT
-#if defined(CONFIG_SYS_LITTLE_ENDIAN)
-#define CONFIG_SYS_PROMPT		"maltael # "
-#else
-#define CONFIG_SYS_PROMPT		"malta # "
-#endif
-
 #define CONFIG_SYS_CBSIZE		256
 #define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE + \
 					 sizeof(CONFIG_SYS_PROMPT) + 16)
 #define CONFIG_SYS_MAXARGS		16
 
-#define CONFIG_SYS_HUSH_PARSER
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_CMDLINE_EDITING
 
@@ -80,18 +66,17 @@
  */
 #define CONFIG_BAUDRATE			115200
 
-#define CONFIG_SYS_NS16550
 #define CONFIG_SYS_NS16550_SERIAL
 #define CONFIG_SYS_NS16550_REG_SIZE	1
 #define CONFIG_SYS_NS16550_CLK		(115200 * 16)
-#define CONFIG_SYS_NS16550_COM1		CKSEG1ADDR(MALTA_GT_UART0_BASE)
-#define CONFIG_SYS_NS16550_COM2		CKSEG1ADDR(MALTA_MSC01_UART0_BASE)
+#define CONFIG_SYS_NS16550_COM1		0xb80003f8
+#define CONFIG_SYS_NS16550_COM2		0xbb0003f8
 #define CONFIG_CONS_INDEX		1
 
 /*
  * Flash configuration
  */
-#define CONFIG_SYS_FLASH_BASE		(KSEG1 | MALTA_FLASH_BASE)
+#define CONFIG_SYS_FLASH_BASE		0xbe000000
 #define CONFIG_SYS_MAX_FLASH_BANKS	1
 #define CONFIG_SYS_MAX_FLASH_SECT	128
 #define CONFIG_SYS_FLASH_CFI
@@ -121,11 +106,8 @@
  * Commands
  */
 #define CONFIG_CMD_DATE
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_ELF
 #define CONFIG_CMD_IDE
 #define CONFIG_CMD_PCI
-#define CONFIG_CMD_PING
 
 #define CONFIG_SYS_LONGHELP		/* verbose help, undef to save memory */
 

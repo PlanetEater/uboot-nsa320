@@ -3,14 +3,17 @@
  * (C) Copyright 2003-2005
  * Wolfgang Denk, DENX Software Engineering, wd@denx.de.
  *
- * (C) Copyright 2007
- * Daniel Hellstrom, Gaisler Research, daniel@gaisler.com.
+ * (C) Copyright 2007, 2015
+ * Daniel Hellstrom, Cobham Gaisler, daniel@gaisler.com.
  *
  * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
+
+#define CONFIG_SYS_GENERIC_BOARD
+#define CONFIG_DISPLAY_BOARDINFO
 
 /*
  * High Level Configuration Options
@@ -28,9 +31,6 @@
 
 /* CPU / AMBA BUS configuration */
 #define CONFIG_SYS_CLK_FREQ	40000000	/* 40MHz */
-
-/* Number of SPARC register windows */
-#define CONFIG_SYS_SPARC_NWINDOWS 8
 
 /*
  * Serial console configuration
@@ -61,7 +61,6 @@
 	"echo"
 
 #undef	CONFIG_BOOTARGS
-/*#define CONFIG_SYS_HUSH_PARSER 0*/
 
 #define	CONFIG_EXTRA_ENV_SETTINGS					\
 	"netdev=eth0\0"							\
@@ -190,7 +189,6 @@
 #undef CONFIG_SYS_SRAM_BASE
 #undef CONFIG_SYS_SRAM_SIZE
 
-
 /* Always Run U-Boot from SDRAM */
 #define CONFIG_SYS_RAM_BASE CONFIG_SYS_SDRAM_BASE
 #define CONFIG_SYS_RAM_SIZE CONFIG_SYS_SDRAM_SIZE
@@ -264,8 +262,6 @@
 #define CONFIG_SYS_GRLIB_MEMCFG3  0x00136000
 
 /*** LEON2 UART 1 ***/
-#define CONFIG_SYS_LEON2_UART1_SCALER \
-	((((CONFIG_SYS_CLK_FREQ*10)/(CONFIG_BAUDRATE*8))-5)/10)
 
 /* UART1 Define to 1 or 0 */
 #define LEON2_UART1_LOOPBACK_ENABLE 0
@@ -274,9 +270,6 @@
 #define LEON2_UART1_ODDPAR_ENABLE 0
 
 /*** LEON2 UART 2 ***/
-
-#define CONFIG_SYS_LEON2_UART2_SCALER \
-	((((CONFIG_SYS_CLK_FREQ*10)/(CONFIG_BAUDRATE*8))-5)/10)
 
 /* UART2 Define to 1 or 0 */
 #define LEON2_UART2_LOOPBACK_ENABLE 0
@@ -296,6 +289,6 @@
 /* default kernel command line */
 #define CONFIG_DEFAULT_KERNEL_COMMAND_LINE "console=ttyS0,38400\0\0"
 
-#define CONFIG_IDENT_STRING "Gaisler GRSIM LEON2"
+#define CONFIG_IDENT_STRING " Gaisler GRSIM LEON2"
 
 #endif				/* __CONFIG_H */

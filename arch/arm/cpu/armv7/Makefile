@@ -7,7 +7,7 @@
 
 extra-y	:= start.o
 
-obj-y	+= cache_v7.o
+obj-y	+= cache_v7.o cache_v7_asm.o
 
 obj-y	+= cpu.o cp15.o
 obj-y	+= syslib.o
@@ -49,7 +49,6 @@ obj-$(CONFIG_OMAP34XX) += omap3/
 obj-$(CONFIG_OMAP44XX) += omap4/
 obj-$(CONFIG_OMAP54XX) += omap5/
 obj-$(CONFIG_RMOBILE) += rmobile/
-obj-$(CONFIG_ARCH_S5PC1XX) += s5pc1xx/
 obj-$(if $(filter stv0991,$(SOC)),y) += stv0991/
 obj-$(CONFIG_ARCH_SUNXI) += sunxi/
 obj-$(CONFIG_VF610) += vf610/

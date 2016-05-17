@@ -331,9 +331,13 @@ static void acpi_create_ssdt_generator(acpi_header_t *ssdt,
 	ssdt->checksum = table_compute_checksum((void *)ssdt, ssdt->length);
 }
 
-unsigned long write_acpi_tables(unsigned long start)
+/*
+ * QEMU's version of write_acpi_tables is defined in
+ * arch/x86/cpu/qemu/fw_cfg.c
+ */
+u32 write_acpi_tables(u32 start)
 {
-	unsigned long current;
+	u32 current;
 	struct acpi_rsdp *rsdp;
 	struct acpi_rsdt *rsdt;
 	struct acpi_xsdt *xsdt;

@@ -49,11 +49,16 @@
 #define CONFIG_BOARD_EARLY_INIT_F	/* call board_early_init_f() */
 #define CONFIG_DISPLAY_CPUINFO		/* display CPU Info at startup */
 
+/* We set the max number of command args high to avoid HUSH bugs. */
+#define CONFIG_SYS_MAXARGS    32
+
 /* setting board specific options */
-# define CONFIG_MACH_TYPE		MACH_TYPE_SMARTWEB
-#define CONFIG_SYS_GENERIC_BOARD
-#define CONFIG_CMDLINE_EDITING
+#define CONFIG_MACH_TYPE		MACH_TYPE_SMARTWEB
 #define CONFIG_AUTO_COMPLETE
+#define CONFIG_ENV_OVERWRITE    1 /* Overwrite ethaddr / serial# */
+#define CONFIG_AUTO_COMPLETE
+#define CONFIG_SYS_AUTOLOAD "yes"
+#define CONFIG_RESET_TO_RETRY
 
 /* The LED PINs */
 #define CONFIG_RED_LED			AT91_PIN_PA9
@@ -144,7 +149,6 @@
 
 #if !defined(CONFIG_SPL_BUILD)
 /* USB configuration */
-#define CONFIG_CMD_USB
 #define CONFIG_USB_ATMEL
 #define CONFIG_USB_ATMEL_CLK_SEL_PLLB
 #define CONFIG_USB_OHCI_NEW
@@ -162,22 +166,13 @@
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
 
-#define CONFIG_USB_GADGET
 #define CONFIG_USB_GADGET_AT91
 
 /* DFU class support */
-#define CONFIG_CMD_DFU
 #define CONFIG_USB_FUNCTION_DFU
 #define CONFIG_DFU_NAND
-#define CONFIG_USB_GADGET_DOWNLOAD
-#define CONFIG_USB_GADGET_VBUS_DRAW	2
 #define CONFIG_SYS_DFU_DATA_BUF_SIZE	SZ_1M
 #define DFU_MANIFEST_POLL_TIMEOUT	25000
-
-/* USB DFU IDs */
-#define CONFIG_G_DNL_VENDOR_NUM 0x0908
-#define CONFIG_G_DNL_PRODUCT_NUM 0x02d2
-#define CONFIG_G_DNL_MANUFACTURER "Siemens AG"
 
 #define CONFIG_SYS_CACHELINE_SIZE	0x2000
 #endif
@@ -185,9 +180,7 @@
 /* General Boot Parameter */
 #define CONFIG_BOOTDELAY		3
 #define CONFIG_BOOTCOMMAND		"run flashboot"
-#define CONFIG_BOOT_RETRY_TIME          30
 #define CONFIG_SYS_CBSIZE		512
-#define CONFIG_SYS_MAXARGS		16
 #define CONFIG_SYS_PBSIZE \
 	(CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)
 #define CONFIG_SYS_LONGHELP
@@ -219,29 +212,12 @@
 	"mtdparts="MTDPARTS_DEFAULT"\0"
 
 /* Command line & features configuration */
-#undef CONFIG_CMD_FPGA
-#undef CONFIG_CMD_IMI
-#undef CONFIG_CMD_IMLS
-#undef CONFIG_CMD_LOADS
 
 #define CONFIG_CMD_NAND
-#define CONFIG_CMD_FAT
 
 #ifdef CONFIG_MACB
-# define CONFIG_CMD_PING
-# define CONFIG_CMD_DHCP
 #else
-# undef CONFIG_CMD_BOOTD
-# undef CONFIG_CMD_NET
-# undef CONFIG_CMD_NFS
 #endif /* CONFIG_MACB */
-
-#if !defined(CONFIG_SPL_BUILD)
-/* Enable Device-Tree (FDT) support */
-#define CONFIG_OF_LIBFDT
-#define CONFIG_CMD_FDT
-#define CONFIG_FIT
-#endif
 
 #ifdef CONFIG_SPL_BUILD
 #define CONFIG_SYS_INIT_SP_ADDR		0x301000
@@ -256,7 +232,6 @@
 #define CONFIG_SYS_INIT_SP_ADDR \
 	(ATMEL_BASE_SRAM1 + 0x1000 - GENERATED_GBL_DATA_SIZE)
 #endif
-
 
 /* Defines for SPL */
 #define CONFIG_SPL_FRAMEWORK

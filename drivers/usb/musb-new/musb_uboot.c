@@ -1,4 +1,5 @@
 #include <common.h>
+#include <console.h>
 #include <watchdog.h>
 #ifdef CONFIG_ARCH_SUNXI
 #include <asm/arch/usb_phy.h>
@@ -236,8 +237,10 @@ int musb_lowlevel_init(struct musb_host_data *host)
 		if (musb_readb(mbase, MUSB_DEVCTL) & MUSB_DEVCTL_HM)
 			break;
 	} while (get_timer(0) < timeout);
-	if (get_timer(0) >= timeout)
+	if (get_timer(0) >= timeout) {
+		musb_stop(host->host);
 		return -ENODEV;
+	}
 
 	_musb_reset_root_port(host, NULL);
 	host->host->is_active = 1;

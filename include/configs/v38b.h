@@ -14,7 +14,6 @@
  */
 #define CONFIG_MPC5200			1	/* This is an MPC5200 CPU */
 #define CONFIG_V38B			1	/* ...on V38B board */
-#define CONFIG_SYS_GENERIC_BOARD
 #define CONFIG_DISPLAY_BOARDINFO
 
 #define	CONFIG_SYS_TEXT_BASE		0xFF000000
@@ -74,7 +73,6 @@
 #define CONFIG_USB_CLOCK	0x0001BBBB
 #define CONFIG_USB_CONFIG	0x00001000
 
-
 /*
  * BOOTP options
  */
@@ -83,24 +81,15 @@
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_HOSTNAME
 
-
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_FAT
-#define CONFIG_CMD_I2C
 #define CONFIG_CMD_IDE
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_DHCP
 #define CONFIG_CMD_DIAG
 #define CONFIG_CMD_IRQ
 #define CONFIG_CMD_JFFS2
-#define CONFIG_CMD_MII
 #define CONFIG_CMD_SDRAM
 #define CONFIG_CMD_DATE
-#define CONFIG_CMD_USB
-#define CONFIG_CMD_FAT
-
 
 #define CONFIG_TIMESTAMP		/* Print image info with timestamp */
 

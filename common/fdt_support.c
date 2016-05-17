@@ -16,6 +16,7 @@
 #include <libfdt.h>
 #include <fdt_support.h>
 #include <exports.h>
+#include <fdtdec.h>
 
 /**
  * fdt_getprop_u32_default_node - Return a node's property or a default
@@ -130,18 +131,6 @@ static int fdt_fixup_stdout(void *fdt, int chosenoff)
 			      OF_STDOUT_PATH, strlen(OF_STDOUT_PATH) + 1);
 }
 #elif defined(CONFIG_OF_STDOUT_VIA_ALIAS) && defined(CONFIG_CONS_INDEX)
-static void fdt_fill_multisername(char *sername, size_t maxlen)
-{
-	const char *outname = stdio_devices[stdout]->name;
-
-	if (strcmp(outname, "serial") > 0)
-		strncpy(sername, outname, maxlen);
-
-	/* eserial? */
-	if (strcmp(outname + 1, "serial") > 0)
-		strncpy(sername, outname + 1, maxlen);
-}
-
 static int fdt_fixup_stdout(void *fdt, int chosenoff)
 {
 	int err;
@@ -151,32 +140,35 @@ static int fdt_fixup_stdout(void *fdt, int chosenoff)
 	int len;
 	char tmp[256]; /* long enough */
 
-	fdt_fill_multisername(sername, sizeof(sername) - 1);
-	if (!sername[0])
-		sprintf(sername, "serial%d", CONFIG_CONS_INDEX - 1);
+	sprintf(sername, "serial%d", CONFIG_CONS_INDEX - 1);
 
 	aliasoff = fdt_path_offset(fdt, "/aliases");
 	if (aliasoff < 0) {
 		err = aliasoff;
-		goto error;
+		goto noalias;
 	}
 
 	path = fdt_getprop(fdt, aliasoff, sername, &len);
 	if (!path) {
 		err = len;
-		goto error;
+		goto noalias;
 	}
 
 	/* fdt_setprop may break "path" so we copy it to tmp buffer */
 	memcpy(tmp, path, len);
 
 	err = fdt_setprop(fdt, chosenoff, "linux,stdout-path", tmp, len);
-error:
 	if (err < 0)
 		printf("WARNING: could not set linux,stdout-path %s.\n",
 		       fdt_strerror(err));
 
 	return err;
+
+noalias:
+	printf("WARNING: %s: could not read %s alias: %s\n",
+	       __func__, sername, fdt_strerror(err));
+
+	return 0;
 }
 #else
 static int fdt_fixup_stdout(void *fdt, int chosenoff)
@@ -475,48 +467,58 @@ int fdt_fixup_memory(void *blob, u64 start, u64 size)
 
 void fdt_fixup_ethernet(void *fdt)
 {
-	int node, i, j;
-	char enet[16], *tmp, *end;
+	int i, j, prop;
+	char *tmp, *end;
 	char mac[16];
 	const char *path;
 	unsigned char mac_addr[6];
+	int offset;
 
-	node = fdt_path_offset(fdt, "/aliases");
-	if (node < 0)
+	if (fdt_path_offset(fdt, "/aliases") < 0)
 		return;
 
-	if (!getenv("ethaddr")) {
-		if (getenv("usbethaddr")) {
-			strcpy(mac, "usbethaddr");
-		} else {
-			debug("No ethernet MAC Address defined\n");
-			return;
+	/* Cycle through all aliases */
+	for (prop = 0; ; prop++) {
+		const char *name;
+		int len = strlen("ethernet");
+
+		/* FDT might have been edited, recompute the offset */
+		offset = fdt_first_property_offset(fdt,
+			fdt_path_offset(fdt, "/aliases"));
+		/* Select property number 'prop' */
+		for (i = 0; i < prop; i++)
+			offset = fdt_next_property_offset(fdt, offset);
+
+		if (offset < 0)
+			break;
+
+		path = fdt_getprop_by_offset(fdt, offset, &name, NULL);
+		if (!strncmp(name, "ethernet", len)) {
+			i = trailing_strtol(name);
+			if (i != -1) {
+				if (i == 0)
+					strcpy(mac, "ethaddr");
+				else
+					sprintf(mac, "eth%daddr", i);
+			} else {
+				continue;
+			}
+			tmp = getenv(mac);
+			if (!tmp)
+				continue;
+
+			for (j = 0; j < 6; j++) {
+				mac_addr[j] = tmp ?
+					      simple_strtoul(tmp, &end, 16) : 0;
+				if (tmp)
+					tmp = (*end) ? end + 1 : end;
+			}
+
+			do_fixup_by_path(fdt, path, "mac-address",
+					 &mac_addr, 6, 0);
+			do_fixup_by_path(fdt, path, "local-mac-address",
+					 &mac_addr, 6, 1);
 		}
-	} else {
-		strcpy(mac, "ethaddr");
-	}
-
-	i = 0;
-	while ((tmp = getenv(mac)) != NULL) {
-		sprintf(enet, "ethernet%d", i);
-		path = fdt_getprop(fdt, node, enet, NULL);
-		if (!path) {
-			debug("No alias for %s\n", enet);
-			sprintf(mac, "eth%daddr", ++i);
-			continue;
-		}
-
-		for (j = 0; j < 6; j++) {
-			mac_addr[j] = tmp ? simple_strtoul(tmp, &end, 16) : 0;
-			if (tmp)
-				tmp = (*end) ? end+1 : end;
-		}
-
-		do_fixup_by_path(fdt, path, "mac-address", &mac_addr, 6, 0);
-		do_fixup_by_path(fdt, path, "local-mac-address",
-				&mac_addr, 6, 1);
-
-		sprintf(mac, "eth%daddr", ++i);
 	}
 }
 
@@ -945,7 +947,7 @@ void fdt_del_node_and_alias(void *blob, const char *alias)
 
 /* Max address size we deal with */
 #define OF_MAX_ADDR_CELLS	4
-#define OF_BAD_ADDR	((u64)-1)
+#define OF_BAD_ADDR	FDT_ADDR_T_NONE
 #define OF_CHECK_COUNTS(na, ns)	((na) > 0 && (na) <= OF_MAX_ADDR_CELLS && \
 			(ns) > 0)
 

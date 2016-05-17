@@ -16,7 +16,6 @@
 #define CONFIG_OMAP		/* in a TI OMAP core */
 #define CONFIG_OMAP_GPIO
 #define CONFIG_OMAP_COMMON
-#define CONFIG_SYS_GENERIC_BOARD
 /* Common ARM Erratas */
 #define CONFIG_ARM_ERRATA_454179
 #define CONFIG_ARM_ERRATA_430973
@@ -67,7 +66,6 @@
 /*
  * NS16550 Configuration
  */
-#define CONFIG_SYS_NS16550
 #define CONFIG_SYS_NS16550_SERIAL
 #define CONFIG_SYS_NS16550_REG_SIZE	(-4)
 #define CONFIG_SYS_NS16550_CLK		48000000	/* 48MHz (APLL96/2) */
@@ -93,24 +91,12 @@
 #define CONFIG_OMAP3_GPIO_5
 #define CONFIG_USB_EHCI
 #define CONFIG_USB_EHCI_OMAP
-#define CONFIG_USB_ULPI
-#define CONFIG_USB_ULPI_VIEWPORT_OMAP
 #define CONFIG_OMAP_EHCI_PHY1_RESET_GPIO	25
 #define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS 3
 #define CONFIG_USB_STORAGE
 
 /* commands to include */
-#define CONFIG_CMD_CACHE
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_EXT2		/* EXT2 Support			*/
-#define CONFIG_CMD_FAT		/* FAT support			*/
-#define CONFIG_CMD_GPIO
-#define CONFIG_CMD_I2C		/* I2C serial bus support	*/
-#define CONFIG_CMD_MII
-#define CONFIG_CMD_MMC		/* MMC support			*/
 #define CONFIG_CMD_NAND		/* NAND support			*/
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_USB
 #define CONFIG_CMD_EEPROM
 
 #define CONFIG_SYS_NO_FLASH
@@ -138,7 +124,6 @@
  * Miscellaneous configurable options
  */
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
-#define CONFIG_SYS_HUSH_PARSER		/* use "hush" command parser */
 #define CONFIG_CMDLINE_EDITING
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_SYS_CBSIZE		512	/* Console I/O Buffer Size */
@@ -261,8 +246,6 @@
 #define CONFIG_SYS_NAND_U_BOOT_OFFS	0x80000
 #define CONFIG_SYS_NAND_U_BOOT_SIZE	0x80000
 
-#define CONFIG_OF_LIBFDT
-#define CONFIG_FIT
 #define CONFIG_CMD_UBI
 #define CONFIG_CMD_UBIFS
 #define CONFIG_RBTREE
@@ -328,7 +311,6 @@
 		"fi;"							\
 		"else echo U-Boot not downloaded..exiting;fi\0"		\
 
-
 /*
  * this is common code for all TAM3517 boards.
  * MAC address is stored from manufacturer in
@@ -387,7 +369,7 @@ do {								\
 		if (i)						\
 			sprintf(ethname, "eth%daddr", i);	\
 		else						\
-			sprintf(ethname, "ethaddr");		\
+			strcpy(ethname, "ethaddr");		\
 		printf("Setting %s from EEPROM with %s\n", ethname, buf);\
 		setenv(ethname, buf);				\
 	}							\

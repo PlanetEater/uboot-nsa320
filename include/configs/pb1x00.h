@@ -81,6 +81,11 @@
 #define PHYS_FLASH_2		0xbfc00000 /* Flash Bank #2 */
 
 /* The following #defines are needed to get flash environment right */
+/* ROM version */
+/* #define CONFIG_SYS_TEXT_BASE		0xbfc00000 */
+/* SDRAM version */
+#define CONFIG_SYS_TEXT_BASE		0x83800000
+
 #define	CONFIG_SYS_MONITOR_BASE	CONFIG_SYS_TEXT_BASE
 #define	CONFIG_SYS_MONITOR_LEN		(192 << 10)
 
@@ -103,9 +108,7 @@
 
 #define CONFIG_NR_DRAM_BANKS	2
 
-
 #define CONFIG_MEMSIZE_IN_BYTES
-
 
 /*---USB -------------------------------------------*/
 #if 0
@@ -154,7 +157,6 @@
 #define CONFIG_SYS_ICACHE_SIZE		16384
 #define CONFIG_SYS_CACHELINE_SIZE	32
 
-
 /*
  * BOOTP options
  */
@@ -163,18 +165,11 @@
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_HOSTNAME
 
-
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_ELF
-#define CONFIG_CMD_MII
-#define CONFIG_CMD_PING
 
-#undef CONFIG_CMD_FAT
 #undef CONFIG_CMD_IDE
-#undef CONFIG_CMD_ELF
 #undef CONFIG_CMD_BEDBUG
 
 #endif	/* __CONFIG_H */

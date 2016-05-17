@@ -15,11 +15,13 @@
 #include <asm/arch/sys_proto.h>
 #include <asm/imx-common/boot_mode.h>
 #include <asm/imx-common/dma.h>
+#include <asm/imx-common/hab.h>
 #include <stdbool.h>
 #include <asm/arch/mxc_hdmi.h>
 #include <asm/arch/crm_regs.h>
 #include <dm.h>
 #include <imx_thermal.h>
+#include <mmc.h>
 
 enum ldo_reg {
 	LDO_ARM,
@@ -45,6 +47,13 @@ static const struct imx_thermal_plat imx6_thermal_plat = {
 U_BOOT_DEVICE(imx6_thermal) = {
 	.name = "imx_thermal",
 	.platdata = &imx6_thermal_plat,
+};
+#endif
+
+#if defined(CONFIG_SECURE_BOOT)
+struct imx_sec_config_fuse_t const imx_sec_config_fuse = {
+	.bank = 0,
+	.word = 6,
 };
 #endif
 
@@ -269,7 +278,10 @@ static void clear_mmdc_ch_mask(void)
 	reg = readl(&mxc_ccm->ccdr);
 
 	/* Clear MMDC channel mask */
-	reg &= ~(MXC_CCM_CCDR_MMDC_CH1_HS_MASK | MXC_CCM_CCDR_MMDC_CH0_HS_MASK);
+	if (is_cpu_type(MXC_CPU_MX6SX) || is_cpu_type(MXC_CPU_MX6UL) || is_cpu_type(MXC_CPU_MX6SL))
+		reg &= ~(MXC_CCM_CCDR_MMDC_CH1_HS_MASK);
+	else
+		reg &= ~(MXC_CCM_CCDR_MMDC_CH1_HS_MASK | MXC_CCM_CCDR_MMDC_CH0_HS_MASK);
 	writel(reg, &mxc_ccm->ccdr);
 }
 
@@ -316,15 +328,30 @@ int arch_cpu_init(void)
 	 */
 	init_bandgap();
 
-	/*
-	 * When low freq boot is enabled, ROM will not set AHB
-	 * freq, so we need to ensure AHB freq is 132MHz in such
-	 * scenario.
-	 */
-	if (mxc_get_clock(MXC_ARM_CLK) == 396000000)
-		set_ahb_rate(132000000);
+	if (!IS_ENABLED(CONFIG_MX6UL)) {
+		/*
+		 * When low freq boot is enabled, ROM will not set AHB
+		 * freq, so we need to ensure AHB freq is 132MHz in such
+		 * scenario.
+		 *
+		 * To i.MX6UL, when power up, default ARM core and
+		 * AHB rate is 396M and 132M.
+		 */
+		if (mxc_get_clock(MXC_ARM_CLK) == 396000000)
+			set_ahb_rate(132000000);
+	}
 
-		/* Set perclk to source from OSC 24MHz */
+	if (IS_ENABLED(CONFIG_MX6UL) && is_soc_rev(CHIP_REV_1_0) == 0) {
+		/*
+		 * According to the design team's requirement on i.MX6UL,
+		 * the PMIC_STBY_REQ PAD should be configured as open
+		 * drain 100K (0x0000b8a0).
+		 * Only exists on TO1.0
+		 */
+		writel(0x0000b8a0, IOMUXC_BASE_ADDR + 0x29c);
+	}
+
+	/* Set perclk to source from OSC 24MHz */
 #if defined(CONFIG_MX6SL)
 	set_preclk_from_osc();
 #endif
@@ -341,6 +368,67 @@ int arch_cpu_init(void)
 	return 0;
 }
 
+#ifdef CONFIG_ENV_IS_IN_MMC
+__weak int board_mmc_get_env_dev(int devno)
+{
+	return CONFIG_SYS_MMC_ENV_DEV;
+}
+
+static int mmc_get_boot_dev(void)
+{
+	struct src *src_regs = (struct src *)SRC_BASE_ADDR;
+	u32 soc_sbmr = readl(&src_regs->sbmr1);
+	u32 bootsel;
+	int devno;
+
+	/*
+	 * Refer to
+	 * "i.MX 6Dual/6Quad Applications Processor Reference Manual"
+	 * Chapter "8.5.3.1 Expansion Device eFUSE Configuration"
+	 * i.MX6SL/SX/UL has same layout.
+	 */
+	bootsel = (soc_sbmr & 0x000000FF) >> 6;
+
+	/* No boot from sd/mmc */
+	if (bootsel != 1)
+		return -1;
+
+	/* BOOT_CFG2[3] and BOOT_CFG2[4] */
+	devno = (soc_sbmr & 0x00001800) >> 11;
+
+	return devno;
+}
+
+int mmc_get_env_dev(void)
+{
+	int devno = mmc_get_boot_dev();
+
+	/* If not boot from sd/mmc, use default value */
+	if (devno < 0)
+		return CONFIG_SYS_MMC_ENV_DEV;
+
+	return board_mmc_get_env_dev(devno);
+}
+
+#ifdef CONFIG_SYS_MMC_ENV_PART
+__weak int board_mmc_get_env_part(int devno)
+{
+	return CONFIG_SYS_MMC_ENV_PART;
+}
+
+uint mmc_get_env_part(struct mmc *mmc)
+{
+	int devno = mmc_get_boot_dev();
+
+	/* If not boot from sd/mmc, use default value */
+	if (devno < 0)
+		return CONFIG_SYS_MMC_ENV_PART;
+
+	return board_mmc_get_env_part(devno);
+}
+#endif
+#endif
+
 int board_postclk_init(void)
 {
 	set_ldo_voltage(LDO_SOC, 1175);	/* Set VDDSOC to 1.175V */
@@ -356,15 +444,29 @@ void imx_get_mac_from_fuse(int dev_id, unsigned char *mac)
 	struct fuse_bank4_regs *fuse =
 			(struct fuse_bank4_regs *)bank->fuse_regs;
 
-	u32 value = readl(&fuse->mac_addr_high);
-	mac[0] = (value >> 8);
-	mac[1] = value ;
+	if ((is_cpu_type(MXC_CPU_MX6SX) || is_cpu_type(MXC_CPU_MX6UL)) && 
+		dev_id == 1) {
+		u32 value = readl(&fuse->mac_addr2);
+		mac[0] = value >> 24 ;
+		mac[1] = value >> 16 ;
+		mac[2] = value >> 8 ;
+		mac[3] = value ;
 
-	value = readl(&fuse->mac_addr_low);
-	mac[2] = value >> 24 ;
-	mac[3] = value >> 16 ;
-	mac[4] = value >> 8 ;
-	mac[5] = value ;
+		value = readl(&fuse->mac_addr1);
+		mac[4] = value >> 24 ;
+		mac[5] = value >> 16 ;
+		
+	} else {
+		u32 value = readl(&fuse->mac_addr1);
+		mac[0] = (value >> 8);
+		mac[1] = value ;
+
+		value = readl(&fuse->mac_addr0);
+		mac[2] = value >> 24 ;
+		mac[3] = value >> 16 ;
+		mac[4] = value >> 8 ;
+		mac[5] = value ;
+	}
 
 }
 #endif
@@ -391,6 +493,13 @@ const struct boot_mode soc_boot_modes[] = {
 	{"esdhc4",	MAKE_CFGVAL(0x40, 0x38, 0x00, 0x00)},
 	{NULL,		0},
 };
+
+void reset_misc(void)
+{
+#ifdef CONFIG_VIDEO_MXS
+	lcdif_power_down();
+#endif
+}
 
 void s_init(void)
 {
@@ -457,7 +566,8 @@ void imx_setup_hdmi(void)
 {
 	struct mxc_ccm_reg *mxc_ccm = (struct mxc_ccm_reg *)CCM_BASE_ADDR;
 	struct hdmi_regs *hdmi  = (struct hdmi_regs *)HDMI_ARB_BASE_ADDR;
-	int reg;
+	int reg, count;
+	u8 val;
 
 	/* Turn on HDMI PHY clock */
 	reg = readl(&mxc_ccm->CCGR2);
@@ -474,5 +584,53 @@ void imx_setup_hdmi(void)
 		 |(CHSCCDR_IPU_PRE_CLK_540M_PFD
 		 << MXC_CCM_CHSCCDR_IPU1_DI0_PRE_CLK_SEL_OFFSET);
 	writel(reg, &mxc_ccm->chsccdr);
+
+	/* Clear the overflow condition */
+	if (readb(&hdmi->ih_fc_stat2) & HDMI_IH_FC_STAT2_OVERFLOW_MASK) {
+		/* TMDS software reset */
+		writeb((u8)~HDMI_MC_SWRSTZ_TMDSSWRST_REQ, &hdmi->mc_swrstz);
+		val = readb(&hdmi->fc_invidconf);
+		/* Need minimum 3 times to write to clear the register */
+		for (count = 0 ; count < 5 ; count++)
+			writeb(val, &hdmi->fc_invidconf);
+	}
+}
+#endif
+
+#ifdef CONFIG_IMX_BOOTAUX
+int arch_auxiliary_core_up(u32 core_id, u32 boot_private_data)
+{
+	struct src *src_reg;
+	u32 stack, pc;
+
+	if (!boot_private_data)
+		return -EINVAL;
+
+	stack = *(u32 *)boot_private_data;
+	pc = *(u32 *)(boot_private_data + 4);
+
+	/* Set the stack and pc to M4 bootROM */
+	writel(stack, M4_BOOTROM_BASE_ADDR);
+	writel(pc, M4_BOOTROM_BASE_ADDR + 4);
+
+	/* Enable M4 */
+	src_reg = (struct src *)SRC_BASE_ADDR;
+	clrsetbits_le32(&src_reg->scr, SRC_SCR_M4C_NON_SCLR_RST_MASK,
+			SRC_SCR_M4_ENABLE_MASK);
+
+	return 0;
+}
+
+int arch_auxiliary_core_check_up(u32 core_id)
+{
+	struct src *src_reg = (struct src *)SRC_BASE_ADDR;
+	unsigned val;
+
+	val = readl(&src_reg->scr);
+
+	if (val & SRC_SCR_M4C_NON_SCLR_RST_MASK)
+		return 0;  /* assert in reset */
+
+	return 1;
 }
 #endif

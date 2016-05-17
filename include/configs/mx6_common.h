@@ -1,17 +1,7 @@
 /*
  * Copyright (c) 2013, NVIDIA CORPORATION.  All rights reserved.
  *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms and conditions of the GNU General Public License,
- * version 2, as published by the Free Software Foundation.
- *
- * This program is distributed in the hope it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
- * more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-License-Identifier:	GPL-2.0
  */
 
 #ifndef __MX6_COMMON_H
@@ -35,6 +25,8 @@
 
 #define CONFIG_SYS_NO_FLASH
 
+#define CONFIG_SYS_BOOTM_LEN	0x1000000
+
 #include <linux/sizes.h>
 #include <asm/arch/imx-regs.h>
 #include <asm/imx-common/gpio.h>
@@ -45,7 +37,7 @@
 
 #define CONFIG_DISPLAY_BOARDINFO
 #define CONFIG_DISPLAY_CPUINFO
-#define CONFIG_SYS_GENERIC_BOARD
+#define CONFIG_SYS_FSL_CLK
 
 /* ATAGs */
 #define CONFIG_CMDLINE_TAG
@@ -77,20 +69,11 @@
 #define CONFIG_BAUDRATE         115200
 
 /* Filesystems and image support */
-#define CONFIG_OF_LIBFDT
-#define CONFIG_CMD_BOOTZ
 #define CONFIG_SUPPORT_RAW_INITRD
-#define CONFIG_CMD_FS_GENERIC
 #define CONFIG_DOS_PARTITION
-#define CONFIG_CMD_EXT2
-#define CONFIG_CMD_EXT4
-#define CONFIG_CMD_EXT4_WRITE
-#define CONFIG_CMD_FAT
 
 /* Miscellaneous configurable options */
-#undef CONFIG_CMD_IMLS
 #define CONFIG_SYS_LONGHELP
-#define CONFIG_SYS_HUSH_PARSER
 #define CONFIG_CMDLINE_EDITING
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_SYS_CBSIZE	512
@@ -98,16 +81,13 @@
 #define CONFIG_SYS_BARGSIZE	CONFIG_SYS_CBSIZE
 
 #ifndef CONFIG_SYS_DCACHE_OFF
-#define CONFIG_CMD_CACHE
 #endif
 
 /* GPIO */
 #define CONFIG_MXC_GPIO
-#define CONFIG_CMD_GPIO
 
 /* MMC */
 #define CONFIG_MMC
-#define CONFIG_CMD_MMC
 #define CONFIG_GENERIC_MMC
 #define CONFIG_BOUNCE_BUFFER
 #define CONFIG_FSL_ESDHC

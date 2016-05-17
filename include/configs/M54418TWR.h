@@ -38,20 +38,11 @@
 #define CONFIG_BOOTP_HOSTNAME
 
 /* Command line configuration */
-#define CONFIG_CMD_CACHE
 #undef CONFIG_CMD_DATE
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_ELF
-#undef CONFIG_CMD_I2C
 #undef CONFIG_CMD_JFFS2
 #undef CONFIG_CMD_UBI
-#define CONFIG_CMD_MII
 #undef CONFIG_CMD_NAND
-#define CONFIG_CMD_PING
 #define CONFIG_CMD_REGINFO
-#define CONFIG_CMD_SPI
-#define CONFIG_CMD_SF
-
 
 /*
  * NAND FLASH
@@ -194,7 +185,6 @@
 #define CONFIG_HARD_SPI
 #define CONFIG_SYS_SBFHDR_SIZE		0x7
 #ifdef CONFIG_CMD_SPI
-#	define CONFIG_SPI_FLASH_ATMEL
 
 #	define CONFIG_SYS_DSPI_CTAR0	(DSPI_CTAR_TRSZ(7) | \
 					 DSPI_CTAR_PCSSCK_1CLK | \
@@ -211,10 +201,6 @@
 #define CONFIG_EXTRA_CLOCK
 
 #define CONFIG_PRAM			2048	/* 2048 KB */
-
-/* HUSH */
-#define CONFIG_SYS_HUSH_PARSER		1
-#define CONFIG_SYS_PROMPT_HUSH_PS2	"> "
 
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
 
@@ -269,7 +255,7 @@
 #endif
 
 #if defined(CONFIG_SERIAL_BOOT)
-#define CONFIG_SYS_MONITOR_BASE	(TEXT_BASE + 0x400)
+#define CONFIG_SYS_MONITOR_BASE	(CONFIG_SYS_TEXT_BASE + 0x400)
 #else
 #define CONFIG_SYS_MONITOR_BASE	(CONFIG_SYS_FLASH_BASE + 0x400)
 #endif

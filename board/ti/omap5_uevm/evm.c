@@ -189,25 +189,16 @@ static void enable_host_clocks(void)
  */
 int misc_init_r(void)
 {
-	int reg;
-	u32 id[4];
-
 #ifdef CONFIG_PALMAS_POWER
 	palmas_init_settings();
 #endif
 
-	reg = DIE_ID_REG_BASE + DIE_ID_REG_OFFSET;
-
-	id[0] = readl(reg);
-	id[1] = readl(reg + 0x8);
-	id[2] = readl(reg + 0xC);
-	id[3] = readl(reg + 0x10);
-	usb_fake_mac_from_die_id(id);
+	omap_die_id_usbethaddr();
 
 	return 0;
 }
 
-void set_muxconf_regs_essential(void)
+void set_muxconf_regs(void)
 {
 	do_set_mux((*ctrl)->control_padconf_core_base,
 		   core_padconf_array_essential,

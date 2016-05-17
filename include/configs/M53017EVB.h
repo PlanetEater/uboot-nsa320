@@ -27,12 +27,7 @@
 #define CONFIG_WATCHDOG_TIMEOUT		5000
 
 /* Command line configuration */
-#define CONFIG_CMD_CACHE
 #define CONFIG_CMD_DATE
-#define CONFIG_CMD_ELF
-#undef CONFIG_CMD_I2C
-#define CONFIG_CMD_MII
-#define CONFIG_CMD_PING
 #define CONFIG_CMD_REGINFO
 
 #define CONFIG_SYS_UNIFY_CACHE

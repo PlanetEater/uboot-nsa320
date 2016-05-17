@@ -39,18 +39,9 @@
 #define CONFIG_BOOTP_HOSTNAME
 
 /* Command line configuration */
-#define CONFIG_CMD_CACHE
 #define CONFIG_CMD_DATE
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_ELF
-#define CONFIG_CMD_I2C
 #undef CONFIG_CMD_JFFS2
-#define CONFIG_CMD_MII
-#define CONFIG_CMD_PING
 #define CONFIG_CMD_REGINFO
-#define CONFIG_CMD_SPI
-#define CONFIG_CMD_SF
-
 
 /* Network configuration */
 #define CONFIG_MCFFEC
@@ -142,7 +133,6 @@
 #define CONFIG_HARD_SPI
 #define CONFIG_SYS_SBFHDR_SIZE		0x7
 #ifdef CONFIG_CMD_SPI
-#	define CONFIG_SPI_FLASH_STMICRO
 
 #	define CONFIG_SYS_DSPI_CTAR0	(DSPI_CTAR_TRSZ(7) | \
 					 DSPI_CTAR_PCSSCK_1CLK | \

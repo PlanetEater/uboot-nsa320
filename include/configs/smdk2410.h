@@ -23,8 +23,6 @@
 
 #define CONFIG_SYS_TEXT_BASE	0x0
 
-#define CONFIG_SYS_GENERIC_BOARD
-
 #define CONFIG_SYS_ARM_CACHE_WRITETHROUGH
 
 /* input clock of PLL (the SMDK2410 has 12MHz input clock) */
@@ -61,7 +59,6 @@
  ************************************************************/
 #define CONFIG_RTC_S3C24X0
 
-
 #define CONFIG_BAUDRATE		115200
 
 /*
@@ -76,16 +73,10 @@
  * Command line configuration.
  */
 #define CONFIG_CMD_BSP
-#define CONFIG_CMD_CACHE
 #define CONFIG_CMD_DATE
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_ELF
 #define CONFIG_CMD_NAND
-#define CONFIG_CMD_PING
 #define CONFIG_CMD_REGINFO
-#define CONFIG_CMD_USB
 
-#define CONFIG_SYS_HUSH_PARSER
 #define CONFIG_CMDLINE_EDITING
 
 /* autoboot */
@@ -178,8 +169,6 @@
 /*
  * File system
  */
-#define CONFIG_CMD_FAT
-#define CONFIG_CMD_EXT2
 #define CONFIG_CMD_UBI
 #define CONFIG_CMD_UBIFS
 #define CONFIG_CMD_MTDPARTS

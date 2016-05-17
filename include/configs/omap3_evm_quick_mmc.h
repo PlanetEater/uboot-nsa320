@@ -16,11 +16,9 @@
 #include <asm/arch/omap.h>
 
 /* ----------------------------------------------------------------------------
- * Supported U-boot commands
+ * Supported U-Boot commands
  * ----------------------------------------------------------------------------
  */
-#define CONFIG_CMD_MMC
-#define CONFIG_CMD_FAT
 
 /*
  * Board revision is detected by probing the Ethernet chip.
@@ -30,7 +28,7 @@
  */
 
 /* ----------------------------------------------------------------------------
- * Supported U-boot features
+ * Supported U-Boot features
  * ----------------------------------------------------------------------------
  */
 #define CONFIG_SILENT_CONSOLE

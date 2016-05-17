@@ -87,7 +87,6 @@
 /* FTUART is a high speed NS 16C550A compatible UART, addr: 0x99600000 */
 #define CONFIG_BAUDRATE			38400
 #define CONFIG_CONS_INDEX		1
-#define CONFIG_SYS_NS16550
 #define CONFIG_SYS_NS16550_SERIAL
 #define CONFIG_SYS_NS16550_COM1		CONFIG_FTUART010_02_BASE
 #define CONFIG_SYS_NS16550_REG_SIZE	-4
@@ -104,21 +103,16 @@
  * SD (MMC) controller
  */
 #define CONFIG_MMC
-#define CONFIG_CMD_MMC
 #define CONFIG_GENERIC_MMC
 #define CONFIG_DOS_PARTITION
 #define CONFIG_FTSDC010
 #define CONFIG_FTSDC010_NUMBER		1
 #define CONFIG_FTSDC010_SDIO
-#define CONFIG_CMD_FAT
-#define CONFIG_CMD_EXT2
 
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_CACHE
 #define CONFIG_CMD_DATE
-#define CONFIG_CMD_PING
 
 /*
  * Miscellaneous configurable options
@@ -272,7 +266,7 @@
 
 /*
  * Load address and memory test area should agree with
- * arch/nds32/config.mk. Be careful not to overwrite U-boot itself.
+ * arch/nds32/config.mk. Be careful not to overwrite U-Boot itself.
  */
 #define CONFIG_SYS_LOAD_ADDR		0x300000
 

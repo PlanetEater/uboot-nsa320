@@ -19,14 +19,6 @@
 
 #include "pxa3xx_nand.h"
 
-/* Some U-Boot compatibility macros */
-#define writesl(a, d, s)	__raw_writesl((unsigned long)a, d, s)
-#define readsl(a, d, s)		__raw_readsl((unsigned long)a, d, s)
-#define writesw(a, d, s)	__raw_writesw((unsigned long)a, d, s)
-#define readsw(a, d, s)		__raw_readsw((unsigned long)a, d, s)
-#define writesb(a, d, s)	__raw_writesb((unsigned long)a, d, s)
-#define readsb(a, d, s)		__raw_readsb((unsigned long)a, d, s)
-
 #define TIMEOUT_DRAIN_FIFO	5	/* in ms */
 #define	CHIP_DELAY_TIMEOUT	200
 #define NAND_STOP_DELAY		40
@@ -451,7 +443,7 @@ static void pxa3xx_set_datasize(struct pxa3xx_nand_info *info,
 }
 
 /**
- * NOTE: it is a must to set ND_RUN firstly, then write
+ * NOTE: it is a must to set ND_RUN first, then write
  * command buffer, otherwise, it does not work.
  * We enable all the interrupt at the same time, and
  * let pxa3xx_nand_irq to handle all logic.
@@ -1486,8 +1478,8 @@ static int alloc_nand_resource(struct pxa3xx_nand_info *info)
 	info->variant = pxa3xx_nand_get_variant();
 	for (cs = 0; cs < pdata->num_cs; cs++) {
 		mtd = &nand_info[cs];
-		chip = (struct nand_chip *)info +
-			sizeof(struct pxa3xx_nand_host);
+		chip = (struct nand_chip *)
+			((u8 *)&info[1] + sizeof(*host) * cs);
 		host = (struct pxa3xx_nand_host *)chip;
 		info->host[cs] = host;
 		host->mtd = mtd;
@@ -1600,18 +1592,11 @@ void board_nand_init(void)
 	struct pxa3xx_nand_host *host;
 	int ret;
 
-	info = kzalloc(sizeof(*info) + (sizeof(struct mtd_info) +
-					sizeof(*host)) *
-		       CONFIG_SYS_MAX_NAND_DEVICE, GFP_KERNEL);
+	info = kzalloc(sizeof(*info) +
+				sizeof(*host) * CONFIG_SYS_MAX_NAND_DEVICE,
+			GFP_KERNEL);
 	if (!info)
 		return;
-
-	/*
-	 * If CONFIG_SYS_NAND_SELF_INIT is defined, each driver is responsible
-	 * for instantiating struct nand_chip, while drivers/mtd/nand/nand.c
-	 * still provides a "struct mtd_info nand_info" instance.
-	 */
-	info->host[0]->mtd = &nand_info[0];
 
 	ret = pxa3xx_nand_probe(info);
 	if (ret)

@@ -137,6 +137,8 @@ unsigned imx_ddr_size(void)
 const char *get_imx_type(u32 imxtype)
 {
 	switch (imxtype) {
+	case MXC_CPU_MX7S:
+		return "7SOLO";	/* Single-core version of the mx7 */
 	case MXC_CPU_MX7D:
 		return "7D";	/* Dual-core version of the mx7 */
 	case MXC_CPU_MX6QP:
@@ -278,6 +280,9 @@ void arch_preboot_os(void)
 #if defined(CONFIG_VIDEO_IPUV3)
 	/* disable video before launching O/S */
 	ipuv3_fb_shutdown();
+#endif
+#if defined(CONFIG_VIDEO_MXS)
+	lcdif_power_down();
 #endif
 }
 

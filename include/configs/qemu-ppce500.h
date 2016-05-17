@@ -19,7 +19,6 @@
 
 #undef CONFIG_SYS_TEXT_BASE
 #define CONFIG_SYS_TEXT_BASE	0xf01000 /* 15 MB */
-#define CONFIG_SYS_GENERIC_BOARD
 
 #define CONFIG_SYS_MPC85XX_NO_RESETVEC
 
@@ -104,7 +103,6 @@ extern unsigned long long get_phys_ccsrbar_addr_early(void);
 #define CONFIG_SYS_MALLOC_LEN		(4 * 1024 * 1024)
 
 #define CONFIG_CONS_INDEX	1
-#define CONFIG_SYS_NS16550
 #define CONFIG_SYS_NS16550_SERIAL
 #define CONFIG_SYS_NS16550_REG_SIZE	1
 #define CONFIG_SYS_NS16550_CLK		(get_bus_freq(0))
@@ -114,19 +112,6 @@ extern unsigned long long get_phys_ccsrbar_addr_early(void);
 
 #define CONFIG_SYS_NS16550_COM1	(CONFIG_SYS_CCSRBAR+0x4500)
 #define CONFIG_SYS_NS16550_COM2	(CONFIG_SYS_CCSRBAR+0x4600)
-
-/* Use the HUSH parser */
-#define CONFIG_SYS_HUSH_PARSER
-#define CONFIG_SYS_PROMPT_HUSH_PS2 "> "
-
-/* pass open firmware flat tree */
-#define CONFIG_OF_LIBFDT
-#define CONFIG_OF_BOARD_SETUP
-#define CONFIG_OF_STDOUT_VIA_ALIAS
-
-/* new uImage format support */
-#define CONFIG_FIT
-#define CONFIG_FIT_VERBOSE	/* enable fit_format_{error,warning}() */
 
 /*
  * General PCI
@@ -143,7 +128,6 @@ extern unsigned long long get_phys_ccsrbar_addr_early(void);
 
 #define CONFIG_LBA48
 #define CONFIG_DOS_PARTITION
-#define CONFIG_CMD_EXT2
 
 /*
  * Environment
@@ -157,12 +141,7 @@ extern unsigned long long get_phys_ccsrbar_addr_early(void);
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_ELF
-#define CONFIG_CMD_BOOTZ
-#define CONFIG_CMD_GREPENV
 #define CONFIG_CMD_IRQ
-#define CONFIG_CMD_PING
 
 #ifdef CONFIG_PCI
 #define CONFIG_CMD_PCI

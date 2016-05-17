@@ -9,11 +9,12 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
+#define CONFIG_SYS_CACHELINE_SIZE	32
+
 #include <asm/arch/imx-regs.h>
 
 #define CONFIG_VF610
 
-#define CONFIG_SYS_GENERIC_BOARD
 #define CONFIG_DISPLAY_CPUINFO
 #define CONFIG_DISPLAY_BOARDINFO
 #define CONFIG_SYS_THUMB_BUILD
@@ -28,15 +29,9 @@
 
 #define CONFIG_BOARD_EARLY_INIT_F
 
-#define CONFIG_FSL_LPUART
-#define LPUART_BASE			UART1_BASE
-
 /* Allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
-#define CONFIG_SYS_UART_PORT		(1)
 #define CONFIG_BAUDRATE			115200
-
-#undef CONFIG_CMD_IMLS
 
 /* NAND support */
 #define CONFIG_CMD_NAND
@@ -81,14 +76,9 @@
 #define CONFIG_SYS_FSL_ERRATUM_ESDHC111
 #define CONFIG_SYS_FSL_ERRATUM_ESDHC_A001
 
-#define CONFIG_CMD_MMC
 #define CONFIG_GENERIC_MMC
-#define CONFIG_CMD_FAT
 #define CONFIG_DOS_PARTITION
 
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_MII
 #define CONFIG_FEC_MXC
 #define CONFIG_MII
 #define IMX_FEC_BASE			ENET_BASE_ADDR
@@ -98,19 +88,15 @@
 #define CONFIG_PHY_MICREL
 
 /* QSPI Configs*/
-#define CONFIG_FSL_QSPI
 
 #ifdef CONFIG_FSL_QSPI
-#define CONFIG_CMD_SF
 #define CONFIG_SPI_FLASH
-#define CONFIG_SPI_FLASH_STMICRO
 #define FSL_QSPI_FLASH_SIZE		(1 << 24)
 #define FSL_QSPI_FLASH_NUM		2
 #define CONFIG_SYS_FSL_QSPI_LE
 #endif
 
 /* I2C Configs */
-#define CONFIG_CMD_I2C
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_I2C_MXC_I2C3
 #define CONFIG_SYS_I2C_MXC
@@ -216,13 +202,8 @@
 		"nand erase.part ramdisk; " \
 		"nand write ${ram_addr} ramdisk ${filesize}; fi\0"
 
-/* miscellaneous commands */
-#define CONFIG_CMD_ELF
-
 /* Miscellaneous configurable options */
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
-#define CONFIG_SYS_HUSH_PARSER		/* use "hush" command parser */
-#define CONFIG_SYS_PROMPT_HUSH_PS2	"> "
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_CMDLINE_EDITING
 #define CONFIG_SYS_CBSIZE		256	/* Console I/O Buffer Size */
@@ -231,7 +212,6 @@
 #define CONFIG_SYS_MAXARGS		16	/* max number of command args */
 #define CONFIG_SYS_BARGSIZE		CONFIG_SYS_CBSIZE
 
-#define CONFIG_CMD_MEMTEST
 #define CONFIG_SYS_MEMTEST_START	0x80010000
 #define CONFIG_SYS_MEMTEST_END		0x87C00000
 
@@ -274,8 +254,5 @@
 #define CONFIG_ENV_SIZE_REDUND		(8 * 1024)
 #define CONFIG_ENV_OFFSET_REDUND	0xC0000
 #endif
-
-#define CONFIG_OF_LIBFDT
-#define CONFIG_CMD_BOOTZ
 
 #endif

@@ -14,11 +14,7 @@
  *
  * This file is part of the Inventra Controller Driver for Linux.
  *
- * The Inventra Controller Driver for Linux is free software; you
- * can redistribute it and/or modify it under the terms of the GNU
- * General Public License version 2 as published by the Free Software
- * Foundation.
- *
+ * SPDX-License-Identifier:	GPL-2.0
  */
 #include <common.h>
 #include <asm/arch/cpu.h>
@@ -166,6 +162,17 @@ static void USBC_ConfigFIFO_Base(void)
 }
 
 /******************************************************************************
+ * Needed for the DFU polling magic
+ ******************************************************************************/
+
+static u8 last_int_usb;
+
+bool dfu_usb_get_reset(void)
+{
+	return !!(last_int_usb & MUSB_INTR_RESET);
+}
+
+/******************************************************************************
  * MUSB Glue code
  ******************************************************************************/
 
@@ -176,6 +183,7 @@ static irqreturn_t sunxi_musb_interrupt(int irq, void *__hci)
 
 	/* read and flush interrupts */
 	musb->int_usb = musb_readb(musb->mregs, MUSB_INTRUSB);
+	last_int_usb = musb->int_usb;
 	if (musb->int_usb)
 		musb_writeb(musb->mregs, MUSB_INTRUSB, musb->int_usb);
 	musb->int_tx = musb_readw(musb->mregs, MUSB_INTRTX);
@@ -193,6 +201,7 @@ static irqreturn_t sunxi_musb_interrupt(int irq, void *__hci)
 
 /* musb_core does not call enable / disable in a balanced manner <sigh> */
 static bool enabled = false;
+static struct musb *sunxi_musb;
 
 static int sunxi_musb_enable(struct musb *musb)
 {
@@ -312,12 +321,14 @@ int musb_usb_probe(struct udevice *dev)
 
 	priv->desc_before_addr = true;
 
-	if (!host->host) {
-		host->host = musb_init_controller(&musb_plat, NULL,
+	if (!sunxi_musb) {
+		sunxi_musb = musb_init_controller(&musb_plat, NULL,
 						  (void *)SUNXI_USB0_BASE);
-		if (!host->host)
-			return -EIO;
 	}
+
+	host->host = sunxi_musb;
+	if (!host->host)
+		return -EIO;
 
 	ret = musb_lowlevel_init(host);
 	if (ret == 0)

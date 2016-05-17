@@ -17,9 +17,6 @@
 #ifndef __CONFIG_TI_ARMV7_COMMON_H__
 #define __CONFIG_TI_ARMV7_COMMON_H__
 
-/* Common define for many platforms. */
-#define CONFIG_SYS_GENERIC_BOARD
-
 /*
  * We typically do not contain NOR flash.  In the cases where we do, we
  * undefine this later.
@@ -27,7 +24,6 @@
 #define CONFIG_SYS_NO_FLASH
 
 /* Support both device trees and ATAGs. */
-#define CONFIG_OF_LIBFDT
 #define CONFIG_CMDLINE_TAG
 #define CONFIG_SETUP_MEMORY_TAGS
 #define CONFIG_INITRD_TAG
@@ -56,6 +52,8 @@
 	"fdt_addr_r=0x88000000\0" \
 	"rdaddr=0x88080000\0" \
 	"ramdisk_addr_r=0x88080000\0" \
+	"scriptaddr=0x80000000\0" \
+	"pxefile_addr_r=0x80100000\0" \
 	"bootm_size=0x10000000\0"
 
 #define DEFAULT_MMC_TI_ARGS \
@@ -65,12 +63,30 @@
 	"args_mmc=run finduuid;setenv bootargs console=${console} " \
 		"${optargs} " \
 		"root=PARTUUID=${uuid} rw " \
-		"rootfstype=${mmcrootfstype}\0"
-
-/*
- * Default to a quick boot delay.
- */
-#define CONFIG_BOOTDELAY		1
+		"rootfstype=${mmcrootfstype}\0" \
+	"loadbootscript=load mmc ${mmcdev} ${loadaddr} boot.scr\0" \
+	"bootscript=echo Running bootscript from mmc${mmcdev} ...; " \
+		"source ${loadaddr}\0" \
+	"bootenvfile=uEnv.txt\0" \
+	"importbootenv=echo Importing environment from mmc${mmcdev} ...; " \
+		"env import -t ${loadaddr} ${filesize}\0" \
+	"loadbootenv=fatload mmc ${mmcdev} ${loadaddr} ${bootenvfile}\0" \
+	"envboot=mmc dev ${mmcdev}; " \
+		"if mmc rescan; then " \
+			"echo SD/MMC found on device ${mmcdev};" \
+			"if run loadbootscript; then " \
+				"run bootscript;" \
+			"else " \
+				"if run loadbootenv; then " \
+					"echo Loaded env from ${bootenvfile};" \
+					"run importbootenv;" \
+				"fi;" \
+				"if test -n $uenvcmd; then " \
+					"echo Running uenvcmd ...;" \
+					"run uenvcmd;" \
+				"fi;" \
+			"fi;" \
+		"fi;\0" \
 
 /*
  * DDR information.  If the CONFIG_NR_DRAM_BANKS is not defined,
@@ -94,20 +110,16 @@
 
 /* I2C IP block */
 #define CONFIG_I2C
-#define CONFIG_CMD_I2C
 #define CONFIG_SYS_I2C
 
 /* MMC/SD IP block */
 #define CONFIG_MMC
 #define CONFIG_GENERIC_MMC
-#define CONFIG_CMD_MMC
 
 /* McSPI IP block */
 #define CONFIG_SPI
-#define CONFIG_CMD_SPI
 
 /* GPIO block */
-#define CONFIG_CMD_GPIO
 
 /*
  * The following are general good-enough settings for U-Boot.  We set a
@@ -123,7 +135,6 @@
 #else
 #define CONFIG_SYS_MALLOC_LEN	(16 << 20)
 #endif
-#define CONFIG_SYS_HUSH_PARSER
 #define CONFIG_SYS_CONSOLE_INFO_QUIET
 #define CONFIG_BAUDRATE			115200
 #define CONFIG_ENV_VARS_UBOOT_CONFIG	/* Strongly encouraged */
@@ -156,8 +167,6 @@
 #define CONFIG_CMD_MTDPARTS
 #endif
 
-#define CONFIG_CMD_ASKENV
-#define CONFIG_CMD_BOOTZ
 #define CONFIG_SUPPORT_RAW_INITRD
 
 /*
@@ -166,11 +175,7 @@
  */
 #if defined(CONFIG_MMC) || defined(CONFIG_USB_STORAGE)
 #define CONFIG_DOS_PARTITION
-#define CONFIG_CMD_FAT
 #define CONFIG_FAT_WRITE
-#define CONFIG_CMD_EXT2
-#define CONFIG_CMD_EXT4
-#define CONFIG_CMD_FS_GENERIC
 #define CONFIG_PARTITION_UUIDS
 #define CONFIG_CMD_PART
 #endif
@@ -288,5 +293,7 @@
 #else
 #define NETARGS ""
 #endif
+
+#include <config_distro_defaults.h>
 
 #endif	/* __CONFIG_TI_ARMV7_COMMON_H__ */
