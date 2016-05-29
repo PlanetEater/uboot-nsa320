@@ -42,6 +42,9 @@
 #define CONFIG_MACH_TYPE	MACH_TYPE_NSA320
 #define CONFIG_SKIP_LOWLEVEL_INIT	/* disable board lowlevel_init */
 
+/* add target to build it automatically upon "make" */
+#define CONFIG_BUILD_TARGET             "u-boot.kwb"
+
 /*
  * Misc Configuration Options
  */
