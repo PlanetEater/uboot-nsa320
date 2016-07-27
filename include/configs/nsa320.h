@@ -92,10 +92,8 @@
 #define CONFIG_SYS_ATA_IDE1_OFFSET	MV_SATA_PORT1_OFFSET
 #endif /* CONFIG_CMD_IDE */
 
-#define CONFIG_MTD_DEVICE               /* needed for mtdparts commands */
-#define CONFIG_MTD_PARTITIONS
-#define CONFIG_CMD_MTDPARTS
 #define CONFIG_LZO
+
 /* RTC driver configuration */
 #ifdef CONFIG_CMD_DATE
 #define CONFIG_RTC_MV
