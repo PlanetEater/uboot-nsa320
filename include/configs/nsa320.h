@@ -8,34 +8,15 @@
  *
  * See file CREDITS for list of people who contributed to this
  * project.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of
- * the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301 USA
  */
 
 #ifndef _CONFIG_NSA320_H
 #define _CONFIG_NSA320_H
 
-/*
- * Version number information
- */
+/* version number information */
 #define CONFIG_IDENT_STRING	"\nZyXEL NSA320 2-Bay Power Media Server"
 
-/*
- * High Level Configuration Options (easy to change)
- */
+/* high level configuration options (easy to change) */
 #define CONFIG_FEROCEON_88FR131	1	/* CPU Core subversion */
 #define CONFIG_KW88F6281	1	/* SOC Name */
 #define CONFIG_MACH_NSA320		/* Machine type */
@@ -45,17 +26,11 @@
 /* add target to build it automatically upon "make" */
 #define CONFIG_BUILD_TARGET             "u-boot.kwb"
 
-/*
- * Misc Configuration Options
- */
+/* misc configuration options */
 #define CONFIG_SHOW_BOOT_PROGRESS 1	/* boot progess display (LED's) */
 
-/*
- * Commands configuration
- */
-
+/* commands configuration */
 #include <config_distro_defaults.h>
-
 #define CONFIG_SYS_NO_FLASH		/* Declare no flash (NOR/SPI) */
 #define CONFIG_CMD_ENV
 #define CONFIG_CMD_IDE
@@ -66,9 +41,7 @@
  */
 #include "mv-common.h"
 
-/*
- *  Environment variables configurations
- */
+/* environment variables configurations */
 #ifdef CONFIG_CMD_NAND
 #define CONFIG_ENV_IS_IN_NAND		1
 #define CONFIG_ENV_SECT_SIZE		0x20000		/* 128K */
@@ -83,27 +56,7 @@
 #define CONFIG_ENV_ADDR			0x120000
 #define CONFIG_ENV_OFFSET		0x120000	/* env starts here */
 
-/* ###################################################################### */
-
-/*
- * Default environment variables
- */
-/*
-#define CONFIG_BOOTCOMMAND \
-	"setenv bootargs ${console} ${mtdparts} ${bootargs_root}; "	\
-	"ubi part root; " \
-	"ubifsmount root; " \
-	"ubifsload 0x800000 ${kernel}; " \
-	"ubifsload 0x1100000 ${initrd}; " \
-	"bootm 0x800000 0x1100000"
-
-#define CONFIG_EXTRA_ENV_SETTINGS \
-	"console=console=ttyS0,115200\0" \
-	"kernel=/boot/uImage\0" \
-	"initrd=/boot/uInitrd\0" \
-	"bootargs_root=ubi.mtd=1 root=ubi0:root rootfstype=ubifs ro\0"
-*/
-
+/* default environment variables */
 #define MTDIDS_DEFAULT			"nand0=kw_nand"
 #define MTDPARTS_DEFAULT \
 	"mtdparts=kw_nand:" \
@@ -117,11 +70,7 @@
 	"10m(kernel_2)," \
 	"0x2fc0000(rootfs_2)"
 
-/* ###################################################################### */
-
-/*
- * Ethernet Driver configuration
- */
+/* ethernet driver configuration */
 #ifdef CONFIG_CMD_NET
 #define CONFIG_MVGBE_PORTS		{1, 0}	/* enable port 0 only */
 #define CONFIG_PHY_BASE_ADR		0x1
@@ -129,22 +78,13 @@
 #define CONFIG_NETCONSOLE
 #endif /* CONFIG_CMD_NET */
 
-/*
- * SATA Driver configuration
- */
+/* SATA driver configuration */
 #ifdef CONFIG_MVSATA_IDE
 #define CONFIG_SYS_ATA_IDE0_OFFSET      MV_SATA_PORT0_OFFSET
 #define CONFIG_SYS_ATA_IDE1_OFFSET      MV_SATA_PORT1_OFFSET
 #endif /* CONFIG_MVSATA_IDE */
 
-/*
- * File system
- */
-/* CONFIG_CMD_JFFS2 and CONFIG_CMD_FS_GENERIC cannot be defined at the same time */
-/* #define CONFIG_CMD_JFFS2 */
-/* #define CONFIG_CMD_UBI */
-/* #define CONFIG_CMD_UBIFS */
-/* #define CONFIG_RBTREE */
+/* file system */
 
 #define CONFIG_MTD_DEVICE               /* needed for mtdparts commands */
 #define CONFIG_MTD_PARTITIONS
