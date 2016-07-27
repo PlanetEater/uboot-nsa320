@@ -55,8 +55,6 @@
  */
 
 #include <config_distro_defaults.h>
-/* Avoid redefinition warning */
-#undef CONFIG_BOOTDELAY
 
 #define CONFIG_SYS_NO_FLASH		/* Declare no flash (NOR/SPI) */
 #define CONFIG_CMD_ENV
