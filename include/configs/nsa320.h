@@ -17,8 +17,6 @@
 /* high level configuration options */
 #define CONFIG_FEROCEON_88FR131	1	/* CPU Core subversion */
 #define CONFIG_KW88F6281		1	/* SOC Name */
-#define CONFIG_MACH_NSA320			/* Machine type */
-#define CONFIG_MACH_TYPE		MACH_TYPE_NSA320
 #define CONFIG_SKIP_LOWLEVEL_INIT	/* disable board lowlevel_init */
 
 /* add target to build it automatically upon "make" */
