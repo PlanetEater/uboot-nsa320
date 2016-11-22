@@ -14,9 +14,6 @@
 #ifndef _CONFIG_NSA320_H
 #define _CONFIG_NSA320_H
 
-/* version number information */
-#define CONFIG_IDENT_STRING	"\nZyXEL NSA320 2-Bay Power Media Server"
-
 /* high level configuration options */
 #define CONFIG_FEROCEON_88FR131	1	/* CPU Core subversion */
 #define CONFIG_KW88F6281		1	/* SOC Name */
