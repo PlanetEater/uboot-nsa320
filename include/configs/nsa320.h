@@ -31,7 +31,6 @@
 
 /* commands configuration */
 #include <config_distro_defaults.h>
-#define CONFIG_SYS_NO_FLASH		/* declare no flash (NOR/SPI) */
 #define CONFIG_CMD_ENV
 #define CONFIG_SYS_MVFS
 #define CONFIG_CMD_IDE
@@ -80,7 +79,6 @@
 #ifdef CONFIG_CMD_IDE
 #define __io
 #define CONFIG_IDE_PREINIT
-#define CONFIG_DOS_PARTITION
 #define CONFIG_MVSATA_IDE_USE_PORT0
 #define CONFIG_MVSATA_IDE_USE_PORT1
 #define CONFIG_SYS_ATA_IDE0_OFFSET	MV_SATA_PORT0_OFFSET
