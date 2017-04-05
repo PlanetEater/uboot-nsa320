@@ -38,11 +38,11 @@
  * in boot ROM of the SoC.
  * The feature is only applicable in case of NOR boot and is
  * not applicable in case of RAMBOOT (NAND, SD, SPI).
+ * For LS, this feature is available for all device if IE Table
+ * is copied to XIP memory
+ * Also, for LS, ISBC doesn't verify this table.
  */
-#ifndef CONFIG_ESBC_HDR_LS
-/* Current Key EXT feature not available in LS ESBC Header */
 #define CONFIG_FSL_ISBC_KEY_EXT
-#endif
 
 #endif
 
@@ -86,8 +86,8 @@
 /* For SD boot address and size are assigned in terms of sector
  * offset and no. of sectors respectively.
  */
-#define CONFIG_BS_HDR_ADDR_DEVICE	0x00000800
-#define CONFIG_BS_ADDR_DEVICE		0x00000840
+#define CONFIG_BS_HDR_ADDR_DEVICE	0x00000900
+#define CONFIG_BS_ADDR_DEVICE		0x00000940
 #define CONFIG_BS_HDR_SIZE		0x00000010
 #define CONFIG_BS_SIZE			0x00000008
 #else
@@ -112,6 +112,8 @@
 #ifdef CONFIG_SYS_LS_PPA_FW_IN_XIP
 #ifdef CONFIG_LS1043A
 #define CONFIG_SYS_LS_PPA_ESBC_ADDR	0x600c0000
+#elif defined(CONFIG_FSL_LSCH3)
+#define CONFIG_SYS_LS_PPA_ESBC_ADDR     0x580c40000
 #endif
 #else
 #error "No CONFIG_SYS_LS_PPA_FW_IN_xxx defined"

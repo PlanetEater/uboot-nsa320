@@ -32,13 +32,6 @@
 # define CONFIG_MACH_TYPE_COMPAT_REV	1
 #endif
 
-/*
- * High Level Configuration Options
- */
-#if defined(CONFIG_SPL_BUILD) && !defined(CONFIG_ARM64)
-#define CONFIG_SYS_THUMB_BUILD	/* Thumbs mode to save space in SPL */
-#endif
-
 /* Serial & console */
 #define CONFIG_SYS_NS16550_SERIAL
 /* ns16550 reg in the low bits of cpu reg */
@@ -163,7 +156,6 @@
 #define CONFIG_STANDALONE_LOAD_ADDR	CONFIG_SYS_LOAD_ADDR
 
 /* baudrate */
-#define CONFIG_BAUDRATE			115200
 
 /* The stack sizes are set up in start.S using the settings below */
 #define CONFIG_STACKSIZE		(256 << 10)	/* 256 KiB */

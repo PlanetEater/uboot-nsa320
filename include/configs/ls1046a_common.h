@@ -13,6 +13,7 @@
 #define CONFIG_GICV2
 
 #include <asm/arch/config.h>
+#include <asm/arch/stream_id_lsch2.h>
 
 /* Link Definitions */
 #define CONFIG_SYS_INIT_SP_ADDR		(CONFIG_SYS_FSL_OCRAM_BASE + 0xfff0)
@@ -41,7 +42,6 @@
 #define CONFIG_SYS_NS16550_REG_SIZE	1
 #define CONFIG_SYS_NS16550_CLK          (get_serial_clock())
 
-#define CONFIG_BAUDRATE			115200
 #define CONFIG_SYS_BAUDRATE_TABLE	{ 9600, 19200, 38400, 57600, 115200 }
 
 /* SD boot SPL */

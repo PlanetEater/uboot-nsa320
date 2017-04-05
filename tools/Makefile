@@ -120,7 +120,7 @@ _libfdt.so-sharedobjs += $(LIBFDT_OBJS)
 libfdt:
 
 tools/_libfdt.so: $(patsubst %.o,%.c,$(LIBFDT_OBJS)) tools/libfdt_wrap.c
-	LDFLAGS="$(HOSTLDFLAGS)" python $(srctree)/lib/libfdt/setup.py \
+	LDFLAGS="$(HOSTLDFLAGS)" CFLAGS= python $(srctree)/lib/libfdt/setup.py \
 		"$(_hostc_flags)" $^
 	mv _libfdt.so $@
 
@@ -262,7 +262,7 @@ $(LOGO_DATA_H):	$(obj)/bmp_logo $(LOGO_BMP)
 subdir- += env
 
 ifneq ($(CROSS_BUILD_TOOLS),)
-HOSTCC = $(CC)
+override HOSTCC = $(CC)
 
 quiet_cmd_crosstools_strip = STRIP   $^
       cmd_crosstools_strip = $(STRIP) $^; touch $@
