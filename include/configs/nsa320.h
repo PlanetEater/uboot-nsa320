@@ -33,7 +33,6 @@
 #include <config_distro_defaults.h>
 #define CONFIG_CMD_ENV
 #define CONFIG_SYS_MVFS
-#define CONFIG_CMD_IDE
 
 /*
  * mv-common.h should be defined after CMD configs since it used them
