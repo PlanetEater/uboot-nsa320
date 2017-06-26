@@ -106,11 +106,6 @@ int board_early_init_f(void)
 
 int board_init(void)
 {
-	/*
-	 * arch number of board
-	 */
-	gd->bd->bi_arch_number = MACH_TYPE_NSA320;
-
 	/* address of boot parameters */
 	gd->bd->bi_boot_params = mvebu_sdram_bar(0) + 0x100;
 
