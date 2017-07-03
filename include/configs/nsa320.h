@@ -27,7 +27,6 @@
 
 /* compression configuration */
 #define CONFIG_BZIP2
-#define CONFIG_LZMA
 
 /* commands configuration */
 #include <config_distro_defaults.h>
