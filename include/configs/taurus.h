@@ -58,11 +58,6 @@
 
 
 /*
- * Command line configuration.
- */
-#define CONFIG_CMD_NAND
-
-/*
  * SDRAM: 1 bank, min 32, max 128 MB
  * Initialized before u-boot gets started.
  */
@@ -114,7 +109,6 @@
 #define CONFIG_SYS_USB_OHCI_MAX_ROOT_PORTS	2
 
 /* USB DFU support */
-#define CONFIG_CMD_MTDPARTS
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
 
@@ -145,7 +139,6 @@
 #define CONFIG_SYS_LOAD_ADDR			0x22000000
 
 /* bootstrap in spi flash , u-boot + env + linux in nandflash */
-#define CONFIG_ENV_IS_IN_NAND
 #define CONFIG_ENV_OFFSET		0x100000
 #define CONFIG_ENV_OFFSET_REDUND	0x180000
 #define CONFIG_ENV_SIZE		(SZ_128K)	/* 1 sector = 128 kB */

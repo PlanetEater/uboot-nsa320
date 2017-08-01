@@ -55,11 +55,6 @@
 #define CONFIG_BOOTP_HOSTNAME		1
 
 /*
- * Command line configuration.
- */
-#define CONFIG_CMD_NAND		1
-
-/*
  * SDRAM: 1 bank, min 32, max 128 MB
  * Initialized before u-boot gets started.
  */
@@ -146,7 +141,6 @@
 #ifdef CONFIG_SYS_USE_DATAFLASH_CS0
 
 /* bootstrap + u-boot + env + linux in dataflash on CS0 */
-#define CONFIG_ENV_IS_IN_DATAFLASH	1
 #define CONFIG_SYS_MONITOR_BASE	(CONFIG_SYS_DATAFLASH_LOGIC_ADDR_CS0 + 0x8400)
 #define CONFIG_ENV_OFFSET		0x4200
 #define CONFIG_ENV_ADDR		(CONFIG_SYS_DATAFLASH_LOGIC_ADDR_CS0 + CONFIG_ENV_OFFSET)
@@ -160,7 +154,6 @@
 #elif CONFIG_SYS_USE_DATAFLASH_CS1
 
 /* bootstrap + u-boot + env + linux in dataflash on CS1 */
-#define CONFIG_ENV_IS_IN_DATAFLASH	1
 #define CONFIG_SYS_MONITOR_BASE	(CONFIG_SYS_DATAFLASH_LOGIC_ADDR_CS1 + 0x8400)
 #define CONFIG_ENV_OFFSET		0x4200
 #define CONFIG_ENV_ADDR		(CONFIG_SYS_DATAFLASH_LOGIC_ADDR_CS1 + CONFIG_ENV_OFFSET)
@@ -174,7 +167,6 @@
 #elif defined(CONFIG_SYS_USE_NANDFLASH)
 
 /* bootstrap + u-boot + env + linux in nandflash */
-#define CONFIG_ENV_IS_IN_NAND	1
 #define CONFIG_ENV_OFFSET		0x120000
 #define CONFIG_ENV_OFFSET_REDUND	0x100000
 #define CONFIG_ENV_SIZE		0x20000		/* 1 sector = 128 kB */
@@ -188,7 +180,6 @@
 
 #else	/* CONFIG_SYS_USE_MMC */
 /* bootstrap + u-boot + env + linux in mmc */
-#define CONFIG_ENV_IS_IN_MMC
 /* For FAT system, most cases it should be in the reserved sector */
 #define CONFIG_ENV_OFFSET		0x2000
 #define CONFIG_ENV_SIZE			0x1000

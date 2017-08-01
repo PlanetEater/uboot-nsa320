@@ -71,7 +71,6 @@
 #define CONFIG_VIDEO_BCM2835
 
 #ifdef CONFIG_CMD_USB
-#define CONFIG_USB_DWC2
 #define CONFIG_USB_HOST_ETHER
 #define CONFIG_USB_ETHER_SMSC95XX
 #define CONFIG_TFTP_TSIZE
@@ -93,10 +92,6 @@
 
 /* Environment */
 #define CONFIG_ENV_SIZE			SZ_16K
-#define CONFIG_ENV_IS_IN_FAT
-#define FAT_ENV_INTERFACE		"mmc"
-#define FAT_ENV_DEVICE_AND_PART		"0:1"
-#define FAT_ENV_FILE			"uboot.env"
 #define CONFIG_ENV_VARS_UBOOT_CONFIG
 #define CONFIG_SYS_LOAD_ADDR		0x1000000
 #define CONFIG_PREBOOT			"usb start"

@@ -11,8 +11,6 @@
 #include "exynos5420-common.h"
 #include <configs/exynos5-common.h>
 
-#undef CONFIG_ENV_IS_IN_SPI_FLASH
-
 #define CONFIG_BOARD_COMMON
 
 #define CONFIG_SYS_SDRAM_BASE		0x40000000
@@ -28,8 +26,6 @@
 /* Reserve the last 22 MiB for the secure firmware */
 #define CONFIG_SYS_MEM_TOP_HIDE		(22UL << 20UL)
 #define CONFIG_TZSW_RESERVED_DRAM_SIZE	CONFIG_SYS_MEM_TOP_HIDE
-
-#define CONFIG_ENV_IS_IN_MMC
 
 #undef CONFIG_ENV_SIZE
 #undef CONFIG_ENV_OFFSET

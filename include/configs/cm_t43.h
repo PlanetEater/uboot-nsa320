@@ -60,7 +60,6 @@
 
 /* USB support */
 #define CONFIG_USB_XHCI_OMAP
-#define CONFIG_SYS_USB_XHCI_MAX_ROOT_PORTS 2
 #define CONFIG_OMAP_USB_PHY
 #define CONFIG_AM437X_USB2PHY2_HOST
 
@@ -97,7 +96,6 @@
 #define V_OSCK				24000000  /* Clock output from T2 */
 #define V_SCLK				(V_OSCK)
 
-#define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_SECT_SIZE		(64 * 1024)
 #define CONFIG_ENV_OFFSET		(768 * 1024)
 #define CONFIG_ENV_SPI_MAX_HZ           48000000

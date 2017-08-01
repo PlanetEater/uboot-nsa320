@@ -124,7 +124,6 @@
 #ifdef CONFIG_HAS_FSL_XHCI_USB
 #define CONFIG_USB_XHCI_FSL
 #define CONFIG_USB_MAX_CONTROLLER_COUNT         1
-#define CONFIG_SYS_USB_XHCI_MAX_ROOT_PORTS      2
 #endif
 
 /*  MMC  */
@@ -135,7 +134,6 @@
 
 /* SATA */
 #define CONFIG_LIBATA
-#define	CONFIG_SCSI
 #define CONFIG_SCSI_AHCI
 #define CONFIG_SCSI_AHCI_PLAT
 #define CONFIG_CMD_SCSI

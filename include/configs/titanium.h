@@ -150,9 +150,6 @@
 	(CONFIG_SYS_INIT_RAM_ADDR + CONFIG_SYS_INIT_SP_OFFSET)
 
 /* Enable NAND support */
-#define CONFIG_CMD_NAND
-#define CONFIG_CMD_NAND_TRIMFFS
-
 #ifdef CONFIG_CMD_NAND
 
 /* NAND stuff */
@@ -168,7 +165,6 @@
 #define CONFIG_APBH_DMA_BURST8
 
 /* Environment in NAND */
-#define CONFIG_ENV_IS_IN_NAND
 #define CONFIG_ENV_OFFSET		(16 << 20)
 #define CONFIG_ENV_SECT_SIZE		(128 << 10)
 #define CONFIG_ENV_SIZE			CONFIG_ENV_SECT_SIZE
@@ -179,18 +175,13 @@
 
 /* Environment in MMC */
 #define CONFIG_ENV_SIZE			(8 << 10)
-#define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_ENV_OFFSET		(6 * 64 * 1024)
 #define CONFIG_SYS_MMC_ENV_DEV		0
 
 #endif /* CONFIG_CMD_NAND */
 
 /* UBI/UBIFS config options */
-#define CONFIG_LZO
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
-#define CONFIG_RBTREE
-#define CONFIG_CMD_MTDPARTS
-#define CONFIG_CMD_UBIFS
 
 #endif			       /* __CONFIG_H */

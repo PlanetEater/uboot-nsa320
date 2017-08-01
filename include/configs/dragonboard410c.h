@@ -49,7 +49,6 @@
 /* Enable that for switching of boot partitions */
 /* Disabled by default as some sub-commands can brick eMMC */
 /*#define CONFIG_SUPPORT_EMMC_BOOT */
-#define CONFIG_CMD_REGINFO	/* Register dump		*/
 #define CONFIG_CMD_TFTP
 
 /* Partition table support */
@@ -111,7 +110,6 @@ REFLASH(dragonboard/u-boot.img, 8)\
 	"pxefile_addr_r=0x90100000\0"\
 	BOOTENV
 
-#define CONFIG_ENV_IS_NOWHERE
 #define CONFIG_ENV_SIZE			0x2000
 #define CONFIG_ENV_VARS_UBOOT_CONFIG
 

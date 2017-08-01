@@ -16,15 +16,6 @@
 #include "mx6_common.h"
 
 /*
- * Console configuration
- */
-
-#define CONFIG_CMD_MTDPARTS
-#define CONFIG_CMD_NAND
-#define CONFIG_CMD_NAND_TRIMFFS
-#define CONFIG_CMD_UBIFS
-
-/*
  * Hardware configuration
  */
 
@@ -92,7 +83,6 @@
 #define CONFIG_APBH_DMA_BURST8
 
 /* Environment in NAND */
-#define CONFIG_ENV_IS_IN_NAND
 #define CONFIG_ENV_OFFSET		(16 << 20)
 #define CONFIG_ENV_SECT_SIZE		(128 << 10)
 #define CONFIG_ENV_SIZE			CONFIG_ENV_SECT_SIZE
@@ -103,7 +93,6 @@
 
 /* Environment in MMC */
 #define CONFIG_ENV_SIZE			(8 << 10)
-#define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_ENV_OFFSET		(6 * 64 * 1024)
 #define CONFIG_SYS_MMC_ENV_DEV		0
 
@@ -130,10 +119,8 @@
 						 sizeof(CONFIG_SYS_PROMPT) + 16)
 
 /* MTD/UBI/UBIFS config */
-#define CONFIG_LZO
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
-#define CONFIG_RBTREE
 
 #if (CONFIG_SYS_NAND_MAX_CHIPS == 1)
 #define MTDIDS_DEFAULT		"nand0=gpmi-nand"

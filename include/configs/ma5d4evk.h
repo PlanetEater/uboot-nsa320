@@ -32,7 +32,6 @@
 /*
  * Environment
  */
-#define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_SYS_CONSOLE_OVERWRITE_ROUTINE
 #define CONFIG_SYS_CONSOLE_ENV_OVERWRITE
 #define CONFIG_ENV_SIZE			0x4000
@@ -97,7 +96,6 @@
  * USB
  */
 #ifdef CONFIG_CMD_USB
-#define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS	3
 
 /* USB device */
 #define CONFIG_USB_ETHER

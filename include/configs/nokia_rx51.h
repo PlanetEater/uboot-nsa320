@@ -105,11 +105,6 @@
 #ifdef ONENAND_SUPPORT
 
 #define CONFIG_CMD_ONENAND		/* ONENAND support */
-#define CONFIG_CMD_MTDPARTS		/* mtd parts support */
-
-#ifdef UBIFS_SUPPORT
-#define CONFIG_CMD_UBIFS		/* UBIFS Support */
-#endif
 
 #endif
 
@@ -178,11 +173,6 @@
 #define CONFIG_SYS_ONENAND_BASE		ONENAND_MAP
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
-
-#ifdef UBIFS_SUPPORT
-#define CONFIG_RBTREE
-#define CONFIG_LZO
-#endif
 
 #define MTDIDS_DEFAULT			"onenand0=onenand"
 #define MTDPARTS_DEFAULT		"mtdparts=onenand:" \
@@ -380,8 +370,6 @@ int rx51_kp_getc(struct stdio_dev *sdev);
 /*
  * FLASH and environment organization
  */
-
-#define CONFIG_ENV_IS_NOWHERE
 
 #define CONFIG_SYS_SDRAM_BASE		PHYS_SDRAM_1
 #define CONFIG_SYS_INIT_RAM_ADDR	0x4020f800

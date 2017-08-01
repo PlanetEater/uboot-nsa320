@@ -67,10 +67,6 @@
 					115200}
 /* EHCI */
 #define CONFIG_OMAP_EHCI_PHY1_RESET_GPIO	25
-#define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS 3
-
-/* commands to include */
-#define CONFIG_CMD_NAND		/* NAND support			*/
 
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_OMAP24_I2C_SPEED	400000
@@ -137,7 +133,6 @@
 /* **** PISMO SUPPORT *** */
 #define CONFIG_NAND
 #define CONFIG_NAND_OMAP_GPMC
-#define CONFIG_ENV_IS_IN_NAND
 #define SMNAND_ENV_OFFSET		0x180000 /* environment starts here */
 
 /* Redundant Environment */
@@ -222,12 +217,8 @@
 #define CONFIG_SYS_NAND_U_BOOT_OFFS	0x80000
 #define CONFIG_SYS_NAND_U_BOOT_SIZE	0x80000
 
-#define CONFIG_CMD_UBIFS
-#define CONFIG_RBTREE
-#define CONFIG_LZO
 #define CONFIG_MTD_PARTITIONS
 #define CONFIG_MTD_DEVICE
-#define CONFIG_CMD_MTDPARTS
 
 /* Setup MTD for NAND on the SOM */
 #define MTDIDS_DEFAULT		"nand0=omap2-nand.0"

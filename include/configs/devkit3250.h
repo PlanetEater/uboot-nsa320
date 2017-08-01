@@ -110,8 +110,6 @@
 #define CONFIG_SYS_NAND_PAGE_SIZE		NAND_LARGE_BLOCK_PAGE_SIZE
 #define CONFIG_SYS_NAND_USE_FLASH_BBT
 
-#define CONFIG_CMD_NAND
-
 /*
  * USB
  */
@@ -138,7 +136,6 @@
 /*
  * Environment
  */
-#define CONFIG_ENV_IS_IN_NAND		1
 #define CONFIG_ENV_SIZE			SZ_128K
 #define CONFIG_ENV_OFFSET		0x000A0000
 

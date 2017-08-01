@@ -175,6 +175,8 @@ HOSTCFLAGS_rsa-sign.o += -Wno-deprecated-declarations
 endif
 endif
 
+HOSTCFLAGS_fit_image.o += -DMKIMAGE_DTC=\"$(DTC)\"
+
 HOSTLOADLIBES_dumpimage := $(HOSTLOADLIBES_mkimage)
 HOSTLOADLIBES_fit_info := $(HOSTLOADLIBES_mkimage)
 HOSTLOADLIBES_fit_check_sign := $(HOSTLOADLIBES_mkimage)
@@ -208,6 +210,8 @@ hostprogs-$(CONFIG_STATIC_RELA) += relocate-rela
 
 hostprogs-y += fdtgrep
 fdtgrep-objs += $(LIBFDT_OBJS) fdtgrep.o
+
+hostprogs-$(CONFIG_MIPS) += mips-relocs
 
 # We build some files with extra pedantic flags to try to minimize things
 # that won't build on some weird host compiler -- though there are lots of

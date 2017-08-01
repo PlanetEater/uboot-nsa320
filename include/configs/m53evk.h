@@ -18,13 +18,6 @@
 #define CONFIG_TIMESTAMP		/* Print image info with timestamp */
 
 /*
- * U-Boot Commands
- */
-#define CONFIG_CMD_NAND
-#define CONFIG_CMD_NAND_TRIMFFS
-#define CONFIG_CMD_SATA
-
-/*
  * Memory configurations
  */
 #define CONFIG_NR_DRAM_BANKS		2
@@ -93,7 +86,6 @@
 #define CONFIG_SYS_NAND_USE_FLASH_BBT
 
 /* Environment is in NAND */
-#define CONFIG_ENV_IS_IN_NAND
 #define CONFIG_ENV_SIZE_REDUND		CONFIG_ENV_SIZE
 #define CONFIG_ENV_SECT_SIZE		(128 * 1024)
 #define CONFIG_ENV_RANGE		(4 * CONFIG_ENV_SECT_SIZE)
@@ -101,10 +93,6 @@
 #define CONFIG_ENV_OFFSET_REDUND	\
 		(CONFIG_ENV_OFFSET + CONFIG_ENV_RANGE)
 
-#define CONFIG_CMD_UBIFS
-#define CONFIG_CMD_MTDPARTS
-#define CONFIG_RBTREE
-#define CONFIG_LZO
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
 #define MTDIDS_DEFAULT			"nand0=mxc_nand"
@@ -116,8 +104,6 @@
 		"14m(boot),"			\
 		"240m(data),"			\
 		"-@2048k(UBI)"
-#else
-#define CONFIG_ENV_IS_NOWHERE
 #endif
 
 /*

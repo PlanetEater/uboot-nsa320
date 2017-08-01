@@ -25,13 +25,6 @@
 #undef CONFIG_WATCHDOG
 #define CONFIG_WATCHDOG_TIMEOUT	3360	/* timeout in ms, max is 3.36 sec */
 
-/* Command line configuration */
-#define CONFIG_CMD_REGINFO
-
-#ifdef CONFIG_NANDFLASH_SIZE
-#      define CONFIG_CMD_NAND
-#endif
-
 #define CONFIG_SYS_UNIFY_CACHE
 
 #define CONFIG_MCFFEC
@@ -190,7 +183,6 @@
  */
 #define CONFIG_ENV_OFFSET		0x4000
 #define CONFIG_ENV_SECT_SIZE	0x2000
-#define CONFIG_ENV_IS_IN_FLASH	1
 
 #define LDS_BOARD_TEXT \
         . = DEFINED(env_offset) ? env_offset : .; \

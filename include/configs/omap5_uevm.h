@@ -34,7 +34,6 @@
 
 #define CONFIG_MISC_INIT_R
 /* MMC ENV related defines */
-#define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_SYS_MMC_ENV_DEV		1	/* SLOT2: eMMC(1) */
 #define CONFIG_ENV_SIZE			(128 << 10)
 #define CONFIG_ENV_OFFSET		0x260000
@@ -52,7 +51,6 @@
 #define CONFIG_SYS_I2C_TCA642X_ADDR 0x22
 
 /* USB UHH support options */
-#define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS 3
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 
 #define CONFIG_OMAP_EHCI_PHY2_RESET_GPIO 80
@@ -66,7 +64,6 @@
 
 #define CONSOLEDEV		"ttyO2"
 
-#define CONFIG_SCSI
 #define CONFIG_LIBATA
 #define CONFIG_SCSI_AHCI
 #define CONFIG_SCSI_AHCI_PLAT

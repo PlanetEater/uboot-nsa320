@@ -54,7 +54,6 @@
 #define CONFIG_PL01X_SERIAL
 
 #ifdef CONFIG_CMD_USB
-#define CONFIG_USB_DWC2
 #define CONFIG_USB_DWC2_REG_ADDR 0xF72C0000
 /*#define CONFIG_DWC2_DFLT_SPEED_FULL*/
 #define CONFIG_DWC2_ENABLE_DYNAMIC_FIFO
@@ -107,10 +106,6 @@
 
 /* Preserve environment on sd card */
 #define CONFIG_ENV_SIZE			0x1000
-#define CONFIG_ENV_IS_IN_FAT
-#define FAT_ENV_INTERFACE               "mmc"
-#define FAT_ENV_DEVICE_AND_PART         "1:1"
-#define FAT_ENV_FILE                    "uboot.env"
 #define CONFIG_ENV_VARS_UBOOT_CONFIG
 
 /* Monitor Command Prompt */

@@ -35,12 +35,8 @@
 #define CONFIG_SYS_BOOTM_LEN         SZ_64M
 
 /* UBI Support */
-#define CONFIG_CMD_MTDPARTS
 #define CONFIG_MTD_PARTITIONS
 #define CONFIG_MTD_DEVICE
-#define CONFIG_RBTREE
-#define CONFIG_LZO
-#define CONFIG_CMD_UBIFS
 
 /* I2C configuration */
 #undef CONFIG_SYS_OMAP24_I2C_SPEED
@@ -315,7 +311,6 @@
 
 /* NAND support */
 #ifdef CONFIG_NAND
-#define CONFIG_CMD_NAND
 #define GPMC_NAND_ECC_LP_x8_LAYOUT	1
 #if !defined(CONFIG_SPI_BOOT) && !defined(CONFIG_NOR_BOOT)
 #define MTDIDS_DEFAULT			"nand0=omap2-nand.0"
@@ -325,7 +320,6 @@
 					"128k(SPL.backup3)," \
 					"1920k(u-boot)," \
 					"-(UBI)"
-#define CONFIG_ENV_IS_NOWHERE
 #endif
 #endif
 

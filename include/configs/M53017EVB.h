@@ -25,9 +25,6 @@
 #undef CONFIG_WATCHDOG
 #define CONFIG_WATCHDOG_TIMEOUT		5000
 
-/* Command line configuration */
-#define CONFIG_CMD_REGINFO
-
 #define CONFIG_SYS_UNIFY_CACHE
 
 #define CONFIG_MCFFEC
@@ -185,7 +182,6 @@
 #define CONFIG_ENV_OFFSET		(CONFIG_SYS_FLASH_BASE + 0x40000)
 #define CONFIG_ENV_SIZE			0x1000
 #define CONFIG_ENV_SECT_SIZE		0x8000
-#define CONFIG_ENV_IS_IN_FLASH		1
 
 #define LDS_BOARD_TEXT \
 	. = DEFINED(env_offset) ? env_offset : .; \

@@ -251,7 +251,6 @@
 /*
  * Environment
  */
-#define CONFIG_ENV_IS_IN_FLASH	1
 #define CONFIG_ENV_ADDR		\
 			(CONFIG_SYS_MONITOR_BASE + CONFIG_SYS_MONITOR_LEN)
 #define CONFIG_ENV_SECT_SIZE	0x20000	/* 128K (one sector) for env */
@@ -273,8 +272,6 @@
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_REGINFO
-
 #if defined(CONFIG_PCI)
     #define CONFIG_CMD_PCI
 #endif
@@ -520,7 +517,6 @@
  * JFFS2 partitions
  */
 /* mtdparts command line support */
-#define CONFIG_CMD_MTDPARTS
 #define CONFIG_MTD_DEVICE		/* needed for mtdparts commands */
 #define CONFIG_FLASH_CFI_MTD
 #define MTDIDS_DEFAULT		"nor0=TQM834x-0"

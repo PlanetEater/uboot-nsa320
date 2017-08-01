@@ -418,7 +418,7 @@ static int reserve_uboot(void)
 	 */
 	gd->relocaddr -= gd->mon_len;
 	gd->relocaddr &= ~(4096 - 1);
-#ifdef CONFIG_E500
+#if defined(CONFIG_E500) || defined(CONFIG_MIPS)
 	/* round down to next 64 kB limit so that IVPR stays aligned */
 	gd->relocaddr &= ~(65536 - 1);
 #endif
@@ -727,7 +727,7 @@ static int initf_bootstage(void)
 
 static int initf_console_record(void)
 {
-#if defined(CONFIG_CONSOLE_RECORD) && defined(CONFIG_SYS_MALLOC_F_LEN)
+#if defined(CONFIG_CONSOLE_RECORD) && CONFIG_VAL(SYS_MALLOC_F_LEN)
 	return console_record_init();
 #else
 	return 0;
@@ -736,7 +736,7 @@ static int initf_console_record(void)
 
 static int initf_dm(void)
 {
-#if defined(CONFIG_DM) && defined(CONFIG_SYS_MALLOC_F_LEN)
+#if defined(CONFIG_DM) && CONFIG_VAL(SYS_MALLOC_F_LEN)
 	int ret;
 
 	bootstage_start(BOOTSTATE_ID_ACCUM_DM_F, "dm_f");
@@ -808,6 +808,9 @@ static const init_fnc_t init_sequence_f[] = {
 #endif
 #if defined(CONFIG_DISPLAY_CPUINFO)
 	print_cpuinfo,		/* display cpu info (and speed) */
+#endif
+#if defined(CONFIG_DTB_RESELECT)
+	embedded_dtb_select,
 #endif
 #if defined(CONFIG_DISPLAY_BOARDINFO)
 	show_board_info,

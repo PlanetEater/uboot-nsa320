@@ -77,10 +77,7 @@
 
 /* Environment in SPI NOR flash */
 #ifdef CONFIG_MVEBU_SPI_BOOT
-#define CONFIG_ENV_IS_IN_SPI_FLASH
 /* Environment in NAND flash */
-#elif defined(CONFIG_MVEBU_NAND_BOOT)
-#define CONFIG_ENV_IS_IN_NAND
 #endif
 
 #define CONFIG_ENV_OFFSET		0x180000 /* as Marvell U-Boot version */
@@ -100,14 +97,7 @@
 #define CONFIG_ARP_TIMEOUT	200
 #define CONFIG_NET_RETRY_COUNT	50
 
-/* USB 2.0 */
-#define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS 3
-
-/* USB 3.0 */
-#define CONFIG_SYS_USB_XHCI_MAX_ROOT_PORTS 3
-
-#define CONFIG_USB_MAX_CONTROLLER_COUNT (CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS + \
-					 CONFIG_SYS_USB_XHCI_MAX_ROOT_PORTS)
+#define CONFIG_USB_MAX_CONTROLLER_COUNT (3 + 3)
 
 /* USB ethernet */
 #define CONFIG_USB_HOST_ETHER
@@ -119,7 +109,6 @@
 /*
  * SATA/SCSI/AHCI configuration
  */
-#define CONFIG_SCSI
 #define CONFIG_SCSI_AHCI
 #define CONFIG_SCSI_AHCI_PLAT
 #define CONFIG_LIBATA

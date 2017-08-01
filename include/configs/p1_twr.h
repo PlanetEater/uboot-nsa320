@@ -50,7 +50,6 @@
 #define CONFIG_TSEC_ENET	/* tsec ethernet support */
 #define CONFIG_ENV_OVERWRITE
 
-#define CONFIG_CMD_SATA
 #define CONFIG_SATA_SIL3114
 #define CONFIG_SYS_SATA_MAX_DEVICE	2
 #define CONFIG_LIBATA
@@ -351,7 +350,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
  */
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
-#define CONFIG_CMD_MTDPARTS
 #define CONFIG_FLASH_CFI_MTD
 #define MTDIDS_DEFAULT "nor0=ec000000.nor"
 #define MTDPARTS_DEFAULT "mtdparts=ec000000.nor:256k(vsc7385-firmware)," \
@@ -363,16 +361,13 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
  */
 #ifdef CONFIG_SYS_RAMBOOT
 #ifdef CONFIG_RAMBOOT_SDCARD
-#define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_ENV_SIZE		0x2000
 #define CONFIG_SYS_MMC_ENV_DEV	0
 #else
-#define CONFIG_ENV_IS_NOWHERE	/* Store ENV in memory only */
 #define CONFIG_ENV_ADDR		(CONFIG_SYS_MONITOR_BASE - 0x1000)
 #define CONFIG_ENV_SIZE		0x2000
 #endif
 #else
-#define CONFIG_ENV_IS_IN_FLASH
 #define CONFIG_ENV_ADDR	(CONFIG_SYS_MONITOR_BASE - CONFIG_ENV_SECT_SIZE)
 #define CONFIG_ENV_SIZE		0x2000
 #define CONFIG_ENV_SECT_SIZE	0x20000 /* 128K (one sector) */

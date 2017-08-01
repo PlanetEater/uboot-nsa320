@@ -36,8 +36,6 @@
 #endif
 
 /* NAND flash */
-#define CONFIG_CMD_NAND
-
 #ifdef CONFIG_CMD_NAND
 #define CONFIG_NAND_ATMEL
 #define CONFIG_SYS_MAX_NAND_DEVICE	1
@@ -47,20 +45,15 @@
 /* our CLE is AD22 */
 #define CONFIG_SYS_NAND_MASK_CLE	(1 << 22)
 #define CONFIG_SYS_NAND_ONFI_DETECTION
+
+#define CONFIG_MTD_DEVICE
+#define CONFIG_MTD_PARTITIONS
+#endif
 /* PMECC & PMERRLOC */
 #define CONFIG_ATMEL_NAND_HWECC
 #define CONFIG_ATMEL_NAND_HW_PMECC
 #define CONFIG_PMECC_CAP		4
 #define CONFIG_PMECC_SECTOR_SIZE	512
-#define CONFIG_CMD_NAND_TRIMFFS
-#define CONFIG_CMD_MTDPARTS
-
-#define CONFIG_MTD_DEVICE
-#define CONFIG_MTD_PARTITIONS
-#define CONFIG_RBTREE
-#define CONFIG_LZO
-#define CONFIG_CMD_UBIFS
-#endif
 
 /* USB */
 
@@ -80,8 +73,6 @@
 /* override the bootcmd, bootargs and other configuration for nandflash env */
 #elif CONFIG_SYS_USE_MMC
 /* override the bootcmd, bootargs and other configuration for sd/mmc env */
-#else
-#define CONFIG_ENV_IS_NOWHERE
 #endif
 
 /* SPL */

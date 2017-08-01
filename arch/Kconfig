@@ -66,6 +66,7 @@ config SANDBOX
 	select DM_SPI
 	select DM_GPIO
 	select DM_MMC
+	select LZO
 	imply CMD_GETTIME
 	imply CMD_HASH
 	imply CMD_IO
@@ -75,6 +76,8 @@ config SANDBOX
 	imply FAT_WRITE
 	imply HASH_VERIFY
 	imply LZMA
+	imply SCSI
+	imply CMD_SATA
 
 config SH
 	bool "SuperH architecture"
@@ -91,6 +94,7 @@ config X86
 	select DM_GPIO
 	select DM_SPI
 	select DM_SPI_FLASH
+	select USB
 	select USB_EHCI_HCD
 	imply CMD_FPGA_LOADMK
 	imply CMD_GETTIME

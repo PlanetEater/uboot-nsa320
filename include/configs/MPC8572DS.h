@@ -285,7 +285,6 @@
 				CONFIG_SYS_NAND_BASE + 0x80000,\
 				CONFIG_SYS_NAND_BASE + 0xC0000}
 #define CONFIG_SYS_MAX_NAND_DEVICE    4
-#define CONFIG_CMD_NAND		1
 #define CONFIG_NAND_FSL_ELBC	1
 #define CONFIG_SYS_NAND_BLOCK_SIZE    (128 * 1024)
 #define CONFIG_SYS_NAND_MAX_OOBFREE	5
@@ -531,7 +530,6 @@
 #if defined(CONFIG_SYS_RAMBOOT)
 
 #else
-	#define CONFIG_ENV_IS_IN_FLASH	1
 	#if CONFIG_SYS_MONITOR_BASE > 0xfff80000
 	#define CONFIG_ENV_ADDR	0xfff80000
 	#else
@@ -551,7 +549,6 @@
 
 #if defined(CONFIG_PCI)
 #define CONFIG_CMD_PCI
-#define CONFIG_SCSI
 #endif
 
 /*
@@ -562,7 +559,6 @@
 #define CONFIG_USB_EHCI_PCI
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 #define CONFIG_PCI_EHCI_DEVICE			0
-#define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS	2
 #endif
 
 #undef CONFIG_WATCHDOG			/* watchdog disabled */

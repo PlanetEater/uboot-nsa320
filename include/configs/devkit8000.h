@@ -90,9 +90,6 @@
 #define CONFIG_JFFS2_PART_SIZE		0xf980000	/* size of jffs2 */
 							/* partition */
 
-/* commands to include */
-#define CONFIG_CMD_NAND_LOCK_UNLOCK	/* nand (un)lock commands	*/
-
 #undef CONFIG_SUPPORT_RAW_INITRD
 
 /* BOOTP/DHCP options */
@@ -182,7 +179,6 @@
 					0x01000000) /* 16MB */
 
 /* NAND and environment organization  */
-#define CONFIG_ENV_IS_IN_NAND		1
 #define SMNAND_ENV_OFFSET		0x260000 /* environment starts here */
 
 #define CONFIG_ENV_OFFSET		SMNAND_ENV_OFFSET

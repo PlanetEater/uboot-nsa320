@@ -336,7 +336,6 @@ extern unsigned long get_board_ddr_clk(unsigned long dummy);
 /*
  * Command configuration.
  */
-#define CONFIG_CMD_NAND
 #define CONFIG_CMD_PCA953X
 #define CONFIG_CMD_PCA953X_INFO
 #define CONFIG_CMD_PCI
@@ -370,7 +369,6 @@ extern unsigned long get_board_ddr_clk(unsigned long dummy);
 /*
  * Environment Configuration
  */
-#define CONFIG_ENV_IS_IN_FLASH	1
 #define CONFIG_ENV_SECT_SIZE	0x20000		/* 128k (one sector) for env */
 #define CONFIG_ENV_SIZE		0x8000
 #define CONFIG_ENV_ADDR		(CONFIG_SYS_MONITOR_BASE - (256 * 1024))

@@ -41,6 +41,7 @@
 
 #define CONFIG_SYS_LONGHELP			/* #undef to save memory */
 #define CONFIG_SYS_CBSIZE		1024	/* Console I/O Buffer Size */
+#define CONFIG_DISPLAY_BOARDINFO_LATE
 
 /* Print Buffer Size */
 #define CONFIG_SYS_PBSIZE (CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)
@@ -51,7 +52,6 @@
 #define CONFIG_AUTO_COMPLETE
 
 #define CONFIG_ENV_SIZE		8192
-#define CONFIG_ENV_IS_NOWHERE
 
 /* SPI - enable all SPI flash types for testing purposes */
 #define CONFIG_CMD_SF_TEST
@@ -144,7 +144,6 @@
 
 #define CONFIG_GZIP_COMPRESSED
 #define CONFIG_BZIP2
-#define CONFIG_LZO
 
 #ifndef CONFIG_SPL_BUILD
 #define CONFIG_SYS_IDE_MAXBUS		1
@@ -157,13 +156,11 @@
 #define CONFIG_SYS_ATA_STRIDE		4
 #endif
 
-#define CONFIG_SCSI
 #define CONFIG_SCSI_AHCI_PLAT
 #define CONFIG_SYS_SCSI_MAX_DEVICE	2
 #define CONFIG_SYS_SCSI_MAX_SCSI_ID	8
 #define CONFIG_SYS_SCSI_MAX_LUN		4
 
-#define CONFIG_CMD_SATA
 #define CONFIG_SYS_SATA_MAX_DEVICE	2
 
 #define CONFIG_SYSTEMACE

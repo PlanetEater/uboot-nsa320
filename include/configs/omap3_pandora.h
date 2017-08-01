@@ -58,11 +58,6 @@
 #define CONFIG_SYS_NAND_OOBSIZE		64
 
 #ifdef CONFIG_NAND
-#define CONFIG_CMD_UBIFS	/* Read-only UBI volume operations */
-
-#define CONFIG_RBTREE		/* required by CONFIG_CMD_UBI */
-#define CONFIG_LZO		/* required by CONFIG_CMD_UBIFS */
-
 #define CONFIG_MTD_PARTITIONS	/* required for UBI partition support */
 
 #define MTDIDS_DEFAULT			"nand0=omap2-nand.0"
@@ -108,7 +103,6 @@
 /* Monitor at start of flash */
 #define CONFIG_SYS_MONITOR_BASE		CONFIG_SYS_FLASH_BASE
 
-#define CONFIG_ENV_IS_IN_NAND		1
 #define SMNAND_ENV_OFFSET		0x260000 /* environment starts here */
 
 #define CONFIG_SYS_ENV_SECT_SIZE	(128 << 10)	/* 128 KiB */

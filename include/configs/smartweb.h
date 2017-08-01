@@ -91,7 +91,6 @@
 #define CONFIG_SYS_NAND_ENABLE_PIN	AT91_PIN_PC14
 #define CONFIG_SYS_NAND_READY_PIN	AT91_PIN_PC13
 
-#define CONFIG_CMD_MTDPARTS
 #define CONFIG_MTD_DEVICE
 #define MTDIDS_NAME_STR		"atmel_nand"
 #define MTDIDS_DEFAULT		"nand0=" MTDIDS_NAME_STR
@@ -155,7 +154,6 @@
 #define CONFIG_SYS_USB_OHCI_MAX_ROOT_PORTS	2
 
 /* USB DFU support */
-#define CONFIG_CMD_MTDPARTS
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
 
@@ -183,7 +181,6 @@
 /*
  * The NAND Flash partitions:
  */
-#define CONFIG_ENV_IS_IN_NAND
 #define CONFIG_ENV_OFFSET		(0x100000)
 #define CONFIG_ENV_OFFSET_REDUND	(0x180000)
 #define CONFIG_ENV_RANGE		(SZ_512K)
@@ -198,14 +195,6 @@
 	"basicargs=console=ttyS0,115200\0"				\
 									\
 	"mtdparts="MTDPARTS_DEFAULT"\0"
-
-/* Command line & features configuration */
-
-#define CONFIG_CMD_NAND
-
-#ifdef CONFIG_MACB
-#else
-#endif /* CONFIG_MACB */
 
 #ifdef CONFIG_SPL_BUILD
 #define CONFIG_SYS_INIT_SP_ADDR		0x301000

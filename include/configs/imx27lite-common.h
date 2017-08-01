@@ -89,7 +89,6 @@
 /*
  * Flash & Environment
  */
-#define CONFIG_ENV_IS_IN_FLASH
 #define CONFIG_FLASH_CFI_DRIVER
 #define CONFIG_SYS_FLASH_CFI
 /* Use buffered writes (~10x faster) */
@@ -139,11 +138,6 @@
 #define CONFIG_MXC_GPIO
 
 /*
- * MTD partitions
- */
-#define CONFIG_CMD_MTDPARTS
-
-/*
  * U-Boot general configuration
  */
 #define CONFIG_SYS_CBSIZE	1024	/* Console I/O Buffer Size  */
@@ -155,12 +149,6 @@
 #define CONFIG_SYS_BARGSIZE	CONFIG_SYS_CBSIZE
 #define CONFIG_CMDLINE_EDITING
 #define CONFIG_SYS_LONGHELP
-
-/*
- * U-Boot commands
- */
-#define CONFIG_CMD_NAND
-
 
 #define CONFIG_LOADADDR		0xa0800000	/* loadaddr env var */
 #define CONFIG_SYS_LOAD_ADDR		CONFIG_LOADADDR

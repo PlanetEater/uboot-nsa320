@@ -41,15 +41,9 @@
 					"64k(NVRAM),64k(ART)"
 
 #define CONFIG_ENV_SPI_MAX_HZ           25000000
-#define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_OFFSET               0x40000
 #define CONFIG_ENV_SECT_SIZE            0x10000
 #define CONFIG_ENV_SIZE                 0x10000
-
-/*
- * Command
- */
-#define CONFIG_CMD_MTDPARTS
 
 /* Miscellaneous configurable options */
 #define CONFIG_SYS_CBSIZE               256

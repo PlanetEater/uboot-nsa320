@@ -51,7 +51,6 @@
 /* PWM */
 #define CONFIG_PWM			1
 
-#define CONFIG_CMD_REGINFO
 #define CONFIG_CMD_ONENAND
 
 /* USB Composite download gadget - g_dnl */
@@ -199,7 +198,6 @@
 
 /* FLASH and environment organization */
 #define CONFIG_MMC_DEFAULT_DEV	0
-#define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_SYS_MMC_ENV_DEV		CONFIG_MMC_DEFAULT_DEV
 #define CONFIG_ENV_SIZE			4096
 #define CONFIG_ENV_OFFSET		((32 - 4) << 10) /* 32KiB - 4KiB */

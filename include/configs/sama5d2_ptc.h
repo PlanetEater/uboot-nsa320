@@ -45,8 +45,6 @@
 #endif
 
 /* NAND flash */
-#define CONFIG_CMD_NAND
-
 #ifdef CONFIG_CMD_NAND
 #define CONFIG_NAND_ATMEL
 #define CONFIG_SYS_MAX_NAND_DEVICE	1
@@ -59,15 +57,10 @@
 /* PMECC & PMERRLOC */
 #define CONFIG_ATMEL_NAND_HWECC
 #define CONFIG_ATMEL_NAND_HW_PMECC
-#define CONFIG_CMD_NAND_TRIMFFS
 #endif
 
 /* USB */
 #define CONFIG_CMD_USB
-
-#ifdef CONFIG_CMD_USB
-#define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS	3
-#endif
 
 /* USB device */
 #define CONFIG_USB_GADGET
@@ -88,7 +81,6 @@
 #undef CONFIG_ENV_OFFSET_REDUND
 #undef CONFIG_BOOTCOMMAND
 /* u-boot env in nand flash */
-#define CONFIG_ENV_IS_IN_NAND
 #define CONFIG_ENV_OFFSET		0x200000
 #define CONFIG_ENV_OFFSET_REDUND	0x400000
 #define CONFIG_BOOTCOMMAND		"nand read 0x21000000 0xb80000 0x80000;"	\

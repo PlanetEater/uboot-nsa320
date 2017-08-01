@@ -79,7 +79,6 @@
 #define CONFIG_ENV_SPI_MODE		CONFIG_SF_DEFAULT_MODE
 
 /* Environment in SPI NOR flash */
-#define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_OFFSET		0x180000 /* as Marvell U-Boot version */
 #define CONFIG_ENV_SIZE			(64 << 10) /* 64KiB */
 #define CONFIG_ENV_SECT_SIZE		(64 << 10) /* 64KiB sectors */
@@ -94,14 +93,7 @@
 #define CONFIG_NET_RETRY_COUNT	50
 #define CONFIG_PHY_MARVELL
 
-/* USB 2.0 */
-#define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS 3
-
-/* USB 3.0 */
-#define CONFIG_SYS_USB_XHCI_MAX_ROOT_PORTS 3
-
-#define CONFIG_USB_MAX_CONTROLLER_COUNT (CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS + \
-					 CONFIG_SYS_USB_XHCI_MAX_ROOT_PORTS)
+#define CONFIG_USB_MAX_CONTROLLER_COUNT (3 + 3)
 
 /* USB ethernet */
 #define CONFIG_USB_HOST_ETHER
@@ -113,7 +105,6 @@
 /*
  * SATA/SCSI/AHCI configuration
  */
-#define CONFIG_SCSI
 #define CONFIG_SCSI_AHCI
 #define CONFIG_SCSI_AHCI_PLAT
 #define CONFIG_LIBATA

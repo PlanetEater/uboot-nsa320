@@ -60,9 +60,6 @@
 #define CONFIG_TFTP_PORT
 #define CONFIG_TFTP_TSIZE
 
-/* USB */
-#define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS	2
-
 /* MMC */
 #define CONFIG_GENERIC_ATMEL_MCI
 
@@ -89,7 +86,6 @@
 #define CONFIG_BOOTP_HOSTNAME
 
 /* Environment settings */
-#define CONFIG_ENV_IS_IN_NAND
 #define CONFIG_ENV_OFFSET		(512 << 10)
 #define CONFIG_ENV_SIZE			(256 << 10)
 #define CONFIG_ENV_OVERWRITE
@@ -132,7 +128,6 @@
 #define CONFIG_CMD_USB
 #define CONFIG_CMD_MII
 #define CONFIG_CMD_MMC
-#define CONFIG_CMD_NAND
 #define CONFIG_CMD_CACHE
 
 #endif /* __CONFIG_H */

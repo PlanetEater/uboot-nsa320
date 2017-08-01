@@ -52,15 +52,6 @@
 #define CONFIG_ROOTPATH	"/tftpboot/" __stringify(CONFIG_BOARD_NAME) "-root"
 
 /*
- * U-Boot Commands
- */
-#define CONFIG_CMD_MTDPARTS	/* MTD partition support	*/
-#define CONFIG_CMD_NAND		/* NAND support			*/
-#define CONFIG_CMD_NAND_LOCK_UNLOCK
-#define CONFIG_CMD_NAND_TRIMFFS
-#define CONFIG_CMD_UBIFS
-
-/*
  * Memory configurations
  */
 #define CONFIG_NR_DRAM_POPULATED 1
@@ -85,7 +76,6 @@
  */
 #define	ACFG_MONITOR_OFFSET		0x00000000
 #define	CONFIG_SYS_MONITOR_LEN		0x00100000	/* 1MiB */
-#define CONFIG_ENV_IS_IN_NAND
 #define	CONFIG_ENV_OVERWRITE
 #define	CONFIG_ENV_OFFSET		0x00100000	/* NAND offset */
 #define	CONFIG_ENV_SIZE			0x00020000	/* 128kB  */
@@ -236,12 +226,6 @@
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
 #define CONFIG_SUPPORT_VFAT
-
-/*
- * UBIFS
- */
-#define CONFIG_RBTREE
-#define CONFIG_LZO
 
 /*
  * Ethernet (on SOC imx FEC)

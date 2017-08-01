@@ -23,7 +23,6 @@
 
 #define CONFIG_LMB
 
-#define CONFIG_LZO
 #undef CONFIG_ZLIB
 #undef CONFIG_GZIP
 #define CONFIG_SYS_BOOTM_LEN		(16 << 20)
@@ -71,7 +70,6 @@
  * Command line configuration.
  */
 #define CONFIG_CMD_PCI
-#define CONFIG_SCSI
 
 #define CONFIG_CMD_ZBOOT
 
@@ -119,7 +117,6 @@
 /*-----------------------------------------------------------------------
  * Environment configuration
  */
-#define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_SIZE			0x01000
 
 /*-----------------------------------------------------------------------
@@ -131,7 +128,6 @@
  * USB configuration
  */
 #define CONFIG_USB_EHCI_PCI
-#define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS     12
 #define CONFIG_SYS_USB_EVENT_POLL
 
 #define CONFIG_USB_HOST_ETHER

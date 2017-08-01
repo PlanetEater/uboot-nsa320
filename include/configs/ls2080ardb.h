@@ -68,7 +68,6 @@ unsigned long get_board_sys_clk(void);
 #define CONFIG_LIBATA
 #define CONFIG_SCSI_AHCI
 #define CONFIG_SCSI_AHCI_PLAT
-#define CONFIG_SCSI
 
 #define CONFIG_SYS_SATA1			AHCI_BASE_ADDR1
 #define CONFIG_SYS_SATA2			AHCI_BASE_ADDR2
@@ -164,7 +163,6 @@ unsigned long get_board_sys_clk(void);
 #define CONFIG_SYS_NAND_BASE_LIST	{ CONFIG_SYS_NAND_BASE }
 #define CONFIG_SYS_MAX_NAND_DEVICE	1
 #define CONFIG_MTD_NAND_VERIFY_WRITE
-#define CONFIG_CMD_NAND
 
 #define CONFIG_SYS_NAND_BLOCK_SIZE	(512 * 1024)
 #define CONFIG_FSL_QIXIS	/* use common QIXIS code */
@@ -224,7 +222,6 @@ unsigned long get_board_sys_clk(void);
 #define CONFIG_SYS_CS0_FTIM2		CONFIG_SYS_NAND_FTIM2
 #define CONFIG_SYS_CS0_FTIM3		CONFIG_SYS_NAND_FTIM3
 
-#define CONFIG_ENV_IS_IN_NAND
 #define CONFIG_ENV_OFFSET		(2048 * 1024)
 #define CONFIG_ENV_SECT_SIZE		0x20000
 #define CONFIG_ENV_SIZE			0x2000
@@ -250,7 +247,6 @@ unsigned long get_board_sys_clk(void);
 #define CONFIG_SYS_CS2_FTIM2		CONFIG_SYS_NAND_FTIM2
 #define CONFIG_SYS_CS2_FTIM3		CONFIG_SYS_NAND_FTIM3
 
-#define CONFIG_ENV_IS_IN_FLASH
 #define CONFIG_ENV_ADDR			(CONFIG_SYS_FLASH_BASE + 0x300000)
 #define CONFIG_ENV_SECT_SIZE		0x20000
 #define CONFIG_ENV_SIZE			0x2000
@@ -349,7 +345,6 @@ unsigned long get_board_sys_clk(void);
 #define CONFIG_HAS_FSL_XHCI_USB
 #define CONFIG_USB_XHCI_FSL
 #define CONFIG_USB_MAX_CONTROLLER_COUNT         2
-#define CONFIG_SYS_USB_XHCI_MAX_ROOT_PORTS      2
 
 #undef CONFIG_CMDLINE_EDITING
 #include <config_distro_defaults.h>

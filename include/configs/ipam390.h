@@ -139,7 +139,6 @@
  * Flash & Environment
  */
 #define CONFIG_NAND_DAVINCI
-#define CONFIG_ENV_IS_IN_NAND		/* U-Boot env in NAND Flash  */
 #define CONFIG_ENV_OFFSET		0x0 /* Block 0--not used by bootcode */
 #define CONFIG_ENV_SIZE			(128 << 10)
 #define	CONFIG_SYS_NAND_USE_FLASH_BBT
@@ -249,15 +248,8 @@
 #ifndef CONFIG_DRIVER_TI_EMAC
 #endif
 
-#define CONFIG_CMD_NAND
-#define CONFIG_CMD_NAND_TRIMFFS
-
-#define CONFIG_CMD_MTDPARTS
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
-#define CONFIG_LZO
-#define CONFIG_RBTREE
-#define CONFIG_CMD_UBIFS
 
 #define MTDIDS_NAME_STR		"davinci_nand.0"
 #define MTDIDS_DEFAULT		"nand0=" MTDIDS_NAME_STR

@@ -36,7 +36,6 @@
 #define CONFIG_SF_DEFAULT_MODE		SPI_MODE_3
 
 /* Environment in SPI NOR flash */
-#define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_OFFSET		0x7E0000   /* RedBoot config partition in DTS */
 #define CONFIG_ENV_SIZE			(64 << 10) /* 64KiB */
 #define CONFIG_ENV_SECT_SIZE		(64 << 10) /* 64KiB sectors */
@@ -69,7 +68,6 @@
 #if 0
 #undef CONFIG_DM_USB
 #define CONFIG_USB_XHCI_PCI
-#define CONFIG_SYS_USB_XHCI_MAX_ROOT_PORTS 2
 #endif
 
 #if !defined(CONFIG_USB_XHCI_HCD)

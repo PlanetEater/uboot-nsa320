@@ -54,7 +54,6 @@
  */
 #if defined(CONFIG_SPI_BOOT) || defined(CONFIG_NAND)
 #define CONFIG_MTD_DEVICE		/* Required for mtdparts */
-#define CONFIG_CMD_MTDPARTS
 #endif /* CONFIG_SPI_BOOT, ... */
 
 #ifdef CONFIG_SPL_OS_BOOT
@@ -242,8 +241,6 @@ MMCARGS
 
 #define CONFIG_SPL_SPI_LOAD
 #define CONFIG_SYS_SPI_U_BOOT_OFFS	0x20000
-#undef CONFIG_ENV_IS_NOWHERE
-#define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_SYS_REDUNDAND_ENVIRONMENT
 #define CONFIG_ENV_SPI_MAX_HZ		CONFIG_SF_DEFAULT_SPEED
 #define CONFIG_ENV_SECT_SIZE		(4 << 10) /* 4 KB sectors */
@@ -251,8 +248,6 @@ MMCARGS
 #define CONFIG_ENV_OFFSET_REDUND	(896 << 10) /* 896 KiB in */
 
 #elif defined(CONFIG_EMMC_BOOT)
-#undef CONFIG_ENV_IS_NOWHERE
-#define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_SYS_MMC_ENV_DEV		1
 #define CONFIG_SYS_MMC_ENV_PART		2
 #define CONFIG_ENV_OFFSET		0x40000	/* TODO: Adresse definieren */
@@ -261,11 +256,6 @@ MMCARGS
 
 #elif defined(CONFIG_NAND)
 /* No NAND env support in SPL */
-#ifdef CONFIG_SPL_BUILD
-#define CONFIG_ENV_IS_NOWHERE
-#else
-#define CONFIG_ENV_IS_IN_NAND
-#endif
 #define CONFIG_ENV_OFFSET		0x60000
 #define CONFIG_SYS_ENV_SECT_SIZE	CONFIG_ENV_SIZE
 #else

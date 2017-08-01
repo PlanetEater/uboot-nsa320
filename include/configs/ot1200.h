@@ -57,10 +57,6 @@
 #define CONFIG_MXC_USB_PORTSC   (PORT_PTS_UTMI | PORT_PTS_PTW)
 #define CONFIG_USB_MAX_CONTROLLER_COUNT 2
 
-#ifdef CONFIG_MX6Q
-#define CONFIG_CMD_SATA
-#endif
-
 /*
  * SATA Configs
  */
@@ -99,6 +95,9 @@
 
 #define CONFIG_PREBOOT                 ""
 
+/* Thermal support */
+#define CONFIG_IMX_THERMAL
+
 /* Print Buffer Size */
 #define CONFIG_SYS_PBSIZE (CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)
 
@@ -116,7 +115,6 @@
 	(CONFIG_SYS_INIT_RAM_ADDR + CONFIG_SYS_INIT_SP_OFFSET)
 
 /* Environment organization */
-#define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_SIZE                 (64 * 1024)	/* 64 kb */
 #define CONFIG_ENV_OFFSET               (1024 * 1024)
 /* M25P16 has an erase size of 64 KiB */

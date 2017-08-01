@@ -97,9 +97,6 @@
 #define CONFIG_RESET_PHY_R
 #define CONFIG_AT91_WANTS_COMMON_PHY
 
-/* USB */
-#define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS	2
-
 #define CONFIG_SYS_LOAD_ADDR		0x22000000	/* load address */
 
 #define CONFIG_SYS_MEMTEST_START	CONFIG_SYS_SDRAM_BASE
@@ -107,15 +104,6 @@
 
 #ifdef CONFIG_SYS_USE_MMC
 /* bootstrap + u-boot + env + linux in mmc */
-#define FAT_ENV_INTERFACE	"mmc"
-/*
- * We don't specify the part number, if device 0 has partition table, it means
- * the first partition; it no partition table, then take whole device as a
- * FAT file system.
- */
-#define FAT_ENV_DEVICE_AND_PART	"0"
-#define FAT_ENV_FILE		"uboot.env"
-#define CONFIG_ENV_IS_IN_FAT
 #define CONFIG_ENV_SIZE		0x4000
 
 #define CONFIG_BOOTARGS		"console=ttyS0,115200 " \

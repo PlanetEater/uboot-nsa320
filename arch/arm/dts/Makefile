@@ -34,6 +34,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += \
 	rk3288-fennec.dtb \
 	rk3288-firefly.dtb \
 	rk3288-miqi.dtb \
+	rk3288-phycore-rdk.dtb \
 	rk3288-popmetal.dtb \
 	rk3288-rock2-square.dtb \
 	rk3288-tinker.dtb \
@@ -372,7 +373,9 @@ dtb-$(CONFIG_ARCH_MX7ULP) += imx7ulp-evk.dtb
 dtb-$(CONFIG_SOC_KEYSTONE) += keystone-k2hk-evm.dtb \
 	keystone-k2l-evm.dtb \
 	keystone-k2e-evm.dtb \
-	keystone-k2g-evm.dtb
+	keystone-k2g-evm.dtb \
+	keystone-k2g-generic.dtb \
+	keystone-k2g-ice.dtb
 
 dtb-$(CONFIG_TARGET_AT91SAM9263EK) += at91sam9263ek.dtb
 

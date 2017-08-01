@@ -80,7 +80,6 @@
 #endif
 
 /* SATA */
-#define CONFIG_CMD_SATA
 #ifdef CONFIG_CMD_SATA
 #define CONFIG_DWC_AHSATA
 #define CONFIG_SYS_SATA_MAX_DEVICE	1
@@ -129,7 +128,6 @@
 #endif
 
 /* Environment organization */
-#define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_SYS_MMC_ENV_DEV		2 /* overwritten on SD boot */
 #define CONFIG_SYS_MMC_ENV_PART		1 /* overwritten on SD boot */
 #define CONFIG_ENV_SIZE			(8 * 1024)

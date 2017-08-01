@@ -61,7 +61,6 @@
 #define DATAFLASH_TCSS			(0x1a << 16)
 #define DATAFLASH_TCHS			(0x1 << 24)
 
-#define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_OFFSET		0x3DE000
 #define CONFIG_ENV_SECT_SIZE		(132 << 10)
 #define CONFIG_ENV_SIZE			CONFIG_ENV_SECT_SIZE
@@ -83,14 +82,9 @@
 /* Misc. hardware drivers */
 #define CONFIG_AT91_GPIO
 
-/* Command line configuration */
-#define CONFIG_CMD_MTDPARTS
-#define CONFIG_CMD_NAND
-
 #ifndef MINIMAL_LOADER
 #define CONFIG_CMD_REISER
 #define CONFIG_CMD_SAVES
-#define CONFIG_CMD_UBIFS
 #endif
 
 /* NAND flash */
@@ -186,8 +180,6 @@
 #define MTDIDS_DEFAULT		"nand0=atmel_nand"
 #define MTDPARTS_DEFAULT	"mtdparts=atmel_nand:-(root)"
 #endif
-#define CONFIG_LZO
-#define CONFIG_RBTREE
 
 /* Boot command */
 #define CONFIG_CMDLINE_TAG

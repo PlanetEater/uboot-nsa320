@@ -734,6 +734,19 @@ config CMD_FDC
 	help
 	  The 'fdtboot' command allows booting an image from a floppy disk.
 
+config CMD_SATA
+	bool "sata - Access SATA subsystem"
+	select SATA
+	help
+	  SATA (Serial Advanced Technology Attachment) is a serial bus
+	  standard for connecting to hard drives and other storage devices.
+	  This command provides information about attached devices and allows
+	  reading, writing and other operations.
+
+	  SATA replaces PATA (originally just ATA), which stands for Parallel AT
+	  Attachment, where AT refers to an IBM AT (Advanced Technology)
+	  computer released in 1984.
+
 endmenu
 
 
@@ -1183,7 +1196,6 @@ config CMD_JFFS2
 	  filesystem information.
 
 config CMD_MTDPARTS
-	depends on ARCH_SUNXI
 	bool "MTD partition support"
 	help
 	  MTD partition support
@@ -1243,6 +1255,7 @@ config CMD_UBI
 	tristate "Enable UBI - Unsorted block images commands"
 	select CRC32
 	select MTD_UBI
+	select CMD_MTDPARTS
 	default y if NAND_SUNXI
 	help
 	  UBI is a software layer above MTD layer which admits use of LVM-like
@@ -1256,9 +1269,8 @@ config CMD_UBIFS
 	tristate "Enable UBIFS - Unsorted block images filesystem commands"
 	depends on CMD_UBI
 	select CRC32
-	select RBTREE if ARCH_SUNXI
-	select LZO if ARCH_SUNXI
-	default y if NAND_SUNXI
+	select LZO
+	default y if CMD_UBI
 	help
 	  UBIFS is a file system for flash devices which works on top of UBI.
 

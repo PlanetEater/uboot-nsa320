@@ -79,8 +79,6 @@ obj-$(CONFIG_LCD_ROTATION) += lcd_console_rotation.o
 obj-$(CONFIG_LCD_DT_SIMPLEFB) += lcd_simplefb.o
 obj-$(CONFIG_LYNXKDI) += lynxkdi.o
 obj-$(CONFIG_MENU) += menu.o
-obj-$(CONFIG_CMD_SATA) += sata.o
-obj-$(CONFIG_SCSI) += scsi.o
 obj-$(CONFIG_UPDATE_TFTP) += update.o
 obj-$(CONFIG_DFU_TFTP) += update.o
 obj-$(CONFIG_USB_KEYBOARD) += usb_kbd.o
@@ -96,6 +94,7 @@ obj-$(CONFIG_SPL_DFU_SUPPORT) += cli_hush.o
 obj-$(CONFIG_SPL_HASH_SUPPORT) += hash.o
 obj-$(CONFIG_ENV_IS_IN_FLASH) += env_flash.o
 obj-$(CONFIG_SPL_YMODEM_SUPPORT) += xyzModem.o
+obj-$(CONFIG_SPL_LOAD_FIT) += common_fit.o
 obj-$(CONFIG_SPL_NET_SUPPORT) += miiphyutil.o
 obj-$(CONFIG_SPL_OF_LIBFDT) += fdt_support.o
 ifdef CONFIG_SPL_USB_HOST_SUPPORT
@@ -121,9 +120,6 @@ obj-$(CONFIG_ENV_IS_IN_NAND) += env_nand.o
 obj-$(CONFIG_ENV_IS_IN_SPI_FLASH) += env_sf.o
 obj-$(CONFIG_ENV_IS_IN_FLASH) += env_flash.o
 endif
-ifdef CONFIG_SPL_SATA_SUPPORT
-obj-$(CONFIG_SCSI) += scsi.o
-endif
 endif
 #environment
 obj-y += env_common.o
@@ -143,13 +139,16 @@ obj-y += console.o
 endif
 obj-$(CONFIG_CROS_EC) += cros_ec.o
 obj-y += dlmalloc.o
-ifdef CONFIG_SYS_MALLOC_F_LEN
+ifdef CONFIG_SYS_MALLOC_F
+ifneq ($(CONFIG_$(SPL_)SYS_MALLOC_F_LEN),0)
 obj-y += malloc_simple.o
+endif
 endif
 obj-y += image.o
 obj-$(CONFIG_ANDROID_BOOT_IMAGE) += image-android.o
 obj-$(CONFIG_$(SPL_)OF_LIBFDT) += image-fdt.o
 obj-$(CONFIG_$(SPL_)FIT) += image-fit.o
+obj-$(CONFIG_FIT_EMBED) += boot_fit.o common_fit.o
 obj-$(CONFIG_$(SPL_)FIT_SIGNATURE) += image-sig.o
 obj-$(CONFIG_IO_TRACE) += iotrace.o
 obj-y += memsize.o

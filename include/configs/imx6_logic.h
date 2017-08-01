@@ -141,12 +141,10 @@
 
 /* Environment organization */
 #define CONFIG_ENV_SIZE                        (8 * 1024)
-#define CONFIG_ENV_IS_IN_NAND
 #define CONFIG_ENV_OFFSET             0x400000
 #define CONFIG_ENV_SECT_SIZE          CONFIG_ENV_SIZE
 
 /* NAND stuff */
-#define CONFIG_CMD_NAND_TRIMFFS
 #define CONFIG_SYS_MAX_NAND_DEVICE     1
 #define CONFIG_SYS_NAND_BASE           0x40000000
 #define CONFIG_SYS_NAND_5_ADDR_CYCLE
@@ -156,7 +154,6 @@
 
 /* MTD device */
 # define CONFIG_MTD_DEVICE
-# define CONFIG_CMD_MTDPARTS
 # define CONFIG_MTD_PARTITIONS
 # define MTDIDS_DEFAULT		"nand0=gpmi-nand"
 # define MTDPARTS_DEFAULT	"mtdparts=gpmi-nand:4m(uboot)," \

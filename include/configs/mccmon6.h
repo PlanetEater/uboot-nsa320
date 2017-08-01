@@ -80,7 +80,6 @@
 #define CONFIG_SYS_FLASH_BANKS_SIZES	{ (32 * SZ_1M) }
 
 /* MTD support */
-#define CONFIG_CMD_MTDPARTS
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
 
@@ -314,7 +313,6 @@
 #define CONFIG_ENV_SIZE			(SZ_128K)
 
 /* Envs are stored in NOR flash */
-#define CONFIG_ENV_IS_IN_FLASH
 #define CONFIG_ENV_SECT_SIZE    (SZ_128K)
 #define CONFIG_ENV_ADDR	(CONFIG_SYS_FLASH_BASE + 0x40000)
 

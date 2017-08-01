@@ -69,12 +69,6 @@
 #define CONFIG_ENV_OVERWRITE
 #define CONFIG_CONS_INDEX		1
 
-/***********************************************************
- * Command definition
- ***********************************************************/
-#define CONFIG_CMD_NAND
-
-
 #define	CONFIG_EXTRA_ENV_SETTINGS					\
 	"bootargs_base=setenv bootargs console=ttymxc0,115200\0"	\
 	"bootargs_nfs=setenv bootargs $(bootargs) root=/dev/nfs "	\
@@ -127,7 +121,6 @@
 /*
  * environment organization
  */
-#define CONFIG_ENV_IS_IN_NAND
 #define CONFIG_ENV_OFFSET		0x40000
 #define CONFIG_ENV_OFFSET_REDUND	0x60000
 #define CONFIG_ENV_SIZE			(128 * 1024)

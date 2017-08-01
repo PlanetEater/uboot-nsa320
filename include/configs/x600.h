@@ -33,8 +33,6 @@
 #define CONFIG_SYS_MONITOR_BASE			CONFIG_SYS_FLASH_BASE
 #define CONFIG_SYS_MONITOR_LEN			0x60000
 
-#define CONFIG_ENV_IS_IN_FLASH
-
 /* Serial Configuration (PL011) */
 #define CONFIG_SYS_SERIAL0			0xD0000000
 #define CONFIG_SYS_SERIAL1			0xD0080000
@@ -71,7 +69,6 @@
 /* UBI/UBI config options */
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
-#define CONFIG_RBTREE
 
 /* Ethernet config options */
 #define CONFIG_MII
@@ -106,11 +103,7 @@
 /*
  * Command support defines
  */
-#define CONFIG_CMD_MTDPARTS
-#define CONFIG_CMD_NAND
 #define CONFIG_CMD_SAVES
-#define CONFIG_CMD_UBIFS
-#define CONFIG_LZO
 
 /* Filesystem support (for USB key) */
 #define CONFIG_SUPPORT_VFAT

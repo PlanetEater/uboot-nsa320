@@ -184,11 +184,6 @@
 #define CONFIG_BOOTP_GATEWAY		1
 #define CONFIG_BOOTP_HOSTNAME		1
 
-/*
- * Command line configuration.
- */
-#define CONFIG_CMD_NAND		1
-
 /* SDRAM */
 #define CONFIG_NR_DRAM_BANKS	1
 #define PHYS_SDRAM		0x20000000
@@ -268,7 +263,6 @@
 #ifdef CONFIG_SYS_USE_DATAFLASH
 
 /* bootstrap + u-boot + env + linux in dataflash on CS0 */
-#define CONFIG_ENV_IS_IN_DATAFLASH
 #define CFG_MONITOR_BASE	(CFG_DATAFLASH_LOGIC_ADDR_CS0 + 0x8400)
 #define CONFIG_ENV_OFFSET	0x4200
 #define CONFIG_ENV_ADDR		(CFG_DATAFLASH_LOGIC_ADDR_CS0 + CONFIG_ENV_OFFSET)
@@ -282,7 +276,6 @@
 #elif defined(CONFIG_SYS_USE_NANDFLASH) /* CFG_USE_NANDFLASH */
 
 /* bootstrap + u-boot + env + linux in nandflash */
-#define CONFIG_ENV_IS_IN_NAND
 #define CONFIG_ENV_OFFSET		0x60000
 #define CONFIG_ENV_OFFSET_REDUND	0x80000
 #define CONFIG_ENV_SIZE		0x20000		/* 1 sector = 128 kB */
@@ -300,7 +293,6 @@
 
 #elif defined(CONFIG_SYS_USE_FLASH) /* CFG_USE_FLASH */
 
-#define CONFIG_ENV_IS_IN_FLASH	1
 #define CONFIG_ENV_OFFSET	0x40000
 #define CONFIG_ENV_SECT_SIZE	0x10000
 #define	CONFIG_ENV_SIZE		0x10000

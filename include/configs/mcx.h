@@ -74,20 +74,14 @@
 
 /* EHCI */
 #define CONFIG_OMAP_EHCI_PHY1_RESET_GPIO	57
-#define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS 3
 #define	CONFIG_USB_HOST_ETHER
 #define	CONFIG_USB_ETHER_ASIX
 #define CONFIG_USB_ETHER_MCS7830
 
 /* commands to include */
 
-#define CONFIG_CMD_NAND		/* NAND support			*/
-#define CONFIG_CMD_UBIFS
-#define CONFIG_RBTREE
-#define CONFIG_LZO
 #define CONFIG_MTD_PARTITIONS
 #define CONFIG_MTD_DEVICE
-#define CONFIG_CMD_MTDPARTS
 
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_OMAP24_I2C_SPEED	100000
@@ -260,7 +254,6 @@
 #define CONFIG_SYS_NAND_BUSWIDTH_16BIT
 #define CONFIG_NAND_OMAP_GPMC
 #define CONFIG_NAND_OMAP_GPMC_PREFETCH
-#define CONFIG_ENV_IS_IN_NAND
 #define SMNAND_ENV_OFFSET		0x180000 /* environment starts here */
 
 /* Redundant Environment */

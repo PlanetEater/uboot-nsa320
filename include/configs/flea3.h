@@ -67,8 +67,6 @@
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_DNS
 
-#define CONFIG_CMD_NAND
-
 #define CONFIG_NET_RETRY_COUNT	100
 
 
@@ -122,7 +120,6 @@
 /*
  * MTD Command for mtdparts
  */
-#define CONFIG_CMD_MTDPARTS
 #define CONFIG_MTD_DEVICE
 #define CONFIG_FLASH_CFI_MTD
 #define CONFIG_MTD_PARTITIONS
@@ -154,8 +151,6 @@
 
 #define CONFIG_ENV_ADDR		(CONFIG_SYS_MONITOR_BASE + \
 				CONFIG_SYS_MONITOR_LEN)
-
-#define CONFIG_ENV_IS_IN_FLASH
 
 /*
  * CFI FLASH driver setup

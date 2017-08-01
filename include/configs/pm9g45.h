@@ -64,11 +64,6 @@
 #define CONFIG_BOOTP_GATEWAY		1
 #define CONFIG_BOOTP_HOSTNAME		1
 
-/*
- * Command line configuration.
- */
-#define CONFIG_CMD_NAND		1
-
 #define CONFIG_JFFS2_CMDLINE		1
 #define CONFIG_JFFS2_NAND		1
 #define CONFIG_JFFS2_DEV		"nand0" /* NAND dev jffs2 lives on */
@@ -119,7 +114,6 @@
 #define CONFIG_SYS_MEMTEST_END		CONFIG_AT91SAM9G45_LCD_BASE
 
 /* bootstrap + u-boot + env + linux in nandflash */
-#define CONFIG_ENV_IS_IN_NAND		1
 #define CONFIG_ENV_OFFSET		0x60000
 #define CONFIG_ENV_OFFSET_REDUND	0x80000
 #define CONFIG_ENV_SIZE			0x20000		/* 1 sector = 128 kB */

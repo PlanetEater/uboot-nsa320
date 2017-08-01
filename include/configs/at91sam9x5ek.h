@@ -46,11 +46,6 @@
 #define CONFIG_BOOTP_HOSTNAME
 
 /*
- * Command line configuration.
- */
-#define CONFIG_CMD_NAND
-
-/*
  * define CONFIG_USB_EHCI_HCD to enable USB Hi-Speed (aka 2.0)
  * NB: in this case, USB 1.1 devices won't be recognized.
  */
@@ -81,21 +76,15 @@
 #define CONFIG_SYS_NAND_ENABLE_PIN	AT91_PIN_PD4
 #define CONFIG_SYS_NAND_READY_PIN	AT91_PIN_PD5
 
+#define CONFIG_MTD_DEVICE
+#define CONFIG_MTD_PARTITIONS
+#endif
+
 /* PMECC & PMERRLOC */
 #define CONFIG_ATMEL_NAND_HWECC		1
 #define CONFIG_ATMEL_NAND_HW_PMECC	1
 #define CONFIG_PMECC_CAP		2
 #define CONFIG_PMECC_SECTOR_SIZE	512
-
-#define CONFIG_CMD_NAND_TRIMFFS
-
-#define CONFIG_MTD_DEVICE
-#define CONFIG_CMD_MTDPARTS
-#define CONFIG_MTD_PARTITIONS
-#define CONFIG_RBTREE
-#define CONFIG_LZO
-#define CONFIG_CMD_UBIFS
-#endif
 
 /* USB */
 #ifdef CONFIG_CMD_USB
@@ -117,7 +106,6 @@
 
 #ifdef CONFIG_SYS_USE_NANDFLASH
 /* bootstrap + u-boot + env + linux in nandflash */
-#define CONFIG_ENV_IS_IN_NAND
 #define CONFIG_ENV_OFFSET		0x120000
 #define CONFIG_ENV_OFFSET_REDUND	0x100000
 #define CONFIG_ENV_SIZE		0x20000		/* 1 sector = 128 kB */
@@ -126,7 +114,6 @@
 				"bootm 0x22000000"
 #elif defined(CONFIG_SYS_USE_SPIFLASH)
 /* bootstrap + u-boot + env + linux in spi flash */
-#define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_OFFSET	0x5000
 #define CONFIG_ENV_SIZE		0x3000
 #define CONFIG_ENV_SECT_SIZE	0x1000
@@ -136,7 +123,6 @@
 				"bootm 0x22000000"
 #elif defined(CONFIG_SYS_USE_DATAFLASH)
 /* bootstrap + u-boot + env + linux in data flash */
-#define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_OFFSET	0x4200
 #define CONFIG_ENV_SIZE		0x4200
 #define CONFIG_ENV_SECT_SIZE	0x210
@@ -146,10 +132,6 @@
 				"bootm 0x22000000"
 #else /* CONFIG_SYS_USE_MMC */
 /* bootstrap + u-boot + env + linux in mmc */
-#define CONFIG_ENV_IS_IN_FAT
-#define FAT_ENV_INTERFACE	"mmc"
-#define FAT_ENV_FILE		"uboot.env"
-#define FAT_ENV_DEVICE_AND_PART "0"
 #define CONFIG_ENV_SIZE		0x4000
 #endif
 

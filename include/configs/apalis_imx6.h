@@ -19,7 +19,7 @@
 #define CONFIG_SYS_GENERIC_BOARD
 
 #include <asm/arch/imx-regs.h>
-#include <asm/imx-common/gpio.h>
+#include <asm/mach-imx/gpio.h>
 
 #ifdef CONFIG_SPL
 #include "imx6_spl.h"
@@ -66,10 +66,6 @@
 
 #define CONFIG_SUPPORT_EMMC_BOOT	/* eMMC specific */
 #define CONFIG_BOUNCE_BUFFER
-
-#ifdef CONFIG_MX6Q
-#define CONFIG_CMD_SATA
-#endif
 
 /*
  * SATA Configs
@@ -303,8 +299,6 @@
 /* environment organization */
 
 #define CONFIG_ENV_SIZE			(8 * 1024)
-
-#define CONFIG_ENV_IS_IN_MMC
 
 #if defined(CONFIG_ENV_IS_IN_MMC)
 /* Environment in eMMC, before config block at the end of 1st "boot sector" */

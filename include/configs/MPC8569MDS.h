@@ -181,7 +181,6 @@ extern unsigned long get_clock_freq(void);
 #define CONFIG_SYS_NAND_BASE_PHYS	CONFIG_SYS_NAND_BASE
 #define CONFIG_SYS_NAND_BASE_LIST	{ CONFIG_SYS_NAND_BASE, }
 #define CONFIG_SYS_MAX_NAND_DEVICE	1
-#define CONFIG_CMD_NAND			1
 #define CONFIG_NAND_FSL_ELBC		1
 #define CONFIG_SYS_NAND_BLOCK_SIZE	(128 * 1024)
 #define CONFIG_SYS_NAND_BR_PRELIM	(CONFIG_SYS_NAND_BASE_PHYS \
@@ -424,7 +423,6 @@ extern unsigned long get_clock_freq(void);
  */
 #if defined(CONFIG_SYS_RAMBOOT)
 #else
-#define CONFIG_ENV_IS_IN_FLASH	1
 #define CONFIG_ENV_ADDR		(CONFIG_SYS_MONITOR_BASE - CONFIG_ENV_SECT_SIZE)
 #define CONFIG_ENV_SECT_SIZE	0x20000	/* 128K(one sector) for env */
 #define CONFIG_ENV_SIZE		0x2000

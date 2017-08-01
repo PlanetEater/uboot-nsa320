@@ -529,7 +529,6 @@ void fpga_control_clear(unsigned int bus, int pin);
  * Environment
  */
 #if 1
-#define CONFIG_ENV_IS_IN_FLASH	1
 #define CONFIG_ENV_ADDR		(CONFIG_SYS_MONITOR_BASE + \
 				 CONFIG_SYS_MONITOR_LEN)
 #define CONFIG_ENV_SECT_SIZE	0x10000 /* 64K(one sector) for env */
@@ -537,7 +536,6 @@ void fpga_control_clear(unsigned int bus, int pin);
 #define CONFIG_ENV_ADDR_REDUND	(CONFIG_ENV_ADDR + CONFIG_ENV_SECT_SIZE)
 #define CONFIG_ENV_SIZE_REDUND	CONFIG_ENV_SIZE
 #else
-#define CONFIG_ENV_IS_NOWHERE
 #define CONFIG_ENV_SIZE		0x2000		/* 8KB */
 #endif
 

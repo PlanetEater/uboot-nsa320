@@ -162,9 +162,7 @@
  * Flash & Environment
  */
 #ifdef CONFIG_USE_NAND
-#undef CONFIG_ENV_IS_IN_FLASH
 #define CONFIG_NAND_DAVINCI
-#define CONFIG_ENV_IS_IN_NAND		/* U-Boot env in NAND Flash  */
 #define CONFIG_ENV_OFFSET		0x0 /* Block 0--not used by bootcode */
 #define CONFIG_ENV_SIZE			(128 << 10)
 #define	CONFIG_SYS_NAND_USE_FLASH_BBT
@@ -218,7 +216,6 @@
 #endif
 
 #ifdef CONFIG_USE_NOR
-#define CONFIG_ENV_IS_IN_FLASH
 #define CONFIG_FLASH_CFI_DRIVER
 #define CONFIG_SYS_FLASH_CFI
 #define CONFIG_SYS_FLASH_PROTECTION
@@ -234,9 +231,6 @@
 #endif
 
 #ifdef CONFIG_USE_SPIFLASH
-#undef CONFIG_ENV_IS_IN_FLASH
-#undef CONFIG_ENV_IS_IN_NAND
-#define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_SIZE			(64 << 10)
 #define CONFIG_ENV_OFFSET		(512 << 10)
 #define CONFIG_ENV_SECT_SIZE		(64 << 10)
@@ -282,14 +276,8 @@
 #endif
 
 #ifdef CONFIG_USE_NAND
-#define CONFIG_CMD_NAND
-
-#define CONFIG_CMD_MTDPARTS
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
-#define CONFIG_LZO
-#define CONFIG_RBTREE
-#define CONFIG_CMD_UBIFS
 #endif
 
 #ifdef CONFIG_USE_SPIFLASH
@@ -298,7 +286,6 @@
 #if !defined(CONFIG_USE_NAND) && \
 	!defined(CONFIG_USE_NOR) && \
 	!defined(CONFIG_USE_SPIFLASH)
-#define CONFIG_ENV_IS_NOWHERE
 #define CONFIG_ENV_SIZE		(16 << 10)
 #endif
 

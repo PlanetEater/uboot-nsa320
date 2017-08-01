@@ -69,8 +69,6 @@
 
 #elif defined(CONFIG_SPL_NAND_SUPPORT)
 /* Enable NAND support */
-#define CONFIG_CMD_NAND
-#define CONFIG_CMD_NAND_TRIMFFS
 #ifdef CONFIG_CMD_NAND
   #define CONFIG_NAND_MXS
   #define CONFIG_SYS_MAX_NAND_DEVICE	1
@@ -103,13 +101,9 @@
 #define CONFIG_SUPPORT_EMMC_BOOT
 #define CONFIG_SUPPORT_EMMC_RPMB
 
-/* Filesystem support */
-#define CONFIG_CMD_UBIFS
-
 /*
  * SATA Configs
  */
-#define CONFIG_CMD_SATA
 #ifdef CONFIG_CMD_SATA
   #define CONFIG_DWC_AHSATA
   #define CONFIG_SYS_SATA_MAX_DEVICE	1
@@ -141,7 +135,6 @@
 
 /* Various command support */
 #define CONFIG_CMD_UNZIP         /* gzwrite */
-#define CONFIG_RBTREE
 
 /* Ethernet support */
 #define CONFIG_FEC_MXC
@@ -205,8 +198,6 @@
 /*
  * MTD Command for mtdparts
  */
-#define CONFIG_LZO
-#define CONFIG_CMD_MTDPARTS
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
 #ifdef CONFIG_SPI_FLASH
@@ -219,13 +210,6 @@
 #endif
 
 /* Persistent Environment Config */
-#ifdef CONFIG_SPI_FLASH
-  #define CONFIG_ENV_IS_IN_SPI_FLASH
-#elif defined(CONFIG_SPL_NAND_SUPPORT)
-  #define CONFIG_ENV_IS_IN_NAND
-#else
-  #define CONFIG_ENV_IS_IN_MMC
-#endif
 #if defined(CONFIG_ENV_IS_IN_MMC)
   #define CONFIG_SYS_MMC_ENV_DEV         0
   #define CONFIG_SYS_MMC_ENV_PART        1

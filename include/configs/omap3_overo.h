@@ -41,16 +41,10 @@
 
 /* USB EHCI */
 #define CONFIG_OMAP_EHCI_PHY1_RESET_GPIO	183
-#define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS	3
 
 /* commands to include */
 
 #ifdef CONFIG_NAND
-#define CONFIG_CMD_UBIFS	/* Read-only UBI volume operations */
-
-#define CONFIG_RBTREE		/* required by CONFIG_CMD_UBI */
-#define CONFIG_LZO		/* required by CONFIG_CMD_UBIFS */
-
 #define CONFIG_MTD_PARTITIONS	/* required for UBI partition support */
 
 /* NAND block size is 128 KiB.  Synchronize these values with
@@ -184,7 +178,6 @@
 #define CONFIG_SYS_MONITOR_BASE		CONFIG_SYS_FLASH_BASE
 #define CONFIG_SYS_ONENAND_BASE		ONENAND_MAP
 
-#define CONFIG_ENV_IS_IN_NAND
 #define ONENAND_ENV_OFFSET		0x240000 /* environment starts here */
 #define SMNAND_ENV_OFFSET		0x240000 /* environment starts here */
 

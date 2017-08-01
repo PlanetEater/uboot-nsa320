@@ -130,17 +130,22 @@ static int writeenv(size_t offset, u_char *buf)
 	size_t end = offset + CONFIG_ENV_RANGE;
 	size_t amount_saved = 0;
 	size_t blocksize, len;
+	struct mtd_info *mtd;
 	u_char *char_ptr;
 
-	blocksize = nand_info[0]->erasesize;
+	mtd = get_nand_dev_by_index(0);
+	if (!mtd)
+		return 1;
+
+	blocksize = mtd->erasesize;
 	len = min(blocksize, (size_t)CONFIG_ENV_SIZE);
 
 	while (amount_saved < CONFIG_ENV_SIZE && offset < end) {
-		if (nand_block_isbad(nand_info[0], offset)) {
+		if (nand_block_isbad(mtd, offset)) {
 			offset += blocksize;
 		} else {
 			char_ptr = &buf[amount_saved];
-			if (nand_write(nand_info[0], offset, &len, char_ptr))
+			if (nand_write(mtd, offset, &len, char_ptr))
 				return 1;
 
 			offset += blocksize;
@@ -161,13 +166,15 @@ struct env_location {
 static int erase_and_write_env(const struct env_location *location,
 		u_char *env_new)
 {
+	struct mtd_info *mtd;
 	int ret = 0;
 
-	if (!nand_info[0])
+	mtd = get_nand_dev_by_index(0);
+	if (!mtd)
 		return 1;
 
 	printf("Erasing %s...\n", location->name);
-	if (nand_erase_opts(nand_info[0], &location->erase_opts))
+	if (nand_erase_opts(mtd, &location->erase_opts))
 		return 1;
 
 	printf("Writing to %s... ", location->name);
@@ -176,10 +183,6 @@ static int erase_and_write_env(const struct env_location *location,
 
 	return ret;
 }
-
-#ifdef CONFIG_ENV_OFFSET_REDUND
-static unsigned char env_flags;
-#endif
 
 int saveenv(void)
 {
@@ -214,7 +217,6 @@ int saveenv(void)
 		return ret;
 
 #ifdef CONFIG_ENV_OFFSET_REDUND
-	env_new->flags = ++env_flags; /* increase the serial */
 	env_idx = (gd->env_valid == 1);
 #endif
 
@@ -248,22 +250,24 @@ static int readenv(size_t offset, u_char *buf)
 	size_t end = offset + CONFIG_ENV_RANGE;
 	size_t amount_loaded = 0;
 	size_t blocksize, len;
+	struct mtd_info *mtd;
 	u_char *char_ptr;
 
-	if (!nand_info[0])
+	mtd = get_nand_dev_by_index(0);
+	if (!mtd)
 		return 1;
 
-	blocksize = nand_info[0]->erasesize;
+	blocksize = mtd->erasesize;
 	len = min(blocksize, (size_t)CONFIG_ENV_SIZE);
 
 	while (amount_loaded < CONFIG_ENV_SIZE && offset < end) {
-		if (nand_block_isbad(nand_info[0], offset)) {
+		if (nand_block_isbad(mtd, offset)) {
 			offset += blocksize;
 		} else {
 			char_ptr = &buf[amount_loaded];
-			if (nand_read_skip_bad(nand_info[0], offset,
+			if (nand_read_skip_bad(mtd, offset,
 					       &len, NULL,
-					       nand_info[0]->size, char_ptr))
+					       mtd->size, char_ptr))
 				return 1;
 
 			offset += blocksize;
@@ -315,8 +319,7 @@ void env_relocate_spec(void)
 {
 #if !defined(ENV_IS_EMBEDDED)
 	int read1_fail = 0, read2_fail = 0;
-	int crc1_ok = 0, crc2_ok = 0;
-	env_t *ep, *tmp_env1, *tmp_env2;
+	env_t *tmp_env1, *tmp_env2;
 
 	tmp_env1 = (env_t *)malloc(CONFIG_ENV_SIZE);
 	tmp_env2 = (env_t *)malloc(CONFIG_ENV_SIZE);
@@ -335,41 +338,18 @@ void env_relocate_spec(void)
 		puts("*** Warning - some problems detected "
 		     "reading environment; recovered successfully\n");
 
-	crc1_ok = !read1_fail &&
-		(crc32(0, tmp_env1->data, ENV_SIZE) == tmp_env1->crc);
-	crc2_ok = !read2_fail &&
-		(crc32(0, tmp_env2->data, ENV_SIZE) == tmp_env2->crc);
-
-	if (!crc1_ok && !crc2_ok) {
-		set_default_env("!bad CRC");
+	if (read1_fail && read2_fail) {
+		set_default_env("!bad env area");
 		goto done;
-	} else if (crc1_ok && !crc2_ok) {
+	} else if (!read1_fail && read2_fail) {
 		gd->env_valid = 1;
-	} else if (!crc1_ok && crc2_ok) {
+		env_import((char *)tmp_env1, 1);
+	} else if (read1_fail && !read2_fail) {
 		gd->env_valid = 2;
+		env_import((char *)tmp_env2, 1);
 	} else {
-		/* both ok - check serial */
-		if (tmp_env1->flags == 255 && tmp_env2->flags == 0)
-			gd->env_valid = 2;
-		else if (tmp_env2->flags == 255 && tmp_env1->flags == 0)
-			gd->env_valid = 1;
-		else if (tmp_env1->flags > tmp_env2->flags)
-			gd->env_valid = 1;
-		else if (tmp_env2->flags > tmp_env1->flags)
-			gd->env_valid = 2;
-		else /* flags are equal - almost impossible */
-			gd->env_valid = 1;
+		env_import_redund((char *)tmp_env1, (char *)tmp_env2);
 	}
-
-	free(env_ptr);
-
-	if (gd->env_valid == 1)
-		ep = tmp_env1;
-	else
-		ep = tmp_env2;
-
-	env_flags = ep->flags;
-	env_import((char *)ep, 0);
 
 done:
 	free(tmp_env1);
@@ -390,12 +370,12 @@ void env_relocate_spec(void)
 	ALLOC_CACHE_ALIGN_BUFFER(char, buf, CONFIG_ENV_SIZE);
 
 #if defined(CONFIG_ENV_OFFSET_OOB)
+	struct mtd_info *mtd  = get_nand_dev_by_index(0);
 	/*
 	 * If unable to read environment offset from NAND OOB then fall through
 	 * to the normal environment reading code below
 	 */
-	if (nand_info[0] && !get_nand_env_oob(nand_info[0],
-					      &nand_env_oob_offset)) {
+	if (mtd && !get_nand_env_oob(mtd, &nand_env_oob_offset)) {
 		printf("Found Environment offset in OOB..\n");
 	} else {
 		set_default_env("!no env offset in OOB");

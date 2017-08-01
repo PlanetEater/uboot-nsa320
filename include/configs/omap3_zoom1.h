@@ -61,7 +61,6 @@
 #define CONFIG_SYS_NAND_SPL_KERNEL_OFFS	0x280000
 #define CONFIG_CMD_SPL_WRITE_SIZE	0x2000
 #endif
-#define CONFIG_CMD_NAND_LOCK_UNLOCK /* Enable lock/unlock support */
 #endif
 
 #undef CONFIG_SYS_I2C_OMAP24XX
@@ -155,7 +154,6 @@
 #define CONFIG_SYS_MONITOR_BASE		CONFIG_SYS_FLASH_BASE
 #define CONFIG_SYS_ONENAND_BASE		ONENAND_MAP
 
-#define CONFIG_ENV_IS_IN_NAND		1
 #define ONENAND_ENV_OFFSET		0x260000 /* environment starts here */
 #define SMNAND_ENV_OFFSET		0x260000 /* environment starts here */
 

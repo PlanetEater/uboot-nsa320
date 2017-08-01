@@ -35,7 +35,6 @@
 
 /* Command line configuration */
 #define CONFIG_CMD_PCI
-#define CONFIG_CMD_REGINFO
 
 #define CONFIG_MCFFEC
 #ifdef CONFIG_MCFFEC
@@ -177,7 +176,6 @@
 /* Configuration for environment
  * Environment is embedded in u-boot in the second sector of the flash
  */
-#define CONFIG_ENV_IS_IN_FLASH	1
 
 #define LDS_BOARD_TEXT \
 	. = DEFINED(env_offset) ? env_offset : .; \

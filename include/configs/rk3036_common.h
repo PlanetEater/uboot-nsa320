@@ -10,7 +10,6 @@
 #include "rockchip-common.h"
 
 #define CONFIG_NR_DRAM_BANKS		1
-#define CONFIG_ENV_IS_NOWHERE
 #define CONFIG_ENV_SIZE			0x2000
 #define CONFIG_SYS_MAXARGS		16
 #define CONFIG_SYS_MALLOC_LEN		(32 << 20)
@@ -39,6 +38,7 @@
 #define CONFIG_SYS_SDRAM_BASE		0x60000000
 #define CONFIG_NR_DRAM_BANKS		1
 #define SDRAM_BANK_SIZE			(512UL << 20UL)
+#define SDRAM_MAX_SIZE                  (CONFIG_NR_DRAM_BANKS * SDRAM_BANK_SIZE)
 
 #define CONFIG_SPI_FLASH
 #define CONFIG_SPI
@@ -71,7 +71,6 @@
 
 /* usb host */
 #ifdef CONFIG_CMD_USB
-#define CONFIG_USB_DWC2
 #define CONFIG_USB_HOST_ETHER
 #define CONFIG_USB_ETHER_SMSC95XX
 #define CONFIG_USB_ETHER_ASIX

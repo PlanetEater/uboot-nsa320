@@ -59,11 +59,7 @@
 /***********************************************************
  * Command definition
  ***********************************************************/
-#undef CONFIG_CMD_NAND
-
-#define CONFIG_CMD_REGINFO
 #define CONFIG_CMD_ONENAND
-#define CONFIG_CMD_MTDPARTS
 
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
@@ -176,7 +172,6 @@
 /*-----------------------------------------------------------------------
  * Boot configuration
  */
-#define CONFIG_ENV_IS_IN_ONENAND	1
 #define CONFIG_ENV_SIZE			(128 << 10)	/* 128KiB, 0x20000 */
 #define CONFIG_ENV_ADDR			(256 << 10)	/* 256KiB, 0x40000 */
 #define CONFIG_ENV_OFFSET		(256 << 10)	/* 256KiB, 0x40000 */

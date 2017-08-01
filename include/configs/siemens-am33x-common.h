@@ -38,7 +38,6 @@
 #endif
 
 #define CONFIG_ENV_OVERWRITE		1
-#define CONFIG_ENV_IS_NOWHERE
 
 #define CONFIG_SYS_LONGHELP
 #define CONFIG_CMDLINE_EDITING
@@ -216,8 +215,6 @@
  * 0x442000 - 0x800000 : Userland
  */
 #if defined(CONFIG_SPI_BOOT)
-# undef CONFIG_ENV_IS_NOWHERE
-# define CONFIG_ENV_IS_IN_SPI_FLASH
 # define CONFIG_ENV_SPI_MAX_HZ		CONFIG_SF_DEFAULT_SPEED
 # define CONFIG_ENV_OFFSET		(892 << 10) /* 892 KiB in */
 # define CONFIG_ENV_SECT_SIZE		(4 << 10) /* 4 KB sectors */
@@ -238,16 +235,10 @@
 #define CONFIG_NAND
 /* NAND support */
 #ifdef CONFIG_NAND
-#define CONFIG_CMD_NAND
-
 /* UBI Support */
 #ifndef CONFIG_SPL_BUILD
-#define CONFIG_CMD_MTDPARTS
 #define CONFIG_MTD_PARTITIONS
 #define CONFIG_MTD_DEVICE
-#define CONFIG_RBTREE
-#define CONFIG_LZO
-#define CONFIG_CMD_UBIFS
 #endif
 
 /* Commen environment */
@@ -536,8 +527,6 @@
 #define CONFIG_SYS_MAX_NAND_DEVICE	1		/* Max number of NAND
 							   devices */
 #if !defined(CONFIG_SPI_BOOT)
-#undef CONFIG_ENV_IS_NOWHERE
-#define CONFIG_ENV_IS_IN_NAND
 #define CONFIG_ENV_OFFSET		0x260000 /* environment starts here */
 #define CONFIG_SYS_ENV_SECT_SIZE	(128 << 10)	/* 128 KiB */
 #endif

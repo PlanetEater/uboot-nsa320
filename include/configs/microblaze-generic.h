@@ -95,12 +95,10 @@
 /* use buffered writes (20x faster) */
 # define	CONFIG_SYS_FLASH_USE_BUFFER_WRITE	1
 # ifdef	RAMENV
-#  define CONFIG_ENV_IS_NOWHERE	1
 #  define CONFIG_ENV_SIZE	0x1000
 #  define CONFIG_ENV_ADDR	(CONFIG_SYS_MONITOR_BASE - CONFIG_ENV_SIZE)
 
 # else	/* FLASH && !RAMENV */
-#  define CONFIG_ENV_IS_IN_FLASH	1
 /* 128K(one sector) for env */
 #  define CONFIG_ENV_SECT_SIZE	0x20000
 #  define CONFIG_ENV_ADDR \
@@ -117,12 +115,10 @@
 # define CONFIG_SF_DEFAULT_CS		XILINX_SPI_FLASH_CS
 
 # ifdef	RAMENV
-#  define CONFIG_ENV_IS_NOWHERE	1
 #  define CONFIG_ENV_SIZE	0x1000
 #  define CONFIG_ENV_ADDR	(CONFIG_SYS_MONITOR_BASE - CONFIG_ENV_SIZE)
 
 # else	/* SPIFLASH && !RAMENV */
-#  define CONFIG_ENV_IS_IN_SPI_FLASH	1
 #  define CONFIG_ENV_SPI_MODE		SPI_MODE_3
 #  define CONFIG_ENV_SPI_MAX_HZ		CONFIG_SF_DEFAULT_SPEED
 #  define CONFIG_ENV_SPI_CS		CONFIG_SF_DEFAULT_CS
@@ -135,7 +131,6 @@
 #else /* !SPIFLASH */
 
 /* ENV in RAM */
-# define CONFIG_ENV_IS_NOWHERE	1
 # define CONFIG_ENV_SIZE	0x1000
 # define CONFIG_ENV_ADDR	(CONFIG_SYS_MONITOR_BASE - CONFIG_ENV_SIZE)
 #endif /* !SPIFLASH */
@@ -171,8 +166,6 @@
 #define CONFIG_CMD_MFSL
 
 #if defined(FLASH)
-# undef CONFIG_CMD_UBIFS
-
 # if !defined(RAMENV)
 #  define CONFIG_CMD_SAVES
 # endif
@@ -183,8 +176,6 @@
 # if !defined(RAMENV)
 #  define CONFIG_CMD_SAVES
 # endif
-#else
-# undef CONFIG_CMD_UBIFS
 #endif
 #endif
 
@@ -192,18 +183,12 @@
 # define CONFIG_MTD_PARTITIONS
 #endif
 
-#if defined(CONFIG_CMD_UBIFS)
-# define CONFIG_LZO
-#endif
-
 #if defined(CONFIG_CMD_UBI)
 # define CONFIG_MTD_PARTITIONS
-# define CONFIG_RBTREE
 #endif
 
 #if defined(CONFIG_MTD_PARTITIONS)
 /* MTD partitions */
-#define CONFIG_CMD_MTDPARTS	/* mtdparts command line support */
 #define CONFIG_MTD_DEVICE	/* needed for mtdparts commands */
 #define CONFIG_FLASH_CFI_MTD
 #define MTDIDS_DEFAULT		"nor0=flash-0"

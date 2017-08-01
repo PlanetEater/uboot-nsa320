@@ -21,13 +21,6 @@
 #include <asm/arch/omap.h>
 
 /* ----------------------------------------------------------------------------
- * Supported U-Boot commands
- * ----------------------------------------------------------------------------
- */
-
-#define CONFIG_CMD_NAND
-
-/* ----------------------------------------------------------------------------
  * Supported U-Boot features
  * ----------------------------------------------------------------------------
  */
@@ -266,9 +259,7 @@
 
 #if !defined(CONFIG_ENV_IS_NOWHERE)
 #if defined(CONFIG_CMD_NAND)
-#define CONFIG_ENV_IS_IN_NAND
 #elif defined(CONFIG_CMD_ONENAND)
-#define CONFIG_ENV_IS_IN_ONENAND
 #define CONFIG_ENV_OFFSET		ONENAND_ENV_OFFSET
 #endif
 #endif /* CONFIG_ENV_IS_NOWHERE */

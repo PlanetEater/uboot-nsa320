@@ -10,7 +10,7 @@
 #define __ADVANTECH_DMSBA16_CONFIG_H
 
 #include <asm/arch/imx-regs.h>
-#include <asm/imx-common/gpio.h>
+#include <asm/mach-imx/gpio.h>
 
 #define CONFIG_BOARD_NAME	"Advantech DMS-BA16"
 
@@ -39,7 +39,6 @@
 #define CONFIG_MXC_OCOTP
 
 /* SATA Configs */
-#define CONFIG_CMD_SATA
 #define CONFIG_DWC_AHSATA
 #define CONFIG_SYS_SATA_MAX_DEVICE	1
 #define CONFIG_DWC_AHSATA_PORT_ID	0
@@ -240,7 +239,6 @@
 
 /* FLASH and environment organization */
 
-#define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_SIZE                 (8 * 1024)
 #define CONFIG_ENV_OFFSET               (768 * 1024)
 #define CONFIG_ENV_SECT_SIZE            (64 * 1024)

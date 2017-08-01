@@ -35,9 +35,6 @@
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_HOSTNAME
 
-/* Command line configuration */
-#define CONFIG_CMD_REGINFO
-
 #define CONFIG_HOSTNAME			M52277EVB
 #define CONFIG_SYS_UBOOT_END		0x3FFFF
 #define	CONFIG_SYS_LOAD_ADDR2		0x40010007
@@ -199,10 +196,7 @@
  * crc error warning if there is no correct environment on the flash.
  */
 #ifdef CONFIG_CF_SBF
-#	define CONFIG_ENV_IS_IN_SPI_FLASH
 #	define CONFIG_ENV_SPI_CS	2
-#else
-#	define CONFIG_ENV_IS_IN_FLASH	1
 #endif
 #define CONFIG_ENV_OVERWRITE		1
 

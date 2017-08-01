@@ -97,15 +97,7 @@
 #define CONFIG_SYS_NAND_MAX_OOBFREE	2
 #define CONFIG_SYS_NAND_MAX_ECCPOS	56
 
-/* commands to include */
-#define CONFIG_CMD_MTDPARTS		/* Enable MTD parts commands */
-#define CONFIG_CMD_NAND			/* NAND support */
-#define CONFIG_CMD_NAND_LOCK_UNLOCK	/* nand (un)lock commands */
-#define CONFIG_CMD_UBIFS		/* UBIFS commands */
-#define CONFIG_LZO			/* LZO is needed for UBIFS */
-
 /* needed for ubi */
-#define CONFIG_RBTREE
 #define CONFIG_MTD_DEVICE       /* needed for mtdparts commands */
 #define CONFIG_MTD_PARTITIONS
 
@@ -152,9 +144,6 @@
  * which will not be influenced by any data already on the device.
  */
 #ifdef CONFIG_FLASHCARD
-
-#define CONFIG_ENV_IS_NOWHERE
-
 /* the rdaddr is 16 MiB before the loadaddr */
 #define CONFIG_ENV_RDADDR	"rdaddr=0x81000000\0"
 
@@ -174,8 +163,6 @@
 #else /* CONFIG_FLASHCARD */
 
 #define CONFIG_ENV_OVERWRITE /* allow to overwrite serial and ethaddr */
-
-#define CONFIG_ENV_IS_IN_NAND
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	CONFIG_COMMON_ENV_SETTINGS \

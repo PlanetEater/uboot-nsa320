@@ -87,9 +87,6 @@
 #endif
 
 #ifdef CONFIG_USE_SPIFLASH
-#undef CONFIG_ENV_IS_IN_FLASH
-#undef CONFIG_ENV_IS_IN_NAND
-#define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_SIZE			(8 << 10)
 #define CONFIG_ENV_OFFSET		0x80000
 #define CONFIG_ENV_SECT_SIZE		(64 << 10)
@@ -138,14 +135,8 @@
 
 /* NAND Setup */
 #ifdef CONFIG_SYS_USE_NAND
-#define CONFIG_CMD_NAND
-
-#define CONFIG_CMD_MTDPARTS
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
-#define CONFIG_LZO
-#define CONFIG_RBTREE
-#define CONFIG_CMD_UBIFS
 
 #define CONFIG_NAND_DAVINCI
 #define	CONFIG_SYS_NAND_PAGE_2K
@@ -165,7 +156,6 @@
 #if !defined(CONFIG_SYS_USE_NAND) && \
 	!defined(CONFIG_USE_NOR) && \
 	!defined(CONFIG_USE_SPIFLASH)
-#define CONFIG_ENV_IS_NOWHERE
 #define CONFIG_ENV_SIZE		(16 << 10)
 #endif
 

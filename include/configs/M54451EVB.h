@@ -35,9 +35,6 @@
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_HOSTNAME
 
-/* Command line configuration */
-#define CONFIG_CMD_REGINFO
-
 /* Network configuration */
 #define CONFIG_MCFFEC
 #ifdef CONFIG_MCFFEC
@@ -216,13 +213,11 @@
  * crc error warning if there is no correct environment on the flash.
  */
 #if defined(CONFIG_SYS_STMICRO_BOOT)
-#	define CONFIG_ENV_IS_IN_SPI_FLASH	1
 #	define CONFIG_ENV_SPI_CS		1
 #	define CONFIG_ENV_OFFSET		0x20000
 #	define CONFIG_ENV_SIZE		0x2000
 #	define CONFIG_ENV_SECT_SIZE	0x10000
 #else
-#	define CONFIG_ENV_IS_IN_FLASH	1
 #	define CONFIG_ENV_ADDR		(CONFIG_SYS_FLASH_BASE + 0x40000)
 #	define CONFIG_ENV_SIZE		0x2000
 #	define CONFIG_ENV_SECT_SIZE	0x20000

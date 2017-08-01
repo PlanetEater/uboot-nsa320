@@ -52,7 +52,6 @@
 #define CONFIG_USBD_MANUFACTURER	"Texas Instruments"
 #define CONFIG_USBD_PRODUCT_NAME	"IGEP"
 
-#define CONFIG_CMD_MTDPARTS
 #define CONFIG_CMD_ONENAND
 
 #ifndef CONFIG_SPL_BUILD
@@ -89,7 +88,6 @@
 #define CONFIG_SMC911X_BASE		0x2C000000
 #endif /* (CONFIG_CMD_NET) */
 
-#define CONFIG_RBTREE
 #define CONFIG_MTD_PARTITIONS
 #define CONFIG_SYS_MTDPARTS_RUNTIME
 
@@ -135,7 +133,6 @@
 #define CONFIG_SPL_UBI_INFO_ADDR	0x88080000
 
 /* environment organization */
-#define CONFIG_ENV_IS_NOWHERE		1
 #define CONFIG_ENV_UBI_PART		"UBI"
 #define CONFIG_ENV_UBI_VOLUME		"config"
 #define CONFIG_ENV_UBI_VOLUME_REDUND	"config_r"

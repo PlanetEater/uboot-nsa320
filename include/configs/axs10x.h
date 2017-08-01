@@ -63,11 +63,6 @@
 #define CONFIG_USB_OHCI_NEW
 #define CONFIG_SYS_USB_OHCI_MAX_ROOT_PORTS 1
 
-/*
- * Commands still not supported in Kconfig
- */
-#define CONFIG_CMD_NAND
-
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_SYS_MAXARGS		16
 #define CONFIG_CMDLINE_EDITING
@@ -75,12 +70,7 @@
 /*
  * Environment settings
  */
-#define CONFIG_ENV_IS_IN_FAT
 #define CONFIG_ENV_SIZE			SZ_16K
-#define FAT_ENV_INTERFACE		"mmc"
-#define FAT_ENV_DEVICE_AND_PART		"0:1"
-#define FAT_ENV_FILE			"uboot.env"
-#define CONFIG_FAT_WRITE
 
 /*
  * Environment configuration

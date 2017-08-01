@@ -52,11 +52,6 @@
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_HOSTNAME
 
-/*
- * Command line configuration.
- */
-#define CONFIG_CMD_NAND
-
 /* SDRAM */
 #define CONFIG_NR_DRAM_BANKS		1
 #define CONFIG_SYS_SDRAM_BASE		ATMEL_BASE_CS1
@@ -112,7 +107,6 @@
 #define CONFIG_SYS_MEMTEST_END			0x23e00000
 
 /* bootstrap + u-boot + env in dataflash on CS0 */
-#define CONFIG_ENV_IS_IN_DATAFLASH
 #define CONFIG_SYS_MONITOR_BASE	(CONFIG_SYS_DATAFLASH_LOGIC_ADDR_CS0 + 0x4000)
 #define CONFIG_ENV_OFFSET	0x2000
 #define CONFIG_ENV_ADDR		(CONFIG_SYS_DATAFLASH_LOGIC_ADDR_CS0 + \
