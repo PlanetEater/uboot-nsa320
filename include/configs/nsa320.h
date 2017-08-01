@@ -27,6 +27,7 @@
 
 /* compression configuration */
 #define CONFIG_BZIP2
+#define CONFIG_LZO
 
 /* commands configuration */
 #include <config_distro_defaults.h>
@@ -81,8 +82,6 @@
 #define CONFIG_SYS_ATA_IDE0_OFFSET	MV_SATA_PORT0_OFFSET
 #define CONFIG_SYS_ATA_IDE1_OFFSET	MV_SATA_PORT1_OFFSET
 #endif /* CONFIG_CMD_IDE */
-
-#define CONFIG_LZO
 
 /* RTC driver configuration */
 #ifdef CONFIG_CMD_DATE
