@@ -122,7 +122,6 @@
 #define CONFIG_ENV_OFFSET		(512 << 10)
 #define CONFIG_ENV_SIZE			(256 << 10)
 #define CONFIG_ENV_OVERWRITE
-#define CONFIG_BOOTARGS			"console=ttyS0,115200 ip=any"
 
 /* Console settings */
 #define CONFIG_SYS_CBSIZE		256
@@ -135,9 +134,5 @@
 
 /* U-Boot memory settings */
 #define CONFIG_SYS_MALLOC_LEN		(1 << 20)
-
-/* Command line configuration */
-#define CONFIG_CMD_PCA953X
-#define CONFIG_CMD_PCA953X_INFO
 
 #endif /* __CONFIG_H */

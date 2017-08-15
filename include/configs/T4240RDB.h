@@ -56,8 +56,6 @@
 
 #define CONFIG_DDR_ECC
 
-#define CONFIG_CMD_REGINFO
-
 /* High Level Configuration Options */
 #define CONFIG_SYS_BOOK3E_HV		/* Category E.HV supported */
 #define CONFIG_MP			/* support multiple processors */
@@ -259,7 +257,6 @@
 #ifdef CONFIG_FMAN_ENET
 #define CONFIG_MII		/* MII PHY management */
 #define CONFIG_ETHPRIME		"FM1@DTSEC1"
-#define CONFIG_PHY_GIGE		/* Include GbE speed/duplex detection */
 #endif
 
 /*
@@ -271,10 +268,6 @@
 /*
  * Command line configuration.
  */
-
-#ifdef CONFIG_PCI
-#define CONFIG_CMD_PCI
-#endif
 
 /*
  * Miscellaneous configurable options
@@ -667,7 +660,6 @@ unsigned long get_board_ddr_clk(void);
 #ifdef CONFIG_FMAN_ENET
 #define CONFIG_MII		/* MII PHY management */
 #define CONFIG_ETHPRIME		"FM1@DTSEC1"
-#define CONFIG_PHY_GIGE		/* Include GbE speed/duplex detection */
 #endif
 
 /*

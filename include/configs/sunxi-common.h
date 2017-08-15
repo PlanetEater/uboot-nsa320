@@ -202,10 +202,6 @@
 
 #define CONFIG_SPL_STACK		LOW_LEVEL_SRAM_STACK
 
-#ifndef CONFIG_ARM64
-#define CONFIG_SPL_LDSCRIPT "arch/arm/cpu/armv7/sunxi/u-boot-spl.lds"
-#endif
-
 #define CONFIG_SPL_PAD_TO		32768		/* decimal for 'dd' */
 
 
@@ -296,11 +292,9 @@ extern int soft_i2c_gpio_scl;
 #ifdef CONFIG_SUNXI_EMAC
 #define CONFIG_PHY_ADDR		1
 #define CONFIG_MII			/* MII PHY management		*/
-#define CONFIG_PHYLIB
 #endif
 
 #ifdef CONFIG_SUNXI_GMAC
-#define CONFIG_PHY_GIGE			/* GMAC can use gigabit PHY	*/
 #define CONFIG_PHY_ADDR		1
 #define CONFIG_MII			/* MII PHY management		*/
 #define CONFIG_PHY_REALTEK

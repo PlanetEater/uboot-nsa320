@@ -15,10 +15,6 @@
 /* I2C IP block */
 #define CONFIG_SYS_OMAP24_I2C_SPEED	100000
 #define CONFIG_SYS_OMAP24_I2C_SLAVE	1
-#define CONFIG_SYS_I2C_OMAP24XX
-
-/* SPI IP Block */
-#define CONFIG_OMAP3_SPI
 
 /*
  * GPMC NAND block.  We support 1 device and the physical address to

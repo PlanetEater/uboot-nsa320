@@ -66,9 +66,7 @@
 
 /* NAND */
 #ifdef CONFIG_NAND
-#define CONFIG_CMD_SPL_NAND_OFS			0x080000 /* end of u-boot */
 #define CONFIG_SYS_NAND_SPL_KERNEL_OFFS		0x140000
-#define CONFIG_CMD_SPL_WRITE_SIZE		0x2000
 #endif /* CONFIG_NAND */
 #endif /* CONFIG_SPL_OS_BOOT */
 
@@ -236,7 +234,6 @@ MMCARGS
 #if defined(CONFIG_SPI_BOOT)
 /* McSPI IP block */
 #define CONFIG_SPI
-#define CONFIG_OMAP3_SPI
 #define CONFIG_SF_DEFAULT_SPEED		24000000
 
 #define CONFIG_SPL_SPI_LOAD

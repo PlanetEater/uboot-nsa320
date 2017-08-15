@@ -336,15 +336,6 @@ extern unsigned long get_clock_freq(void);
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_HOSTNAME
 
-/*
- * Command line configuration.
- */
-#define CONFIG_CMD_REGINFO
-
-#if defined(CONFIG_PCI)
-    #define CONFIG_CMD_PCI
-#endif
-
 #undef CONFIG_WATCHDOG			/* watchdog disabled */
 
 /*
@@ -395,8 +386,6 @@ extern unsigned long get_clock_freq(void);
 #define CONFIG_NETMASK   255.255.255.0
 
 #define CONFIG_LOADADDR  200000   /*default location for tftp and bootm*/
-
-#undef  CONFIG_BOOTARGS           /* the boot command will set bootargs*/
 
 #define	CONFIG_EXTRA_ENV_SETTINGS				        \
    "netdev=eth0\0"                                                      \

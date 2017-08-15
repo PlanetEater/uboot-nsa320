@@ -8,7 +8,6 @@
 
 #ifdef FTRACE
 #define CONFIG_TRACE
-#define CONFIG_CMD_TRACE
 #define CONFIG_TRACE_BUFFER_SIZE	(16 << 20)
 #define CONFIG_TRACE_EARLY_SIZE		(8 << 20)
 #define CONFIG_TRACE_EARLY
@@ -26,8 +25,6 @@
 
 #define CONFIG_LMB
 #define CONFIG_ANDROID_BOOT_IMAGE
-
-#define CONFIG_CMD_PCI
 
 #define CONFIG_FS_EXT4
 #define CONFIG_EXT4_WRITE
@@ -54,7 +51,6 @@
 #define CONFIG_ENV_SIZE		8192
 
 /* SPI - enable all SPI flash types for testing purposes */
-#define CONFIG_CMD_SF_TEST
 
 #define CONFIG_I2C_EDID
 
@@ -95,10 +91,6 @@
 #define CONFIG_BOOTP_SEND_HOSTNAME
 #define CONFIG_BOOTP_SERVERIP
 #define CONFIG_IP_DEFRAG
-
-#define CONFIG_CMD_SANDBOX
-
-#define CONFIG_BOOTARGS ""
 
 #ifndef SANDBOX_NO_SDL
 #define CONFIG_SANDBOX_SDL

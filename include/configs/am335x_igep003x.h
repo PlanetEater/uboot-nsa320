@@ -14,7 +14,6 @@
 #ifndef __CONFIG_IGEP003X_H
 #define __CONFIG_IGEP003X_H
 
-#define CONFIG_NAND
 #include <configs/ti_am335x_common.h>
 
 /* Clock defines */
@@ -111,7 +110,6 @@
 #define CONFIG_CONS_INDEX		1
 
 /* Ethernet support */
-#define CONFIG_PHYLIB
 #define CONFIG_PHY_SMSC
 
 /* NAND support */
@@ -125,7 +123,6 @@
 #define MTDPARTS_DEFAULT		"mtdparts=omap2-nand.0:512k(SPL),-(UBI)"
 
 /* SPL */
-#define CONFIG_SPL_LDSCRIPT		"arch/arm/mach-omap2/u-boot-spl.lds"
 
 /* UBI configuration */
 #define CONFIG_SPL_UBI			1

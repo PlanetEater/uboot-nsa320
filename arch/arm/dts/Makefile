@@ -42,6 +42,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += \
 	rk3288-veyron-mickey.dtb \
 	rk3288-veyron-minnie.dtb \
 	rk3328-evb.dtb \
+	rk3368-lion.dtb \
 	rk3368-sheep.dtb \
 	rk3368-geekbox.dtb \
 	rk3368-px5-evb.dtb \
@@ -132,13 +133,14 @@ dtb-$(CONFIG_ARCH_ZYNQ) += zynq-zc702.dtb \
 	zynq-topic-miami.dtb \
 	zynq-topic-miamilite.dtb \
 	zynq-topic-miamiplus.dtb \
+	zynq-zturn-myir.dtb \
 	zynq-zc770-xm010.dtb \
 	zynq-zc770-xm011.dtb \
 	zynq-zc770-xm012.dtb \
 	zynq-zc770-xm013.dtb
 dtb-$(CONFIG_ARCH_ZYNQMP) += \
 	zynqmp-ep108.dtb			\
-	zynqmp-zcu102.dtb			\
+	zynqmp-zcu102-revA.dtb			\
 	zynqmp-zcu102-revB.dtb			\
 	zynqmp-zc1751-xm015-dc1.dtb		\
 	zynqmp-zc1751-xm016-dc2.dtb		\
@@ -370,12 +372,22 @@ dtb-$(CONFIG_MX7) += imx7-colibri.dtb \
 
 dtb-$(CONFIG_ARCH_MX7ULP) += imx7ulp-evk.dtb
 
+dtb-$(CONFIG_RCAR_GEN3) += \
+	r8a7795-h3ulcb.dtb \
+	r8a7795-salvator-x.dtb \
+	r8a7796-m3ulcb.dtb \
+	r8a7796-salvator-x.dtb
+
 dtb-$(CONFIG_SOC_KEYSTONE) += keystone-k2hk-evm.dtb \
 	keystone-k2l-evm.dtb \
 	keystone-k2e-evm.dtb \
 	keystone-k2g-evm.dtb \
 	keystone-k2g-generic.dtb \
 	keystone-k2g-ice.dtb
+
+dtb-$(CONFIG_TARGET_AT91SAM9261EK) += at91sam9261ek.dtb
+
+dtb-$(CONFIG_TARGET_PM9263) += at91sam9263ek.dtb
 
 dtb-$(CONFIG_TARGET_AT91SAM9263EK) += at91sam9263ek.dtb
 

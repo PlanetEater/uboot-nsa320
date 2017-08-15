@@ -56,11 +56,6 @@
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
 
-/***********************************************************
- * Command definition
- ***********************************************************/
-#define CONFIG_CMD_ONENAND
-
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
 
@@ -82,9 +77,6 @@
 #define CONFIG_COMMON_BOOT	"console=ttySAC0,115200n8" \
 				" mem=128M " \
 				" " MTDPARTS_DEFAULT
-
-#define CONFIG_BOOTARGS	"root=/dev/mtdblock5 ubi.mtd=4" \
-			" rootfstype=cramfs " CONFIG_COMMON_BOOT
 
 #define CONFIG_UPDATEB	"updateb=onenand erase 0x0 0x40000;" \
 			" onenand write 0x32008000 0x0 0x40000\0"

@@ -31,7 +31,6 @@
 /*
  * Command line configuration.
  */
-#define CONFIG_BOOTARGS		"root=/dev/mtdblock0 console=ttyAM0 console=tty"
 #define CONFIG_BOOTCOMMAND	""
 
 /* Flash settings */
@@ -42,8 +41,6 @@
 /*-----------------------------------------------------------------------
  * PCI definitions
  */
-
-#define CONFIG_CMD_PCI
 
 #define CONFIG_TULIP
 #define CONFIG_EEPRO100

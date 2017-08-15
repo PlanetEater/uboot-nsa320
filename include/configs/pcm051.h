@@ -117,8 +117,6 @@
 
 /* CPU */
 
-#define CONFIG_SPL_LDSCRIPT		"arch/arm/mach-omap2/u-boot-spl.lds"
-
 #ifdef CONFIG_SPI_BOOT
 #define CONFIG_SPL_SPI_LOAD
 #define CONFIG_SYS_SPI_U_BOOT_OFFS	0x20000
@@ -140,8 +138,6 @@
 #define CONFIG_USB_ETH_RNDIS
 #endif /* CONFIG_USB_MUSB_GADGET */
 
-#define CONFIG_PHY_GIGE
-#define CONFIG_PHYLIB
 #define CONFIG_PHY_SMSC
 
 #endif	/* ! __CONFIG_PCM051_H */

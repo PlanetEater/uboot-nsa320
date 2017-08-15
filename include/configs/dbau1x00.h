@@ -38,7 +38,6 @@
 /* valid baudrates */
 
 #define	CONFIG_TIMESTAMP		/* Print image info with timestamp */
-#undef	CONFIG_BOOTARGS
 
 #define	CONFIG_EXTRA_ENV_SETTINGS					\
 	"addmisc=setenv bootargs ${bootargs} "				\
@@ -66,11 +65,6 @@
 /*
  * Command line configuration.
  */
-
-#ifdef CONFIG_DBAU1550
-
-#undef CONFIG_CMD_PCMCIA
-#endif
 
 /*
  * Miscellaneous configurable options

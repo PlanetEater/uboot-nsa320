@@ -213,11 +213,6 @@
 
 #endif	/* CONFIG_TSEC_ENET */
 
-/*
- * General PCI
- * Addresses are mapped 1-1.
- */
-
 #if defined(CONFIG_PCI)
 
 #define CONFIG_PCI_SCAN_SHOW		/* show pci devices on startup */
@@ -268,13 +263,6 @@
 #define CONFIG_BOOTP_BOOTPATH
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_HOSTNAME
-
-/*
- * Command line configuration.
- */
-#if defined(CONFIG_PCI)
-    #define CONFIG_CMD_PCI
-#endif
 
 /*
  * Miscellaneous configurable options
@@ -462,13 +450,9 @@
 				/* default location for tftp and bootm */
 #define CONFIG_LOADADDR		400000
 
-#undef  CONFIG_BOOTARGS		/* the boot command will set bootargs */
-
 #define CONFIG_PREBOOT	"echo;"	\
 	"echo Type \\\"run flash_nfs\\\" to mount root filesystem over NFS;" \
 	"echo"
-
-#undef	CONFIG_BOOTARGS
 
 #define	CONFIG_EXTRA_ENV_SETTINGS					\
 	"netdev=eth0\0"							\

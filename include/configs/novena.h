@@ -17,7 +17,6 @@
 #include "mx6_common.h"
 
 /* U-Boot Commands */
-#define CONFIG_CMD_PCI
 
 /* U-Boot general configurations */
 
@@ -39,7 +38,6 @@
 
 /* Booting Linux */
 #define CONFIG_BOOTFILE			"fitImage"
-#define CONFIG_BOOTARGS			"console=ttymxc1,115200 "
 #define CONFIG_BOOTCOMMAND		"run distro_bootcmd ; run net_nfs"
 #define CONFIG_HOSTNAME			novena
 
@@ -72,9 +70,6 @@
 #define CONFIG_FEC_XCV_TYPE		RGMII
 #define CONFIG_ETHPRIME			"FEC"
 #define CONFIG_FEC_MXC_PHYADDR		0x7
-#define CONFIG_PHYLIB
-#define CONFIG_PHY_MICREL
-#define CONFIG_PHY_MICREL_KSZ9021
 #define CONFIG_ARP_TIMEOUT		200UL
 #endif
 

@@ -17,7 +17,6 @@
 /* Ethernet driver configuration */
 #define CONFIG_MII
 #define CONFIG_PHY_RESET_DELAY			10000		/* in usec */
-#define CONFIG_PHY_GIGE			/* Include GbE speed/duplex detection */
 
 /* USBD driver configuration */
 #if defined(CONFIG_SPEAR_USBTTY)
@@ -94,11 +93,6 @@
 #define CONFIG_SYS_NAND_ONFI_DETECTION
 
 /*
- * Command support defines
- */
-#define CONFIG_CMD_SAVES
-
-/*
  * Default Environment Varible definitions
  */
 #define CONFIG_ENV_OVERWRITE
@@ -144,11 +138,6 @@
 						"0x80000 0x4C0000; " \
 						"bootm 0x1600000"
 #endif
-
-#define CONFIG_BOOTARGS				"console=ttyAMA0,115200 " \
-						"mem=128M " \
-						"root="CONFIG_FSMTDBLK \
-						"rootfstype=jffs2"
 
 #define CONFIG_NFSBOOTCOMMAND						\
 	"bootp; "							\

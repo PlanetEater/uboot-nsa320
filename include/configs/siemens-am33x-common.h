@@ -72,7 +72,6 @@
 #define CONFIG_SYS_LOAD_ADDR		0x81000000 /* Default load address */
 
 #define CONFIG_SPI
-#define CONFIG_OMAP3_SPI
 #define CONFIG_MTD_DEVICE
 #define CONFIG_SF_DEFAULT_SPEED		(75000000)
 
@@ -104,7 +103,6 @@
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_OMAP24_I2C_SPEED	100000
 #define CONFIG_SYS_OMAP24_I2C_SLAVE	1
-#define CONFIG_SYS_I2C_OMAP24XX
 
 /* Defines for SPL */
 #define CONFIG_SPL_FRAMEWORK
@@ -120,8 +118,6 @@
 
 #define CONFIG_SPL_SPI_LOAD
 #define CONFIG_SYS_SPI_U_BOOT_OFFS	0x20000
-
-#define CONFIG_SPL_LDSCRIPT		"arch/arm/mach-omap2/u-boot-spl.lds"
 
 #define CONFIG_SPL_NAND_AM33XX_BCH
 #define CONFIG_SPL_NAND_BASE
@@ -222,8 +218,6 @@
 
 #define CONFIG_DRIVER_TI_CPSW
 #define CONFIG_MII
-#define CONFIG_PHY_GIGE
-#define CONFIG_PHYLIB
 #define CONFIG_BOOTP_DEFAULT
 #define CONFIG_BOOTP_DNS
 #define CONFIG_BOOTP_DNS2
@@ -232,7 +226,6 @@
 #define CONFIG_BOOTP_SUBNETMASK
 #define CONFIG_NET_RETRY_COUNT         10
 
-#define CONFIG_NAND
 /* NAND support */
 #ifdef CONFIG_NAND
 /* UBI Support */

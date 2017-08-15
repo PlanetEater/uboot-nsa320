@@ -63,18 +63,10 @@
 
 #define CONFIG_SUPPORT_VFAT
 
-/* x86 GPIOs are accessed through a PCI device */
-#define CONFIG_INTEL_ICH6_GPIO
-
 /*-----------------------------------------------------------------------
  * Command line configuration.
  */
-#define CONFIG_CMD_PCI
 
-#define CONFIG_CMD_ZBOOT
-
-#define CONFIG_BOOTARGS		\
-	"root=/dev/sdb3 init=/sbin/init rootwait ro"
 #define CONFIG_BOOTCOMMAND	\
 	"ext2load scsi 0:3 01000000 /boot/vmlinuz; zboot 01000000"
 
@@ -111,7 +103,6 @@
 /*-----------------------------------------------------------------------
  * FLASH configuration
  */
-#define CONFIG_CMD_SF_TEST
 #define CONFIG_SPI
 
 /*-----------------------------------------------------------------------

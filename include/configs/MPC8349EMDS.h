@@ -462,10 +462,6 @@
  * Command line configuration.
  */
 
-#if defined(CONFIG_PCI)
-    #define CONFIG_CMD_PCI
-#endif
-
 #undef CONFIG_WATCHDOG			/* watchdog disabled */
 
 /*
@@ -719,8 +715,6 @@
 #define CONFIG_BOOTFILE		"uImage"
 
 #define CONFIG_LOADADDR	800000	/* default location for tftp and bootm */
-
-#undef  CONFIG_BOOTARGS		/* the boot command will set bootargs */
 
 #define CONFIG_PREBOOT	"echo;"	\
 	"echo Type \\\"run flash_nfs\\\" to mount root filesystem over NFS;" \

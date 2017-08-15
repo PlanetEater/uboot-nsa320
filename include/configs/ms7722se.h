@@ -12,10 +12,6 @@
 #define CONFIG_CPU_SH7722	1
 #define CONFIG_MS7722SE		1
 
-#define CONFIG_CMD_SDRAM
-
-#define CONFIG_BOOTARGS		"console=ttySC0,115200 root=1f01"
-
 #define CONFIG_DISPLAY_BOARDINFO
 #undef  CONFIG_SHOW_BOOT_PROGRESS
 
@@ -37,7 +33,6 @@
 #define CONFIG_SYS_BAUDRATE_TABLE	{ 115200 }	/* List of legal baudrate settings for this board */
 
 /* SCIF */
-#define CONFIG_SCIF_CONSOLE	1
 #define CONFIG_CONS_SCIF0	1
 
 #define CONFIG_SYS_MEMTEST_START	(MS7722SE_SDRAM_BASE)

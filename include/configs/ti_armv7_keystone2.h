@@ -97,7 +97,6 @@
 #endif
 
 /* Network Configuration */
-#define CONFIG_PHYLIB
 #define CONFIG_PHY_MARVELL
 #define CONFIG_MII
 #define CONFIG_BOOTP_DEFAULT
@@ -197,9 +196,6 @@
 #define CONFIG_USB_HOST_XHCI_BASE		KS2_USB_HOST_XHCI_BASE
 #define CONFIG_DEV_USB_PHY_BASE			KS2_DEV_USB_PHY_BASE
 #define CONFIG_USB_PHY_CFG_BASE			KS2_USB_PHY_CFG_BASE
-
-/* U-Boot command configuration */
-#define CONFIG_CMD_SAVES
 
 /* U-Boot general configuration */
 #define CONFIG_MISC_INIT_R
@@ -320,8 +316,6 @@
 	"bootm ${fit_loadaddr}#${name_fdt}"
 #endif
 #endif
-
-#define CONFIG_BOOTARGS							\
 
 /* Now for the remaining common defines */
 #include <configs/ti_armv7_common.h>

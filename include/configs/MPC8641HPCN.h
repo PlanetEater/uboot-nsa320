@@ -582,15 +582,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_HOSTNAME
 
-/*
- * Command line configuration.
- */
-#define CONFIG_CMD_REGINFO
-
-#if defined(CONFIG_PCI)
-    #define CONFIG_CMD_PCI
-#endif
-
 #undef CONFIG_WATCHDOG			/* watchdog disabled */
 
 /*
@@ -644,8 +635,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
 
 /* default location for tftp and bootm */
 #define CONFIG_LOADADDR		0x10000000
-
-#undef	CONFIG_BOOTARGS		/* the boot command will set bootargs */
 
 #define	CONFIG_EXTRA_ENV_SETTINGS					\
 	"netdev=eth0\0"							\

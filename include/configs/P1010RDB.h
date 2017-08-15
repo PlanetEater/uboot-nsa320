@@ -140,8 +140,6 @@
 #define CONFIG_FSL_PCIE_RESET		/* need PCIe reset errata */
 #define CONFIG_SYS_PCI_64BIT		/* enable 64-bit PCI resources */
 
-#define CONFIG_CMD_PCI
-
 /*
  * PCI Windows
  * Memory space is mapped 1-1, but I/O space must start from 0.
@@ -629,8 +627,6 @@ extern unsigned long get_sdram_size(void);
 
 #define CONFIG_ETHPRIME		"eTSEC1"
 
-#define CONFIG_PHY_GIGE		/* Include GbE speed/duplex detection */
-
 /* TBI PHY configuration for SGMII mode */
 #define CONFIG_TSEC_TBICR_SETTINGS ( \
 		TBICR_PHY_RESET \
@@ -713,11 +709,6 @@ extern unsigned long get_sdram_size(void);
 #define CONFIG_LOADS_ECHO		/* echo on for serial download */
 #define CONFIG_SYS_LOADS_BAUD_CHANGE	/* allow baudrate change */
 
-/*
- * Command line configuration.
- */
-#define CONFIG_CMD_REGINFO
-
 #undef CONFIG_WATCHDOG			/* watchdog disabled */
 
 #if defined(CONFIG_MMC) || defined(CONFIG_USB_EHCI_HCD) \
@@ -770,8 +761,6 @@ extern unsigned long get_sdram_size(void);
 
 /* default location for tftp and bootm */
 #define CONFIG_LOADADDR		1000000
-
-#undef  CONFIG_BOOTARGS		/* the boot command will set bootargs */
 
 #define	CONFIG_EXTRA_ENV_SETTINGS				\
 	"hwconfig=" __stringify(CONFIG_DEF_HWCONFIG)  "\0"	\

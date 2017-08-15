@@ -48,8 +48,6 @@
 
 /* PCIe support */
 #ifndef CONFIG_SPL_BUILD
-#define CONFIG_CMD_PCI
-#define CONFIG_CMD_PCI_ENUM
 #define CONFIG_PCI_MVEBU
 #define CONFIG_PCI_SCAN_SHOW
 #endif
@@ -126,7 +124,6 @@
 
 /* Default Environment */
 #define CONFIG_BOOTCOMMAND	"sf read ${loadaddr} 0xd0000 0x700000; bootm"
-#define CONFIG_BOOTARGS		"console=ttyS0,115200"
 #define CONFIG_LOADADDR		0x80000
 #undef CONFIG_PREBOOT		/* override preboot for USB and SPI flash init */
 #define CONFIG_PREBOOT		"usb start; sf probe"

@@ -15,7 +15,6 @@
 
 /* Booting Linux */
 #define CONFIG_BOOTFILE		"openwrt-socfpga-socfpga_cyclone5_vining_fpga-fit-uImage.itb"
-#define CONFIG_BOOTARGS		"console=ttyS0," __stringify(CONFIG_BAUDRATE)
 #define CONFIG_BOOTCOMMAND	"run selboot"
 #define CONFIG_LOADADDR		0x01000000
 #define CONFIG_SYS_LOAD_ADDR	CONFIG_LOADADDR
@@ -41,8 +40,6 @@
 #if defined(CONFIG_CMD_NET)
 #define CONFIG_BOOTP_SEND_HOSTNAME
 /* PHY */
-#define CONFIG_PHY_MICREL
-#define CONFIG_PHY_MICREL_KSZ9021
 #endif
 
 /* Extra Environment */

@@ -11,7 +11,6 @@
 #define __CONFIG_H
 
 #define CONFIG_NR_DRAM_BANKS	2	/* CS1 may or may not be populated */
-#define CONFIG_NAND
 
 /* override base for compatibility with MLO the device ships with */
 #define CONFIG_SYS_TEXT_BASE		0x80008000
@@ -28,9 +27,6 @@
 /*
  * Hardware drivers
  */
-
-/* I2C Support */
-#define CONFIG_SYS_I2C_OMAP34XX
 
 /* TWL4030 LED */
 #define CONFIG_TWL4030_LED

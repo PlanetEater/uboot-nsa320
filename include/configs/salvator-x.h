@@ -17,7 +17,6 @@
 #include "rcar-gen3-common.h"
 
 /* SCIF */
-#define CONFIG_SCIF_CONSOLE
 #define CONFIG_CONS_SCIF2
 #define CONFIG_CONS_INDEX	2
 #define CONFIG_SH_SCIF_CLK_FREQ        CONFIG_S3D4_CLK_FREQ
@@ -27,7 +26,6 @@
 
 /* Ethernet RAVB */
 #define CONFIG_NET_MULTI
-#define CONFIG_PHY_MICREL
 #define CONFIG_BITBANGMII
 #define CONFIG_BITBANGMII_MULTI
 

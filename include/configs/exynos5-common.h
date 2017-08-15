@@ -17,7 +17,6 @@
 
 #ifdef FTRACE
 #define CONFIG_TRACE
-#define CONFIG_CMD_TRACE
 #define CONFIG_TRACE_BUFFER_SIZE	(16 << 20)
 #define CONFIG_TRACE_EARLY_SIZE		(8 << 20)
 #define CONFIG_TRACE_EARLY
@@ -49,7 +48,6 @@
 #define CONFIG_SUPPORT_EMMC_BOOT
 
 /* specific .lds file */
-#define CONFIG_SPL_LDSCRIPT	"board/samsung/common/exynos-uboot-spl.lds"
 
 /* Boot Argument Buffer Size */
 /* memtest works on */

@@ -30,25 +30,16 @@
  */
 #if defined(ENV_IS_EMBEDDED) || defined(CONFIG_BUILD_ENVCRC)
 /*
- * Only put the environment in it's own section when we are building
+ * Put the environment in the .text section when we are building
  * U-Boot proper.  The host based program "tools/envcrc" does not need
- * a seperate section.  Note that ENV_CRC is only defined when building
- * U-Boot itself.
+ * a seperate section.
  */
-#if defined(CONFIG_SYS_USE_PPCENV) && \
-	defined(ENV_CRC) /* Environment embedded in U-Boot .ppcenv section */
-/* XXX - This only works with GNU C */
-#  define __PPCENV__	__attribute__ ((section(".ppcenv")))
-#  define __PPCTEXT__	__attribute__ ((section(".text")))
-
-#elif defined(USE_HOSTCC) /* Native for 'tools/envcrc' */
-#  define __PPCENV__	/*XXX DO_NOT_DEL_THIS_COMMENT*/
-#  define __PPCTEXT__	/*XXX DO_NOT_DEL_THIS_COMMENT*/
+#if defined(USE_HOSTCC) /* Native for 'tools/envcrc' */
+#  define __UBOOT_ENV_SECTION__	/*XXX DO_NOT_DEL_THIS_COMMENT*/
 
 #else /* Environment is embedded in U-Boot's .text section */
 /* XXX - This only works with GNU C */
-#  define __PPCENV__	__attribute__ ((section(".text")))
-#  define __PPCTEXT__	__attribute__ ((section(".text")))
+#  define __UBOOT_ENV_SECTION__	__attribute__ ((section(".text")))
 #endif
 
 /*
@@ -79,7 +70,7 @@
 #include <env_default.h>
 
 #ifdef CONFIG_ENV_ADDR_REDUND
-env_t redundand_environment __PPCENV__ = {
+env_t redundand_environment __UBOOT_ENV_SECTION__ = {
 	0,		/* CRC Sum: invalid */
 	0,		/* Flags:   invalid */
 	{
@@ -96,7 +87,7 @@ env_t redundand_environment __PPCENV__ = {
  * .data/.sdata section.
  *
  */
-unsigned long env_size __PPCTEXT__ = sizeof(env_t);
+unsigned long env_size __UBOOT_ENV_SECTION__ = sizeof(env_t);
 
 /*
  * Add in absolutes.

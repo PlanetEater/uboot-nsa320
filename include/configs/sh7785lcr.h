@@ -12,12 +12,6 @@
 #define CONFIG_CPU_SH7785	1
 #define CONFIG_SH7785LCR	1
 
-#define CONFIG_CMD_PCI
-#define CONFIG_CMD_SDRAM
-#define CONFIG_CMD_SH_ZIMAGEBOOT
-
-#define CONFIG_BOOTARGS		"console=ttySC1,115200 root=/dev/nfs ip=dhcp"
-
 #define CONFIG_EXTRA_ENV_SETTINGS					\
 	"bootdevice=0:1\0"						\
 	"usbload=usb reset;usbboot;usb stop;bootm\0"
@@ -53,7 +47,6 @@
 #define CONFIG_SYS_BAUDRATE_TABLE	{ 115200 }
 
 /* SCIF */
-#define CONFIG_SCIF_CONSOLE	1
 #define CONFIG_CONS_SCIF1	1
 #define CONFIG_SCIF_EXT_CLOCK	1
 

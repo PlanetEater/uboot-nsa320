@@ -67,8 +67,6 @@ typedef unsigned long flash_sect_t;
 #define FLASH_CFI_BY16		0x02
 #define FLASH_CFI_BY32		0x04
 #define FLASH_CFI_BY64		0x08
-/* convert between bit value and numeric value */
-#define CFI_FLASH_SHIFT_WIDTH	3
 /*
  * Values for the flash device interface
  */
@@ -469,7 +467,6 @@ extern flash_info_t *flash_get_info(ulong base);
 #define FLASH_S29GL128N 0x00F1		/* Spansion S29GL128N			*/
 
 #define FLASH_STM32	0x00F2		/* STM32 Embedded Flash */
-#define FLASH_STM32F1	0x00F3		/* STM32F1 Embedded Flash */
 
 #define FLASH_UNKNOWN	0xFFFF		/* unknown flash type			*/
 

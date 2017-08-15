@@ -71,7 +71,6 @@
 #define CONFIG_FEC_XCV_TYPE		RGMII
 #define CONFIG_ETHPRIME		"FEC"
 #define CONFIG_FEC_MXC_PHYADDR		4
-#define CONFIG_PHYLIB
 #define CONFIG_PHY_ATHEROS
 
 /* Serial Flash */
@@ -269,7 +268,6 @@
 #define CONFIG_PWM_IMX
 #define CONFIG_IMX6_PWM_PER_CLK         66000000
 
-#undef CONFIG_CMD_PCI
 #ifdef CONFIG_CMD_PCI
 #define CONFIG_PCI_SCAN_SHOW
 #define CONFIG_PCIE_IMX

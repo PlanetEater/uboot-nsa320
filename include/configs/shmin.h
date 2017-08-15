@@ -15,10 +15,6 @@
 /* T-SH7706LSR*/
 /* #define CONFIG_T_SH7706LSR	1 */
 
-#define CONFIG_CMD_SDRAM
-
-#define CONFIG_BOOTARGS		"console=ttySC0,115200"
-
 /*
  * This board has original boot loader. If you write u-boot to 0x0,
  * you should set undef.
@@ -41,7 +37,6 @@
 #define CONFIG_SYS_BAUDRATE_TABLE	{ 9600,14400,19200,38400,57600,115200 }
 
 /* SCIF */
-#define CONFIG_SCIF_CONSOLE	1
 #define CONFIG_CONS_SCIF0	1
 
 /* memory */

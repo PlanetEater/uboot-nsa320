@@ -262,8 +262,6 @@
 
 #define CONFIG_PCI_SCAN_SHOW		/* show pci devices on startup */
 
-#define CONFIG_CMD_REGINFO
-
 #define CONFIG_ULI526X
 #ifdef CONFIG_ULI526X
 #endif
@@ -426,10 +424,6 @@
  * Command line configuration.
  */
 
-#if defined(CONFIG_PCI)
-#define CONFIG_CMD_PCI
-#endif
-
 #define CONFIG_WATCHDOG			/* watchdog enabled */
 #define CONFIG_SYS_WATCHDOG_FREQ	5000	/* Feed interval, 5s */
 
@@ -478,8 +472,6 @@
 
 /* default location for tftp and bootm */
 #define CONFIG_LOADADDR		0x10000000
-
-#undef	CONFIG_BOOTARGS		/* the boot command will set bootargs */
 
 #if defined(CONFIG_PCI1)
 #define PCI_ENV \

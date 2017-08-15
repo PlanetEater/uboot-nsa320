@@ -11,7 +11,6 @@
 #ifndef __CONFIG_PENGWYN_H
 #define __CONFIG_PENGWYN_H
 
-#define CONFIG_NAND
 #define CONFIG_SERIAL1
 #define CONFIG_CONS_INDEX		1
 
@@ -163,9 +162,7 @@
 #define CONFIG_SYS_ENV_SECT_SIZE	(128 << 10)	/* 128 KiB */
 /* NAND: SPL falcon mode configs */
 #ifdef CONFIG_SPL_OS_BOOT
-#define CONFIG_CMD_SPL_NAND_OFS		0x240000 /* un-assigned */
 #define CONFIG_SYS_NAND_SPL_KERNEL_OFFS	0x280000
-#define CONFIG_CMD_SPL_WRITE_SIZE	0x2000
 #endif
 
 /*
@@ -191,13 +188,10 @@
 #define CONFIG_NET_MULTI
 
 /* Network */
-#define CONFIG_PHYLIB
 #define CONFIG_PHY_RESET	1
 #define CONFIG_PHY_NATSEMI
 #define CONFIG_PHY_REALTEK
 
 /* CPSW support */
-
-#define CONFIG_SPL_LDSCRIPT		"arch/arm/mach-omap2/u-boot-spl.lds"
 
 #endif	/* ! __CONFIG_PENGWYN_H */

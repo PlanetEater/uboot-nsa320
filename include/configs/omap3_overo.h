@@ -8,7 +8,6 @@
 #define __CONFIG_H
 
 #define CONFIG_NR_DRAM_BANKS	2	/* CS1 may or may not be populated */
-#define CONFIG_NAND
 
 #include <configs/ti_omap3_common.h>
 /*
@@ -34,7 +33,6 @@
 #define CONFIG_SYS_MALLOC_LEN	(CONFIG_ENV_SIZE + (128 << 15))
 
 /* I2C Support */
-#define CONFIG_SYS_I2C_OMAP34XX
 
 /* TWL4030 LED */
 #define CONFIG_TWL4030_LED
@@ -218,9 +216,7 @@
 #define CONFIG_SYS_NAND_U_BOOT_OFFS	0x80000
 /* NAND: SPL falcon mode configs */
 #ifdef CONFIG_SPL_OS_BOOT
-#define CONFIG_CMD_SPL_NAND_OFS		0x240000
 #define CONFIG_SYS_NAND_SPL_KERNEL_OFFS	0x280000
-#define CONFIG_CMD_SPL_WRITE_SIZE	0x2000
 #endif
 
 #endif				/* __CONFIG_H */

@@ -41,7 +41,6 @@
 
 #define CONFIG_MACH_TYPE		MACH_TYPE_TRATS
 
-#define CONFIG_BOOTARGS			"Please use defined boot"
 #define CONFIG_BOOTCOMMAND		"run autoboot"
 #define CONFIG_DEFAULT_CONSOLE		"console=ttySAC2,115200n8\0"
 
@@ -166,7 +165,6 @@
 	"fdtaddr=40800000\0" \
 
 /* Falcon mode definitions */
-#define CONFIG_CMD_SPL
 #define CONFIG_SYS_SPL_ARGS_ADDR        CONFIG_SYS_SDRAM_BASE + 0x100
 
 /* GPT */

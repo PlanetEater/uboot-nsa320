@@ -11,7 +11,6 @@
 #define __IGEP00X0_H
 
 #define CONFIG_NR_DRAM_BANKS            2
-#define CONFIG_NAND
 
 #include <configs/ti_omap3_common.h>
 #include <asm/mach-types.h>
@@ -51,8 +50,6 @@
 #define CONFIG_USBD_PRODUCTID		0x5678
 #define CONFIG_USBD_MANUFACTURER	"Texas Instruments"
 #define CONFIG_USBD_PRODUCT_NAME	"IGEP"
-
-#define CONFIG_CMD_ONENAND
 
 #ifndef CONFIG_SPL_BUILD
 

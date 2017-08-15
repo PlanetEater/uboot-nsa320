@@ -9,12 +9,9 @@
 
 #include <configs/x86-common.h>
 
-#undef CONFIG_CMD_SF_TEST
-
 #undef CONFIG_TPM_TIS_BASE_ADDRESS
 
 #undef CONFIG_SCSI_AHCI
-#undef CONFIG_INTEL_ICH6_GPIO
 #undef CONFIG_USB_EHCI_PCI
 
 #define CONFIG_STD_DEVICES_SETTINGS     "stdin=usbkbd,vga,serial\0" \

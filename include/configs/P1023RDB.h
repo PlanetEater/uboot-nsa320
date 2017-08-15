@@ -237,15 +237,6 @@ extern unsigned long get_clock_freq(void);
 #define CONFIG_SYS_LOADS_BAUD_CHANGE	/* allow baudrate change */
 
 /*
- * Command line configuration.
- */
-#define CONFIG_CMD_REGINFO
-
-#if defined(CONFIG_PCI)
-#define CONFIG_CMD_PCI
-#endif
-
-/*
  * USB
  */
 #define CONFIG_HAS_FSL_DR_USB
@@ -317,7 +308,6 @@ extern unsigned long get_clock_freq(void);
 
 /* For FM */
 #define CONFIG_SYS_DPAA_FMAN
-#define CONFIG_PHY_GIGE		/* Include GbE speed/duplex detection */
 
 #ifdef CONFIG_SYS_DPAA_FMAN
 #define CONFIG_FMAN_ENET

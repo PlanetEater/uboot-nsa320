@@ -77,8 +77,6 @@
 #define CONFIG_FSL_PCIE_RESET		/* need PCIe reset errata */
 #define CONFIG_SYS_PCI_64BIT		/* enable 64-bit PCI resources */
 
-#define CONFIG_CMD_PCI
-
 /*
  * PCI Windows
  * Memory space is mapped 1-1, but I/O space must start from 0.
@@ -394,8 +392,6 @@
 #define TSEC2_FLAGS		(TSEC_GIGABIT | TSEC_REDUCED)
 
 #define CONFIG_ETHPRIME		"eTSEC1"
-
-#define CONFIG_PHY_GIGE
 #endif	/* CONFIG_TSEC_ENET */
 
 /*
@@ -428,11 +424,6 @@
 
 #define CONFIG_LOADS_ECHO
 #define CONFIG_SYS_LOADS_BAUD_CHANGE
-
-/*
- * Command line configuration.
- */
-#define CONFIG_CMD_REGINFO
 
 /*
  * Miscellaneous configurable options

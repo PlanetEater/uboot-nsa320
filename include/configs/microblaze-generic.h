@@ -160,25 +160,6 @@
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_HOSTNAME
 
-/*
- * Command line configuration.
- */
-#define CONFIG_CMD_MFSL
-
-#if defined(FLASH)
-# if !defined(RAMENV)
-#  define CONFIG_CMD_SAVES
-# endif
-
-#else
-#if defined(SPIFLASH)
-
-# if !defined(RAMENV)
-#  define CONFIG_CMD_SAVES
-# endif
-#endif
-#endif
-
 #if defined(CONFIG_CMD_JFFS2)
 # define CONFIG_MTD_PARTITIONS
 #endif
@@ -210,7 +191,6 @@
 /* default load address */
 #define	CONFIG_SYS_LOAD_ADDR	0
 
-#define	CONFIG_BOOTARGS		"root=romfs"
 #define	CONFIG_HOSTNAME		XILINX_BOARD_NAME
 #define	CONFIG_BOOTCOMMAND	"base 0;tftp 11000000 image.img;bootm"
 
@@ -238,15 +218,12 @@
 
 #if defined(CONFIG_XILINX_AXIEMAC)
 # define CONFIG_MII		1
-# define CONFIG_PHY_GIGE	1
 # define CONFIG_SYS_FAULT_ECHO_LINK_DOWN	1
 # define CONFIG_PHY_ATHEROS	1
 # define CONFIG_PHY_BROADCOM	1
 # define CONFIG_PHY_DAVICOM	1
 # define CONFIG_PHY_LXT		1
 # define CONFIG_PHY_MARVELL	1
-# define CONFIG_PHY_MICREL	1
-# define CONFIG_PHY_MICREL_KSZ9021
 # define CONFIG_PHY_NATSEMI	1
 # define CONFIG_PHY_REALTEK	1
 # define CONFIG_PHY_VITESSE	1
@@ -255,10 +232,7 @@
 #endif
 
 /* SPL part */
-#define CONFIG_CMD_SPL
 #define CONFIG_SPL_FRAMEWORK
-
-#define CONFIG_SPL_LDSCRIPT	"arch/microblaze/cpu/u-boot-spl.lds"
 
 #ifdef CONFIG_SYS_FLASH_BASE
 # define CONFIG_SYS_UBOOT_BASE		CONFIG_SYS_FLASH_BASE

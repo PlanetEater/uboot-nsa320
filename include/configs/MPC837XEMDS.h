@@ -465,10 +465,6 @@ extern int board_pci_host_broken(void);
  * Command line configuration.
  */
 
-#if defined(CONFIG_PCI)
-    #define CONFIG_CMD_PCI
-#endif
-
 #define CONFIG_CMDLINE_EDITING	1	/* add command line history */
 #define CONFIG_AUTO_COMPLETE		/* add autocompletion support   */
 
@@ -639,8 +635,6 @@ extern int board_pci_host_broken(void);
 #endif
 
 #define CONFIG_LOADADDR 800000	/* default location for tftp and bootm */
-
-#undef CONFIG_BOOTARGS		/* the boot command will set bootargs */
 
 #define CONFIG_EXTRA_ENV_SETTINGS					\
 	"netdev=eth0\0"							\

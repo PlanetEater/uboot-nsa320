@@ -266,8 +266,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
 #define CONFIG_SYS_PCIE1_IO_PHYS	0xffc00000
 #define CONFIG_SYS_PCIE1_IO_SIZE	0x00010000	/* 64k */
 
-#define CONFIG_CMD_PCI
-
 #define CONFIG_PCI_SCAN_SHOW	/* show pci devices on startup */
 #endif /* CONFIG_PCI */
 
@@ -294,8 +292,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
 #define TSEC3_PHYIDX	0
 
 #define CONFIG_ETHPRIME	"eTSEC1"
-
-#define CONFIG_PHY_GIGE	1	/* Include GbE speed/duplex detection */
 
 #define CONFIG_HAS_ETH0
 #define CONFIG_HAS_ETH1
@@ -377,11 +373,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
 #define CONFIG_SYS_LOADS_BAUD_CHANGE	/* allow baudrate change */
 
 /*
- * Command line configuration.
- */
-#define CONFIG_CMD_REGINFO
-
-/*
  * USB
  */
 #define CONFIG_HAS_FSL_DR_USB
@@ -434,8 +425,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
 
 /* default location for tftp and bootm */
 #define CONFIG_LOADADDR	1000000
-
-#define CONFIG_BOOTARGS	/* the boot command will set bootargs */
 
 #define	CONFIG_EXTRA_ENV_SETTINGS	\
 "netdev=eth0\0"	\

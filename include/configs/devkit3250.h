@@ -73,7 +73,6 @@
 #define CONFIG_RMII
 #define CONFIG_PHY_SMSC
 #define CONFIG_LPC32XX_ETH
-#define CONFIG_PHYLIB
 #define CONFIG_PHY_ADDR			0x1F
 #define CONFIG_SYS_FAULT_ECHO_LINK_DOWN
 
@@ -166,7 +165,6 @@
 #define CONFIG_SETUP_MEMORY_TAGS
 
 #define CONFIG_BOOTFILE			"uImage"
-#define CONFIG_BOOTARGS			"console=ttyS0,115200n8"
 #define CONFIG_LOADADDR			0x80008000
 
 /*

@@ -686,8 +686,6 @@
 #endif
 #define CONFIG_SYS_PCIE1_IO_SIZE	0x00010000	/* 64k */
 
-#define CONFIG_CMD_PCI
-
 #define CONFIG_PCI_SCAN_SHOW	/* show pci devices on startup */
 #endif /* CONFIG_PCI */
 
@@ -713,8 +711,6 @@
 #define TSEC3_PHYIDX	0
 
 #define CONFIG_ETHPRIME	"eTSEC1"
-
-#define CONFIG_PHY_GIGE	1	/* Include GbE speed/duplex detection */
 
 #define CONFIG_HAS_ETH0
 #define CONFIG_HAS_ETH1
@@ -801,11 +797,6 @@
 #define CONFIG_SYS_LOADS_BAUD_CHANGE	/* allow baudrate change */
 
 /*
- * Command line configuration.
- */
-#define CONFIG_CMD_REGINFO
-
-/*
  * USB
  */
 #define CONFIG_HAS_FSL_DR_USB
@@ -866,8 +857,6 @@
 
 /* default location for tftp and bootm */
 #define CONFIG_LOADADDR	1000000
-
-#define CONFIG_BOOTARGS	/* the boot command will set bootargs */
 
 #ifdef __SW_BOOT_NOR
 #define __NOR_RST_CMD	\

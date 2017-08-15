@@ -16,7 +16,6 @@
 
 /* Booting Linux */
 #define CONFIG_BOOTFILE		"zImage"
-#define CONFIG_BOOTARGS		"console=ttyS0," __stringify(CONFIG_BAUDRATE)
 #define CONFIG_LOADADDR		0x01000000
 #define CONFIG_SYS_LOAD_ADDR	CONFIG_LOADADDR
 
@@ -25,8 +24,6 @@
 #define CONFIG_ARP_TIMEOUT		500UL
 
 /* PHY */
-#define CONFIG_PHY_MICREL
-#define CONFIG_PHY_MICREL_KSZ9021
 #endif
 
 /* The rest of the configuration is shared */

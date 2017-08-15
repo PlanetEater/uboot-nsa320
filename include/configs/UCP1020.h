@@ -352,8 +352,6 @@
 #define CONFIG_SYS_PCIE1_IO_PHYS	0xffc00000
 #define CONFIG_SYS_PCIE1_IO_SIZE	0x00010000	/* 64k */
 
-#define CONFIG_CMD_PCI
-
 #define CONFIG_PCI_SCAN_SHOW	/* show pci devices on startup */
 #endif /* CONFIG_PCI */
 
@@ -413,11 +411,6 @@
 #define CONFIG_SYS_LOADS_BAUD_CHANGE	/* allow baudrate change */
 
 /*
- * Command line configuration.
- */
-#define CONFIG_CMD_REGINFO
-
-/*
  * USB
  */
 #define CONFIG_HAS_FSL_DR_USB
@@ -437,7 +430,6 @@
 #define CONFIG_FSL_ESDHC
 #define CONFIG_SYS_FSL_ESDHC_ADDR	CONFIG_SYS_MPC85xx_ESDHC_ADDR
 #define CONFIG_MMC_SPI
-#define CONFIG_CMD_MMC_SPI
 #endif
 
 /* Misc Extra Settings */
@@ -479,10 +471,7 @@
 
 #if defined(CONFIG_TSEC_ENET)
 
-#if defined(CONFIG_UCP1020_REV_1_2)
-#define CONFIG_PHY_MICREL_KSZ9021
-#elif defined(CONFIG_UCP1020_REV_1_3)
-#define CONFIG_PHY_MICREL_KSZ9031
+#if defined(CONFIG_UCP1020_REV_1_2) || defined(CONFIG_UCP1020_REV_1_3)
 #else
 #error "UCP1020 module revision is not defined !!!"
 #endif
@@ -507,8 +496,6 @@
 #define TSEC2_PHYIDX	0
 #define TSEC3_PHYIDX	0
 
-#define CONFIG_PHY_GIGE	1	/* Include GbE speed/duplex detection */
-
 #endif
 
 #define CONFIG_HOSTNAME		UCP1020
@@ -518,8 +505,6 @@
 
 /* default location for tftp and bootm */
 #define CONFIG_LOADADDR		1000000
-
-#define CONFIG_BOOTARGS	/* the boot command will set bootargs */
 
 #if defined(CONFIG_DONGLE)
 

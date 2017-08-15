@@ -154,11 +154,6 @@
 /*
  * Hardware drivers
  */
-#define CONFIG_AT91_GPIO	1
-#define CONFIG_ATMEL_USART	1
-#define CONFIG_USART_BASE		ATMEL_BASE_DBGU
-#define	CONFIG_USART_ID			ATMEL_ID_SYS
-
 /* LCD */
 #define LCD_BPP				LCD_COLOR8
 #define CONFIG_LCD_LOGO			1
@@ -169,12 +164,6 @@
 #define CONFIG_ATMEL_LCD_BGR555		1
 
 #define CONFIG_LCD_IN_PSRAM		1
-
-/* LED */
-#define CONFIG_AT91_LED
-#define CONFIG_RED_LED		GPIO_PIN_PB(7) /* this is the power led */
-#define CONFIG_GREEN_LED	GPIO_PIN_PB(8) /* this is the user1 led */
-
 
 /*
  * BOOTP options
@@ -188,15 +177,6 @@
 #define CONFIG_NR_DRAM_BANKS	1
 #define PHYS_SDRAM		0x20000000
 #define PHYS_SDRAM_SIZE		0x04000000	/* 64 megs */
-
-/* DataFlash */
-#define CONFIG_ATMEL_DATAFLASH_SPI
-#define CONFIG_HAS_DATAFLASH			1
-#define CONFIG_SYS_MAX_DATAFLASH_BANKS		1
-#define CONFIG_SYS_DATAFLASH_LOGIC_ADDR_CS0	0xC0000000	/* CS0 */
-#define AT91_SPI_CLK				15000000
-#define DATAFLASH_TCSS				(0x1a << 16)
-#define DATAFLASH_TCHS				(0x1 << 24)
 
 /* NOR flash, if populated */
 #define CONFIG_SYS_FLASH_CFI		1
@@ -263,15 +243,13 @@
 #ifdef CONFIG_SYS_USE_DATAFLASH
 
 /* bootstrap + u-boot + env + linux in dataflash on CS0 */
-#define CFG_MONITOR_BASE	(CFG_DATAFLASH_LOGIC_ADDR_CS0 + 0x8400)
 #define CONFIG_ENV_OFFSET	0x4200
-#define CONFIG_ENV_ADDR		(CFG_DATAFLASH_LOGIC_ADDR_CS0 + CONFIG_ENV_OFFSET)
 #define CONFIG_ENV_SIZE		0x4200
-#define CONFIG_BOOTCOMMAND	"cp.b 0xC0042000 0x22000000 0x210000; bootm"
-#define CONFIG_BOOTARGS		"console=ttyS0,115200 " \
-				"root=/dev/mtdblock0 " \
-				"mtdparts=atmel_nand:-(root) "\
-				"rw rootfstype=jffs2"
+#define CONFIG_ENV_SECT_SIZE	0x210
+#define CONFIG_ENV_SPI_MAX_HZ	15000000
+#define CONFIG_BOOTCOMMAND	"sf probe 0; " \
+				"sf read 0x22000000 0x84000 0x294000; " \
+				"bootm 0x22000000"
 
 #elif defined(CONFIG_SYS_USE_NANDFLASH) /* CFG_USE_NANDFLASH */
 
@@ -280,16 +258,6 @@
 #define CONFIG_ENV_OFFSET_REDUND	0x80000
 #define CONFIG_ENV_SIZE		0x20000		/* 1 sector = 128 kB */
 #define CONFIG_BOOTCOMMAND	"nand read 0x22000000 0xA0000 0x200000; bootm"
-#define CONFIG_BOOTARGS		"console=ttyS0,115200 "		\
-				"root=/dev/mtdblock5 "		\
-				"mtdparts=atmel_nand:"		\
-					"128k(bootstrap)ro,"	\
-					"256k(uboot)ro,"	\
-					"128k(env1)ro,"		\
-					"128k(env2)ro,"		\
-					"2M(linux),"		\
-					"-(root) "		\
-				"rw rootfstype=jffs2"
 
 #elif defined(CONFIG_SYS_USE_FLASH) /* CFG_USE_FLASH */
 
@@ -309,8 +277,6 @@
 #define CONFIG_ROOTPATH			"/ronetix/rootfs"
 
 #define CONFIG_CON_ROT			"fbcon=rotate:3 "
-#define CONFIG_BOOTARGS			"root=/dev/mtdblock4 rootfstype=jffs2 "\
-					CONFIG_CON_ROT
 
 #define MTDIDS_DEFAULT			"nor0=physmap-flash.0,nand0=nand"
 #define MTDPARTS_DEFAULT		\
@@ -356,7 +322,7 @@
 #define CONFIG_SYS_MALLOC_LEN	ROUND(3 * CONFIG_ENV_SIZE + 128 * 1024, 0x1000)
 
 #define CONFIG_SYS_SDRAM_BASE	PHYS_SDRAM
-#define CONFIG_SYS_INIT_SP_ADDR	(CONFIG_SYS_SDRAM_BASE + 0x1000 - \
+#define CONFIG_SYS_INIT_SP_ADDR	(CONFIG_SYS_SDRAM_BASE + 16 * 1024 - \
 				GENERATED_GBL_DATA_SIZE)
 
 #endif

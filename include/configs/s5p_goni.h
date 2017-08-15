@@ -51,14 +51,11 @@
 /* PWM */
 #define CONFIG_PWM			1
 
-#define CONFIG_CMD_ONENAND
-
 /* USB Composite download gadget - g_dnl */
 #define CONFIG_SYS_DFU_DATA_BUF_SIZE SZ_32M
 #define DFU_DEFAULT_POLL_TIMEOUT 300
 
 /* TIZEN THOR downloader support */
-#define CONFIG_CMD_THOR_DOWNLOAD
 #define CONFIG_USB_FUNCTION_THOR
 
 /* USB Samsung's IDs */
@@ -113,9 +110,6 @@
 		" ${console} ${meminfo}"
 
 #define CONFIG_COMMON_BOOT	"${console} ${meminfo} ${mtdparts}"
-
-#define CONFIG_BOOTARGS	"root=/dev/mtdblock8 rootfstype=ext4 " \
-			CONFIG_COMMON_BOOT
 
 #define CONFIG_UPDATEB	"updateb=onenand erase 0x0 0x100000;" \
 			" onenand write 0x32008000 0x0 0x100000\0"

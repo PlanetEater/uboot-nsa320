@@ -15,7 +15,6 @@
 
 #define CONFIG_DISPLAY_BOARDINFO
 
-#define CONFIG_BOOTARGS		"console=ttySC7,115200"
 #define CONFIG_SYS_BAUDRATE_TABLE	{ CONFIG_BAUDRATE }
 
 #define CONFIG_SYS_LONGHELP		/* undef to save memory	*/
@@ -24,7 +23,6 @@
 #define CONFIG_SYS_MAXARGS	16	/* max number of command args */
 
 /* Serial */
-#define CONFIG_SCIF_CONSOLE
 #define CONFIG_CONS_SCIF7
 
 /* Memory */

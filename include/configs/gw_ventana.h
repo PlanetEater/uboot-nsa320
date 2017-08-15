@@ -12,12 +12,9 @@
 #define CONFIG_SYS_NAND_U_BOOT_OFFS     (14 * SZ_1M)
 
 /* Falcon Mode */
-#define CONFIG_CMD_SPL
 #define CONFIG_SYS_SPL_ARGS_ADDR	0x18000000
-#define CONFIG_CMD_SPL_WRITE_SIZE	(128 * SZ_1K)
 
 /* Falcon Mode - NAND support: args@17MB kernel@18MB */
-#define CONFIG_CMD_SPL_NAND_OFS		(17 * SZ_1M)
 #define CONFIG_SYS_NAND_SPL_KERNEL_OFFS	(18 * SZ_1M)
 
 /* Falcon Mode - MMC support: args@1MB kernel@2MB */
@@ -116,7 +113,6 @@
 /*
  * PCI express
  */
-#define CONFIG_CMD_PCI
 #ifdef CONFIG_CMD_PCI
 #define CONFIG_PCI_SCAN_SHOW
 #define CONFIG_PCI_FIXUP_DEV

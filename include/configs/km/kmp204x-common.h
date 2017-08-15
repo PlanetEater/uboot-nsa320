@@ -346,9 +346,7 @@ int get_scl(void);
 /* RGMII (FM1@DTESC5) is used as debug itf, it's the only one configured */
 #define CONFIG_SYS_FM1_DTSEC5_PHY_ADDR	0x11
 #define CONFIG_SYS_TBIPA_VALUE	8
-#define CONFIG_PHYLIB		/* recommended PHY management */
 #define CONFIG_ETHPRIME		"FM1@DTSEC5"
-#define CONFIG_PHY_GIGE		/* Include GbE speed/duplex detection */
 
 /*
  * Environment
@@ -367,7 +365,6 @@ int get_scl(void);
 /*
  * additionnal command line configuration.
  */
-#define CONFIG_CMD_PCI
 
 /* we don't need flash support */
 #undef CONFIG_FLASH_CFI_MTD

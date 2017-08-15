@@ -57,7 +57,6 @@
 
 #define CONFIG_PHY_SMSC
 #define CONFIG_LPC32XX_ETH
-#define CONFIG_PHYLIB
 #define CONFIG_PHY_ADDR 0
 #define CONFIG_SYS_FAULT_ECHO_LINK_DOWN
 /* FIXME: remove "Waiting for PHY auto negotiation to complete..." message */
@@ -131,7 +130,6 @@
 
 #define CONFIG_LPC32XX_SSP
 #define CONFIG_LPC32XX_SSP_TIMEOUT 100000
-#define CONFIG_CMD_MAX6957
 /*
  * Environment
  */
@@ -149,7 +147,6 @@
 #define CONFIG_INITRD_TAG
 
 #define CONFIG_BOOTFILE			"uImage"
-#define CONFIG_BOOTARGS			"console=ttyS2,115200n8"
 #define CONFIG_LOADADDR			0x80008000
 
 /*

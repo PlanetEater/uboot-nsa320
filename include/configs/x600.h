@@ -74,9 +74,6 @@
 #define CONFIG_MII
 #define CONFIG_PHY_RESET_DELAY			10000		/* in usec */
 #define CONFIG_PHY_ADDR		0	/* PHY address */
-#define CONFIG_PHY_GIGE			/* Include GbE speed/duplex detection */
-#define CONFIG_PHY_MICREL
-#define CONFIG_PHY_MICREL_KSZ9031
 
 #define CONFIG_SPEAR_GPIO
 
@@ -99,11 +96,6 @@
 /* USB EHCI options */
 #define CONFIG_USB_EHCI_SPEAR
 #define CONFIG_USB_MAX_CONTROLLER_COUNT	2
-
-/*
- * Command support defines
- */
-#define CONFIG_CMD_SAVES
 
 /* Filesystem support (for USB key) */
 #define CONFIG_SUPPORT_VFAT
@@ -245,7 +237,6 @@
 #define CONFIG_SPL_TEXT_BASE		0xd2800b00
 #define CONFIG_SPL_MAX_SIZE		(CONFIG_SRAM_SIZE - 0xb00)
 #define	CONFIG_SPL_START_S_PATH	"arch/arm/cpu/arm926ejs/spear"
-#define CONFIG_SPL_LDSCRIPT	"arch/arm/cpu/arm926ejs/spear/u-boot-spl.lds"
 
 #define CONFIG_SPL_FRAMEWORK
 

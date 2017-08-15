@@ -11,8 +11,6 @@
 
 #include <asm/arch/rmobile.h>
 
-#define CONFIG_CMD_SDRAM
-
 /* Support File sytems */
 #define CONFIG_SUPPORT_VFAT
 #define CONFIG_FS_EXT4
@@ -22,8 +20,6 @@
 #define CONFIG_SETUP_MEMORY_TAGS
 #define CONFIG_INITRD_TAG
 #define CONFIG_CMDLINE_EDITING
-
-#define CONFIG_BOOTARGS		""
 
 #undef	CONFIG_SHOW_BOOT_PROGRESS
 

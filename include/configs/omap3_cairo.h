@@ -36,8 +36,6 @@
 #define CONFIG_SYS_SPL_MALLOC_START	0x80208000
 #define CONFIG_SYS_SPL_MALLOC_SIZE	0x100000
 
-#define CONFIG_NAND
-
 #include <configs/ti_omap3_common.h>
 
 #define CONFIG_MISC_INIT_R
@@ -50,8 +48,6 @@
 
 /* Probe all devices */
 #define CONFIG_SYS_I2C_NOPROBES		{ {0x0, 0x0} }
-
-#define CONFIG_NAND
 
 /*
  * TWL4030
@@ -180,8 +176,6 @@
 #define CONFIG_ENV_OFFSET		SMNAND_ENV_OFFSET
 #define CONFIG_ENV_ADDR			SMNAND_ENV_OFFSET
 
-#define CONFIG_OMAP3_SPI
-
 /* Defines for SPL */
 #define CONFIG_SPL_OMAP3_ID_NAND
 
@@ -200,9 +194,7 @@
 #define CONFIG_SYS_NAND_U_BOOT_OFFS	0x80000
 /* NAND: SPL falcon mode configs */
 #ifdef CONFIG_SPL_OS_BOOT
-#define CONFIG_CMD_SPL_NAND_OFS		0x240000
 #define CONFIG_SYS_NAND_SPL_KERNEL_OFFS	0x280000
-#define CONFIG_CMD_SPL_WRITE_SIZE	0x2000
 #endif
 
 /* env defaults */

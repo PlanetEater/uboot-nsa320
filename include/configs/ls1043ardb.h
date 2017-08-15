@@ -249,8 +249,6 @@
 #define AQR105_IRQ_MASK			0x40000000
 
 #ifdef CONFIG_NET
-#define CONFIG_PHYLIB
-#define CONFIG_PHY_GIGE		/* Include GbE speed/duplex detection */
 #define CONFIG_PHY_VITESSE
 #define CONFIG_PHY_REALTEK
 #endif
@@ -294,7 +292,6 @@
 #ifndef SPL_NO_SATA
 #define CONFIG_LIBATA
 #define CONFIG_SCSI_AHCI
-#define CONFIG_CMD_SCSI
 #ifndef CONFIG_CMD_EXT2
 #define CONFIG_CMD_EXT2
 #endif

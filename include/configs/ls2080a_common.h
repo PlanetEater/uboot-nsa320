@@ -33,7 +33,7 @@
 #define CONFIG_SYS_TEXT_BASE		0x20100000
 #define CONFIG_ENV_SIZE			0x2000          /* 8KB */
 #define CONFIG_ENV_OFFSET		0x300000        /* 3MB */
-#define CONFIG_ENV_SECT_SIZE		0x10000
+#define CONFIG_ENV_SECT_SIZE		0x40000
 #endif
 
 #define CONFIG_SUPPORT_RAW_INITRD
@@ -203,10 +203,6 @@ unsigned long long get_qixis_addr(void);
 	"mcinitcmd=fsl_mc start mc 0x580a00000"	\
 	" 0x580e00000 \0"
 
-#define CONFIG_BOOTARGS		"console=ttyS0,115200 root=/dev/ram0 " \
-				"earlycon=uart8250,mmio,0x21c0500 " \
-				"ramdisk_size=0x2000000 default_hugepagesz=2m" \
-				" hugepagesz=2m hugepages=256"
 #ifdef CONFIG_SD_BOOT
 #define CONFIG_BOOTCOMMAND	"mmc read 0x80200000 0x6800 0x800;"\
 				" fsl_mc apply dpl 0x80200000 &&" \
@@ -233,7 +229,6 @@ unsigned long long get_qixis_addr(void);
 #define CONFIG_SPL_BSS_START_ADDR	0x80100000
 #define CONFIG_SPL_BSS_MAX_SIZE		0x00100000
 #define CONFIG_SPL_FRAMEWORK
-#define CONFIG_SPL_LDSCRIPT "arch/arm/cpu/armv8/u-boot-spl.lds"
 #define CONFIG_SPL_MAX_SIZE		0x16000
 #define CONFIG_SPL_STACK		(CONFIG_SYS_FSL_OCRAM_BASE + 0x9ff0)
 #define CONFIG_SPL_TARGET		"u-boot-with-spl.bin"

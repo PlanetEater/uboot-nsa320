@@ -45,9 +45,7 @@
 #ifdef CONFIG_NAND
 #define CONFIG_SYS_NAND_U_BOOT_OFFS	0x00080000
 #ifdef CONFIG_SPL_OS_BOOT
-#define CONFIG_CMD_SPL_NAND_OFS 0x00080000 /* os parameters */
 #define CONFIG_SYS_NAND_SPL_KERNEL_OFFS 0x00200000 /* kernel offset */
-#define CONFIG_CMD_SPL_WRITE_SIZE	0x2000
 #endif
 #define NANDARGS \
 	"mtdids=" MTDIDS_DEFAULT "\0" \
@@ -243,8 +241,6 @@
 /* General network SPL, both CPSW and USB gadget RNDIS */
 #define CONFIG_SPL_NET_VCI_STRING	"AM335x U-Boot SPL"*/
 
-#define CONFIG_SPL_LDSCRIPT		"arch/arm/mach-omap2/u-boot-spl.lds"
-
 #ifdef CONFIG_NAND
 #define CONFIG_NAND_OMAP_GPMC
 #define CONFIG_NAND_OMAP_GPMC_PREFETCH
@@ -302,8 +298,6 @@
 #endif
 
 /* Network. */
-#define CONFIG_PHY_GIGE
-#define CONFIG_PHYLIB
 #define CONFIG_PHY_ADDR			0
 #define CONFIG_PHY_SMSC
 #define CONFIG_MII

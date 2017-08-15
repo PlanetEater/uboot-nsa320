@@ -247,7 +247,6 @@
 
 /* Options are: TSEC[0,1] */
 #define CONFIG_ETHPRIME		"TSEC0"
-#define CONFIG_PHY_GIGE		1	/* Include GbE speed/duplex detection */
 
 #define CONFIG_HAS_ETH0
 #define CONFIG_HAS_ETH1
@@ -273,16 +272,6 @@
 #define CONFIG_BOOTP_BOOTPATH
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_HOSTNAME
-
-/*
- * Command line configuration.
- */
-#define CONFIG_CMD_SDRAM
-#define CONFIG_CMD_REGINFO
-
-#if defined(CONFIG_PCI)
-    #define CONFIG_CMD_PCI
-#endif
 
 #undef CONFIG_WATCHDOG			/* watchdog disabled		*/
 
@@ -319,8 +308,6 @@
 #define CONFIG_PREBOOT	"echo;"	\
 	"echo Welcome on the ABB Socrates Board;" \
 	"echo"
-
-#undef	CONFIG_BOOTARGS		/* the boot command will set bootargs	*/
 
 #define	CONFIG_EXTRA_ENV_SETTINGS					\
 	"netdev=eth0\0"							\

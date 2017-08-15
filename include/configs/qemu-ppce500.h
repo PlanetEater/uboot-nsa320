@@ -10,8 +10,6 @@
 #ifndef __QEMU_PPCE500_H
 #define __QEMU_PPCE500_H
 
-#define CONFIG_CMD_REGINFO
-
 #undef CONFIG_SYS_TEXT_BASE
 #define CONFIG_SYS_TEXT_BASE	0xf01000 /* 15 MB */
 
@@ -125,10 +123,6 @@ extern unsigned long long get_phys_ccsrbar_addr_early(void);
 /*
  * Command line configuration.
  */
-
-#ifdef CONFIG_PCI
-#define CONFIG_CMD_PCI
-#endif
 
 /*
  * Miscellaneous configurable options

@@ -163,7 +163,6 @@
 #define CONFIG_FEC_XCV_TYPE             RGMII
 #define CONFIG_ETHPRIME                 "FEC"
 
-#define CONFIG_PHYLIB
 #define CONFIG_PHY_ATHEROS
 
 #ifdef CONFIG_CMD_USB
@@ -175,7 +174,6 @@
 #define CONFIG_USB_MAX_CONTROLLER_COUNT 2
 #endif
 
-#define CONFIG_CMD_PCI
 #ifdef CONFIG_CMD_PCI
 #define CONFIG_PCI_SCAN_SHOW
 #define CONFIG_PCIE_IMX

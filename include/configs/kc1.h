@@ -60,7 +60,6 @@
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_OMAP24_I2C_SPEED	400000
 #define CONFIG_SYS_OMAP24_I2C_SLAVE	1
-#define CONFIG_SYS_I2C_OMAP24XX
 #define CONFIG_I2C_MULTI_BUS
 
 /*
@@ -88,8 +87,6 @@
 #define CONFIG_SPL_BSS_MAX_SIZE		(512 * 1024)
 #define CONFIG_SYS_SPL_MALLOC_START	0x80208000
 #define CONFIG_SYS_SPL_MALLOC_SIZE	(1024 * 1024)
-
-#define CONFIG_SPL_LDSCRIPT		"arch/arm/mach-omap2/u-boot-spl.lds"
 
 /*
  * Console

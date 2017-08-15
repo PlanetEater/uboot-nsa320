@@ -20,10 +20,8 @@
 /*
  * Command line configuration.
  */
-#define CONFIG_SCIF_CONSOLE	1
 #define CONFIG_CONS_SCIF1	1
 
-#define CONFIG_BOOTARGS		"console=ttySC0,38400"
 #define CONFIG_ENV_OVERWRITE	1
 
 /* SDRAM */

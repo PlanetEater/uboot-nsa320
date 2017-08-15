@@ -308,6 +308,7 @@ config TARGET_GPLUGD
 config ARCH_DAVINCI
 	bool "TI DaVinci"
 	select CPU_ARM926EJS
+	imply CMD_SAVES
 	help
 	  Support for TI's DaVinci platform.
 
@@ -409,21 +410,25 @@ config TARGET_SPEAR300
 	bool "Support spear300"
 	select CPU_ARM926EJS
 	select BOARD_EARLY_INIT_F
+	imply CMD_SAVES
 
 config TARGET_SPEAR310
 	bool "Support spear310"
 	select CPU_ARM926EJS
 	select BOARD_EARLY_INIT_F
+	imply CMD_SAVES
 
 config TARGET_SPEAR320
 	bool "Support spear320"
 	select CPU_ARM926EJS
 	select BOARD_EARLY_INIT_F
+	imply CMD_SAVES
 
 config TARGET_SPEAR600
 	bool "Support spear600"
 	select CPU_ARM926EJS
 	select BOARD_EARLY_INIT_F
+	imply CMD_SAVES
 
 config TARGET_STV0991
 	bool "Support stv0991"
@@ -523,6 +528,9 @@ config TARGET_BCMCYGNUS
 	imply CMD_HASH
 	imply FAT_WRITE
 	imply HASH_VERIFY
+	imply NETDEVICES
+	imply BCM_SF2_ETH
+	imply BCM_SF2_ETH_GMAC
 
 config TARGET_BCMNSP
 	bool "Support bcmnsp"
@@ -572,6 +580,7 @@ config ARCH_KEYSTONE
 	select CMD_POWEROFF
 	imply CMD_MTDPARTS
 	imply FIT
+	imply CMD_SAVES
 
 config ARCH_OMAP2PLUS
 	bool "TI OMAP2+"
@@ -608,6 +617,11 @@ config ARCH_MX6
 	select SYS_FSL_SEC_COMPAT_4
 	select SYS_FSL_SEC_LE
 	select SYS_THUMB_BUILD if SPL
+
+if ARCH_MX6
+config SPL_LDSCRIPT
+        default "arch/arm/mach-omap2/u-boot-spl.lds"
+endif
 
 config ARCH_MX5
 	bool "Freescale MX5"
@@ -697,6 +711,7 @@ config ARCH_VF610
 	select CPU_V7
 	select SYS_FSL_ERRATUM_ESDHC111
 	imply CMD_MTDPARTS
+	imply NAND
 
 config ARCH_ZYNQ
 	bool "Xilinx Zynq Platform"
@@ -723,6 +738,7 @@ config ARCH_ZYNQ
 	select CLK_ZYNQ
 	imply CMD_CLK
 	imply FAT_WRITE
+	imply CMD_SPL
 
 config ARCH_ZYNQMP
 	bool "Support Xilinx ZynqMP Platform"
@@ -1222,3 +1238,10 @@ source "board/zipitz2/Kconfig"
 source "arch/arm/Kconfig.debug"
 
 endmenu
+
+config SPL_LDSCRIPT
+        default "arch/arm/cpu/arm926ejs/mxs/u-boot-spl.lds" if TARGET_APX4DEVKIT || TARGET_BG0900 || TARGET_M28EVK || TARGET_MX23_OLINUXINO || TARGET_MX23EVK || TARGET_MX28EVK || TARGET_SANSA_FUZE_PLUS || TARGET_SC_SPS_1 || TARGET_TS4600 || TARGET_XFI3
+        default "arch/arm/cpu/arm1136/u-boot-spl.lds" if CPU_ARM1136
+	default "arch/arm/cpu/armv8/u-boot-spl.lds" if ARM64
+
+

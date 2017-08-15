@@ -55,7 +55,6 @@
  * Ethernet PHY configuration
  */
 #define CONFIG_MII
-#define CONFIG_PHY_GIGE
 
 /*
  * USB 1.1 configuration
@@ -76,7 +75,6 @@
  * Environment configuration
  */
 #define CONFIG_BOOTFILE			"uImage"
-#define CONFIG_BOOTARGS			"console=ttyS3,115200n8"
 #define CONFIG_LOADADDR			CONFIG_SYS_LOAD_ADDR
 
 /*

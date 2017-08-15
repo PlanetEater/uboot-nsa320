@@ -93,7 +93,6 @@
  * Ethernet Driver configuration
  */
 #define CONFIG_ENV_OVERWRITE	/* ethaddr can be reprogrammed */
-#define CONFIG_PHY_GIGE		/* GbE speed/duplex detect */
 #define CONFIG_ARP_TIMEOUT	200
 #define CONFIG_NET_RETRY_COUNT	50
 
@@ -127,7 +126,6 @@
  */
 #ifdef CONFIG_PCIE_DW_MVEBU
 #define CONFIG_E1000
-#define CONFIG_CMD_PCI
 #endif
 
 #endif /* _CONFIG_MVEBU_ARMADA_8K_H */

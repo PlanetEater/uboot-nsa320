@@ -105,10 +105,6 @@
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET /* re-init HCD after CMD_RESET */
 #endif /* CONFIG_CMD_USB */
 
-#if defined(CONFIG_VCT_ONENAND)
-#define CONFIG_CMD_ONENAND
-#endif
-
 /*
  * BOOTP options
  */
@@ -243,9 +239,6 @@ int vct_gpio_get(int pin);
  * (NOR/OneNAND) usage and Linux kernel booting.
  */
 #if defined(CONFIG_VCT_SMALL_IMAGE)
-#undef CONFIG_CMD_STRINGS
-#undef CONFIG_CMD_TERMINAL
-
 #undef CONFIG_SMC911X
 #undef CONFIG_SYS_I2C_SOFT
 #undef CONFIG_SOURCE

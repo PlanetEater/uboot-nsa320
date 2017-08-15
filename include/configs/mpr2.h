@@ -13,7 +13,6 @@
 /* Supported commands */
 
 /* Default environment variables */
-#define CONFIG_BOOTARGS		"console=ttySC0,115200"
 #define CONFIG_BOOTFILE		"/boot/zImage"
 #define CONFIG_LOADADDR		0x8E000000
 
@@ -64,7 +63,6 @@
 #define CONFIG_SYS_TMU_CLK_DIV		4	/* 4 (default), 16, 64, 256 or 1024 */
 
 /* UART */
-#define CONFIG_SCIF_CONSOLE	1
 #define CONFIG_CONS_SCIF0	1
 
 #endif	/* __MPR2_H */

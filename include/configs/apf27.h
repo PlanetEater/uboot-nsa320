@@ -27,7 +27,6 @@
  * SPL
  */
 #define CONFIG_SPL_TARGET	"u-boot-with-spl.bin"
-#define CONFIG_SPL_LDSCRIPT	"arch/$(ARCH)/cpu/u-boot-spl.lds"
 #define CONFIG_SPL_MAX_SIZE	2048
 #define CONFIG_SPL_TEXT_BASE    0xA0000000
 
@@ -123,9 +122,6 @@
 #define CONFIG_INITRD_TAG		/* send initrd params	*/
 
 #define	CONFIG_BOOTFILE		__stringify(CONFIG_BOARD_NAME) "-linux.bin"
-#define CONFIG_BOOTARGS		"console=" __stringify(ACFG_CONSOLE_DEV) "," \
-			__stringify(CONFIG_BAUDRATE) " " MTDPARTS_DEFAULT \
-			" ubi.mtd=rootfs root=ubi0:rootfs rootfstype=ubifs "
 
 #define ACFG_CONSOLE_DEV	ttySMX0
 #define CONFIG_BOOTCOMMAND	"run ubifsboot"
