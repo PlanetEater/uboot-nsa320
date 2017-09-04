@@ -64,7 +64,6 @@
 #define CONFIG_SYS_FSMC_NAND_8BIT
 #define CONFIG_SYS_NAND_ONFI_DETECTION
 #define CONFIG_NAND_ECC_BCH
-#define CONFIG_BCH
 
 /* UBI/UBI config options */
 #define CONFIG_MTD_DEVICE
@@ -126,11 +125,6 @@
 #define CONFIG_SYS_LONGHELP
 #define CONFIG_CMDLINE_EDITING
 #define CONFIG_AUTO_COMPLETE
-#define CONFIG_SYS_CBSIZE			256
-#define CONFIG_SYS_PBSIZE			(CONFIG_SYS_CBSIZE + \
-						 sizeof(CONFIG_SYS_PROMPT) + 16)
-#define CONFIG_SYS_MAXARGS			16
-#define CONFIG_SYS_BARGSIZE			CONFIG_SYS_CBSIZE
 #define CONFIG_SYS_LOAD_ADDR			0x00800000
 
 /* Use last 2 lwords in internal SRAM for bootcounter */

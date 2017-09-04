@@ -23,7 +23,6 @@
  * DM support in SPL
  */
 #undef CONFIG_DM_MMC
-#undef CONFIG_DM_MMC_OPS
 #undef OMAP_HSMMC_USE_GPIO
 
 /* select serial console configuration for SPL */
@@ -60,11 +59,6 @@
 #define CONFIG_USB_MUSB_PIO_ONLY
 #define CONFIG_USB_ETHER
 #define CONFIG_USB_ETHER_RNDIS
-#define CONFIG_USB_FUNCTION_FASTBOOT
-#define CONFIG_CMD_FASTBOOT
-#define CONFIG_ANDROID_BOOT_IMAGE
-#define CONFIG_FASTBOOT_BUF_ADDR	CONFIG_SYS_LOAD_ADDR
-#define CONFIG_FASTBOOT_BUF_SIZE	0x07000000
 
 /* TWL4030 */
 #define CONFIG_TWL4030_USB
@@ -94,10 +88,8 @@
 #define CONFIG_SYS_NAND_ECCSIZE		512
 #define CONFIG_SYS_NAND_ECCBYTES	13
 #define CONFIG_NAND_OMAP_ECCSCHEME	OMAP_ECC_BCH8_CODE_HW_DETECTION_SW
-#define CONFIG_BCH
 #define CONFIG_SYS_NAND_MAX_OOBFREE	2
 #define CONFIG_SYS_NAND_MAX_ECCPOS	56
-#define CONFIG_SYS_NAND_U_BOOT_OFFS	0x80000
 #define CONFIG_MTD_DEVICE		/* needed for mtdparts commands */
 #define CONFIG_MTD_PARTITIONS		/* required for UBI partition support */
 #define MTDIDS_DEFAULT			"nand0=omap2-nand.0"
@@ -258,8 +250,6 @@
 #endif /* (CONFIG_CMD_NET) */
 
 /* Defines for SPL */
-
-#define CONFIG_SPL_OMAP3_ID_NAND
 
 /* NAND: SPL falcon mode configs */
 #ifdef CONFIG_SPL_OS_BOOT

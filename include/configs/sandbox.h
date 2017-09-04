@@ -24,7 +24,6 @@
 #endif
 
 #define CONFIG_LMB
-#define CONFIG_ANDROID_BOOT_IMAGE
 
 #define CONFIG_FS_EXT4
 #define CONFIG_EXT4_WRITE
@@ -39,10 +38,6 @@
 #define CONFIG_SYS_LONGHELP			/* #undef to save memory */
 #define CONFIG_SYS_CBSIZE		1024	/* Console I/O Buffer Size */
 #define CONFIG_DISPLAY_BOARDINFO_LATE
-
-/* Print Buffer Size */
-#define CONFIG_SYS_PBSIZE (CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)
-#define CONFIG_SYS_MAXARGS	16
 
 /* turn on command-line edit/c/auto */
 #define CONFIG_CMDLINE_EDITING

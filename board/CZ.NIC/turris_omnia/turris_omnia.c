@@ -285,7 +285,7 @@ static int set_regdomain(void)
 		puts("EEPROM regdomain read failed.\n");
 
 	printf("Regdomain set to %s\n", rd);
-	return setenv("regdomain", rd);
+	return env_set("regdomain", rd);
 }
 #endif
 
@@ -515,17 +515,17 @@ int misc_init_r(void)
 	mac[5] = mac1[3];
 
 	if (is_valid_ethaddr(mac))
-		eth_setenv_enetaddr("ethaddr", mac);
+		eth_env_set_enetaddr("ethaddr", mac);
 
 	increment_mac(mac);
 
 	if (is_valid_ethaddr(mac))
-		eth_setenv_enetaddr("eth1addr", mac);
+		eth_env_set_enetaddr("eth1addr", mac);
 
 	increment_mac(mac);
 
 	if (is_valid_ethaddr(mac))
-		eth_setenv_enetaddr("eth2addr", mac);
+		eth_env_set_enetaddr("eth2addr", mac);
 
 out:
 #endif

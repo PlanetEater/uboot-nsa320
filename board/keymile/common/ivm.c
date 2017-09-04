@@ -261,7 +261,7 @@ int ivm_analyze_eeprom(unsigned char *buf, int len)
 
 	GET_STRING("IVM_Symbol", IVM_POS_SYMBOL_ONLY, 8)
 	GET_STRING("IVM_DeviceName", IVM_POS_SHORT_TEXT, 64)
-	tmp = (unsigned char *) getenv("IVM_DeviceName");
+	tmp = (unsigned char *)env_get("IVM_DeviceName");
 	if (tmp) {
 		int	len = strlen((char *)tmp);
 		int	i = 0;
@@ -310,11 +310,11 @@ static int ivm_populate_env(unsigned char *buf, int len)
 #ifndef CONFIG_KMTEGR1
 	/* if an offset is defined, add it */
 	process_mac(valbuf, page2, CONFIG_PIGGY_MAC_ADRESS_OFFSET, true);
-	setenv((char *)"ethaddr", (char *)valbuf);
+	env_set((char *)"ethaddr", (char *)valbuf);
 #ifdef CONFIG_KMVECT1
 /* KMVECT1 has two ethernet interfaces */
 	process_mac(valbuf, page2, 1, true);
-	setenv((char *)"eth1addr", (char *)valbuf);
+	env_set((char *)"eth1addr", (char *)valbuf);
 #endif
 #else
 /* KMTEGR1 has a special setup. eth0 has no connection to the outside and
@@ -322,9 +322,9 @@ static int ivm_populate_env(unsigned char *buf, int len)
  * gets the official MAC address from the IVM
  */
 	process_mac(valbuf, page2, CONFIG_PIGGY_MAC_ADRESS_OFFSET, false);
-	setenv((char *)"ethaddr", (char *)valbuf);
+	env_set((char *)"ethaddr", (char *)valbuf);
 	process_mac(valbuf, page2, CONFIG_PIGGY_MAC_ADRESS_OFFSET, true);
-	setenv((char *)"eth1addr", (char *)valbuf);
+	env_set((char *)"eth1addr", (char *)valbuf);
 #endif
 
 	return 0;

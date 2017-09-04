@@ -70,13 +70,6 @@
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_CMDLINE_EDITING
 
-/* Console I/O Buffer Size */
-#define CONFIG_SYS_CBSIZE		256
-/* Print Buffer Size */
-#define CONFIG_SYS_PBSIZE (CONFIG_SYS_CBSIZE+sizeof(CONFIG_SYS_PROMPT)+16)
-/* max number of command args */
-#define CONFIG_SYS_MAXARGS		16
-
 #define CONFIG_SYS_MALLOC_LEN		(256 << 10)
 
 #define CONFIG_SYS_BOOTPARAMS_LEN	128*1024

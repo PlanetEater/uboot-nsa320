@@ -379,21 +379,21 @@ void __maybe_unused set_board_info_env(char *name)
 	struct ti_common_eeprom *ep = TI_EEPROM_DATA;
 
 	if (name)
-		setenv("board_name", name);
+		env_set("board_name", name);
 	else if (ep->name)
-		setenv("board_name", ep->name);
+		env_set("board_name", ep->name);
 	else
-		setenv("board_name", unknown);
+		env_set("board_name", unknown);
 
 	if (ep->version)
-		setenv("board_rev", ep->version);
+		env_set("board_rev", ep->version);
 	else
-		setenv("board_rev", unknown);
+		env_set("board_rev", unknown);
 
 	if (ep->serial)
-		setenv("board_serial", ep->serial);
+		env_set("board_serial", ep->serial);
 	else
-		setenv("board_serial", unknown);
+		env_set("board_serial", unknown);
 }
 
 static u64 mac_to_u64(u8 mac[6])
@@ -451,8 +451,8 @@ void board_ti_set_ethaddr(int index)
 		for (i = 0; i < num_macs; i++) {
 			u64_to_mac(mac1 + i, mac_addr);
 			if (is_valid_ethaddr(mac_addr)) {
-				eth_setenv_enetaddr_by_index("eth", i + index,
-							     mac_addr);
+				eth_env_set_enetaddr_by_index("eth", i + index,
+							      mac_addr);
 			}
 		}
 	}

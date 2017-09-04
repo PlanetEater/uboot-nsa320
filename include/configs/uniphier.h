@@ -13,8 +13,6 @@
 
 #define CONFIG_ARMV7_PSCI_1_0
 
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS  10
-
 /*-----------------------------------------------------------------------
  * MMU and Cache Setting
  *----------------------------------------------------------------------*/
@@ -62,9 +60,6 @@
 
 #define CONFIG_CMDLINE_EDITING		/* add command line history	*/
 #define CONFIG_SYS_CBSIZE		1024	/* Console I/O Buffer Size */
-/* Print Buffer Size */
-#define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)
-#define CONFIG_SYS_MAXARGS		16	/* max number of command */
 /* Boot Argument Buffer Size */
 #define CONFIG_SYS_BARGSIZE		(CONFIG_SYS_CBSIZE)
 
@@ -83,20 +78,12 @@
 #endif
 
 #define CONFIG_SYS_MAX_NAND_DEVICE			1
-#define CONFIG_SYS_NAND_MAX_CHIPS			2
 #define CONFIG_SYS_NAND_ONFI_DETECTION
 
 #define CONFIG_NAND_DENALI_ECC_SIZE			1024
 
-#ifdef CONFIG_ARCH_UNIPHIER_SLD3
-#define CONFIG_SYS_NAND_REGS_BASE			0xf8100000
-#define CONFIG_SYS_NAND_DATA_BASE			0xf8000000
-#else
 #define CONFIG_SYS_NAND_REGS_BASE			0x68100000
 #define CONFIG_SYS_NAND_DATA_BASE			0x68000000
-#endif
-
-#define CONFIG_SYS_NAND_BASE		(CONFIG_SYS_NAND_DATA_BASE + 0x10)
 
 #define CONFIG_SYS_NAND_USE_FLASH_BBT
 #define CONFIG_SYS_NAND_BAD_BLOCK_POS			0
@@ -249,8 +236,7 @@
 #define CONFIG_SYS_INIT_SP_ADDR		(CONFIG_SYS_TEXT_BASE)
 
 /* only for SPL */
-#if defined(CONFIG_ARCH_UNIPHIER_SLD3) || \
-	defined(CONFIG_ARCH_UNIPHIER_LD4) || \
+#if defined(CONFIG_ARCH_UNIPHIER_LD4) || \
 	defined(CONFIG_ARCH_UNIPHIER_SLD8)
 #define CONFIG_SPL_TEXT_BASE		0x00040000
 #else

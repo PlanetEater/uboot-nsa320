@@ -87,11 +87,6 @@
  * Miscellaneous configurable options
  */
 #define CONFIG_SYS_LONGHELP	/* undef to save memory */
-#define CONFIG_SYS_CBSIZE	256	/* Console I/O Buffer Size */
-/* max number of command args */
-#define CONFIG_SYS_MAXARGS	16
-/* Boot Argument Buffer Size */
-#define CONFIG_SYS_BARGSIZE	CONFIG_SYS_CBSIZE
 
 /* memtest works on */
 #define CONFIG_SYS_MEMTEST_START	0x80000000

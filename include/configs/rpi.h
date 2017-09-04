@@ -75,7 +75,6 @@
 #define CONFIG_USB_ETHER_SMSC95XX
 #define CONFIG_TFTP_TSIZE
 #define CONFIG_MISC_INIT_R
-#define CONFIG_SYS_USB_EVENT_POLL
 #endif
 
 /* Console UART */
@@ -87,8 +86,6 @@
 
 /* Console configuration */
 #define CONFIG_SYS_CBSIZE		1024
-#define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE +		\
-					 sizeof(CONFIG_SYS_PROMPT) + 16)
 
 /* Environment */
 #define CONFIG_ENV_SIZE			SZ_16K
@@ -97,7 +94,6 @@
 #define CONFIG_PREBOOT			"usb start"
 
 /* Shell */
-#define CONFIG_SYS_MAXARGS		16
 #define CONFIG_CMDLINE_EDITING
 
 /* ATAGs support for bootm/bootz */

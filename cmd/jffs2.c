@@ -479,9 +479,9 @@ int do_jffs2_fsload(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 	ulong offset = load_addr;
 
 	/* pre-set Boot file name */
-	if ((filename = getenv("bootfile")) == NULL) {
+	filename = env_get("bootfile");
+	if (!filename)
 		filename = "uImage";
-	}
 
 	if (argc == 2) {
 		filename = argv[1];
@@ -512,7 +512,7 @@ int do_jffs2_fsload(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 		if (size > 0) {
 			printf("### %s load complete: %d bytes loaded to 0x%lx\n",
 				fsname, size, offset);
-			setenv_hex("filesize", size);
+			env_set_hex("filesize", size);
 		} else {
 			printf("### %s LOAD ERROR<%x> for %s!\n", fsname, size, filename);
 		}

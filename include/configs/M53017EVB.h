@@ -97,15 +97,6 @@
 #define CONFIG_PRAM		512	/* 512 KB */
 #define CONFIG_SYS_LONGHELP	/* undef to save memory */
 
-#ifdef CONFIG_CMD_KGDB
-#	define CONFIG_SYS_CBSIZE	1024	/* Console I/O Buffer Size */
-#else
-#	define CONFIG_SYS_CBSIZE	256	/* Console I/O Buffer Size */
-#endif
-
-#define CONFIG_SYS_PBSIZE	(CONFIG_SYS_CBSIZE+sizeof(CONFIG_SYS_PROMPT)+16)	/* Print Buffer Size */
-#define CONFIG_SYS_MAXARGS	16		/* max number of cmd args */
-#define CONFIG_SYS_BARGSIZE	CONFIG_SYS_CBSIZE	/* Boot Arg Buf Sz */
 #define CONFIG_SYS_LOAD_ADDR	0x40010000
 
 #define CONFIG_SYS_CLK		80000000
@@ -183,7 +174,7 @@
 
 #define LDS_BOARD_TEXT \
 	. = DEFINED(env_offset) ? env_offset : .; \
-	common/env_embedded.o       (.text*)
+	env/embedded.o(.text*)
 
 /*-----------------------------------------------------------------------
  * Cache Configuration

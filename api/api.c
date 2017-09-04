@@ -458,7 +458,7 @@ static int API_env_get(va_list ap)
 	if ((value = (char **)va_arg(ap, uintptr_t)) == NULL)
 		return API_EINVAL;
 
-	*value = getenv(name);
+	*value = env_get(name);
 
 	return 0;
 }
@@ -481,7 +481,7 @@ static int API_env_set(va_list ap)
 	if ((value = (char *)va_arg(ap, uintptr_t)) == NULL)
 		return API_EINVAL;
 
-	setenv(name, value);
+	env_set(name, value);
 
 	return 0;
 }
@@ -663,7 +663,7 @@ void api_init(void)
 		return;
 	}
 
-	setenv_hex("api_address", (unsigned long)sig);
+	env_set_hex("api_address", (unsigned long)sig);
 	debugf("API sig @ 0x%lX\n", (unsigned long)sig);
 	memcpy(sig->magic, API_SIG_MAGIC, 8);
 	sig->version = API_SIG_VERSION;

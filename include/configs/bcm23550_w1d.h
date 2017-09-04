@@ -87,8 +87,6 @@
 
 /* console configuration */
 #define CONFIG_SYS_CBSIZE		1024	/* Console buffer size */
-#define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE + \
-			sizeof(CONFIG_SYS_PROMPT) + 16)	/* Printbuffer size */
 #define CONFIG_SYS_MAXARGS		64
 #define CONFIG_SYS_BARGSIZE		CONFIG_SYS_CBSIZE
 
@@ -108,8 +106,6 @@
 /* Initial upstream - boot to cmd prompt only */
 #define CONFIG_BOOTCOMMAND		""
 
-#undef CONFIG_USB_GADGET_VBUS_DRAW
-#define CONFIG_USB_GADGET_VBUS_DRAW	0
 #define CONFIG_USBID_ADDR		0x34052c46
 
 #define CONFIG_SYS_ICACHE_OFF

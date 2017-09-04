@@ -81,7 +81,6 @@
 #ifdef CONFIG_USB_MUSB_HCD
 
 #ifdef CONFIG_USB_KEYBOARD
-#define CONFIG_SYS_USB_EVENT_POLL
 #define CONFIG_PREBOOT "usb start"
 #endif /* CONFIG_USB_KEYBOARD */
 
@@ -167,13 +166,8 @@
  */
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
 #define CONFIG_SYS_CBSIZE		512	/* Console I/O Buffer Size */
-/* Print Buffer Size */
-#define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE + \
-					sizeof(CONFIG_SYS_PROMPT) + 16)
 #define CONFIG_SYS_MAXARGS		32	/* max number of command */
 						/* args */
-/* Boot Argument Buffer Size */
-#define CONFIG_SYS_BARGSIZE		(CONFIG_SYS_CBSIZE)
 /* memtest works on */
 #define CONFIG_SYS_MEMTEST_START	(OMAP34XX_SDRC_CS0)
 #define CONFIG_SYS_MEMTEST_END		(OMAP34XX_SDRC_CS0 + \

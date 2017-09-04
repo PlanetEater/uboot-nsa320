@@ -68,11 +68,11 @@ U_BOOT_ENV_CALLBACK(console, on_console);
 static int on_silent(const char *name, const char *value, enum env_op op,
 	int flags)
 {
-#if !CONFIG_IS_ENABLED(CONFIG_SILENT_CONSOLE_UPDATE_ON_SET)
+#if !CONFIG_IS_ENABLED(SILENT_CONSOLE_UPDATE_ON_SET)
 	if (flags & H_INTERACTIVE)
 		return 0;
 #endif
-#if !CONFIG_IS_ENABLED(CONFIG_SILENT_CONSOLE_UPDATE_ON_RELOC)
+#if !CONFIG_IS_ENABLED(SILENT_CONSOLE_UPDATE_ON_RELOC)
 	if ((flags & H_INTERACTIVE) == 0)
 		return 0;
 #endif
@@ -666,7 +666,7 @@ int console_assign(int file, const char *devname)
 static void console_update_silent(void)
 {
 #ifdef CONFIG_SILENT_CONSOLE
-	if (getenv("silent") != NULL)
+	if (env_get("silent") != NULL)
 		gd->flags |= GD_FLG_SILENT;
 	else
 		gd->flags &= ~GD_FLG_SILENT;
@@ -745,9 +745,9 @@ int console_init_r(void)
 
 	/* stdin stdout and stderr are in environment */
 	/* scan for it */
-	stdinname  = getenv("stdin");
-	stdoutname = getenv("stdout");
-	stderrname = getenv("stderr");
+	stdinname  = env_get("stdin");
+	stdoutname = env_get("stdout");
+	stderrname = env_get("stderr");
 
 	if (OVERWRITE_CONSOLE == 0) {	/* if not overwritten by config switch */
 		inputdev  = search_device(DEV_FLAGS_INPUT,  stdinname);
@@ -801,7 +801,7 @@ done:
 #ifdef CONFIG_SYS_CONSOLE_ENV_OVERWRITE
 	/* set the environment variables (will overwrite previous env settings) */
 	for (i = 0; i < 3; i++) {
-		setenv(stdio_names[i], stdio_devices[i]->name);
+		env_set(stdio_names[i], stdio_devices[i]->name);
 	}
 #endif /* CONFIG_SYS_CONSOLE_ENV_OVERWRITE */
 
@@ -836,7 +836,7 @@ int console_init_r(void)
 	 * console to serial console in this case or suppress it if
 	 * "silent" mode was requested.
 	 */
-	if (getenv("splashimage") != NULL) {
+	if (env_get("splashimage") != NULL) {
 		if (!(gd->flags & GD_FLG_SILENT))
 			outputdev = search_device (DEV_FLAGS_OUTPUT, "serial");
 	}
@@ -880,7 +880,7 @@ int console_init_r(void)
 
 	/* Setting environment variables */
 	for (i = 0; i < 3; i++) {
-		setenv(stdio_names[i], stdio_devices[i]->name);
+		env_set(stdio_names[i], stdio_devices[i]->name);
 	}
 
 	gd->flags |= GD_FLG_DEVINIT;	/* device initialization completed */

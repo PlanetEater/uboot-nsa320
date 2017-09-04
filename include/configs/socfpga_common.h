@@ -54,8 +54,6 @@
  */
 #define CONFIG_SYS_LONGHELP
 #define CONFIG_SYS_CBSIZE	1024		/* Console I/O buffer size */
-#define CONFIG_SYS_PBSIZE	\
-	(CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)
 						/* Print buffer size */
 #define CONFIG_SYS_MAXARGS	32		/* Max number of command args */
 #define CONFIG_SYS_BARGSIZE	CONFIG_SYS_CBSIZE
@@ -156,7 +154,6 @@
  * I2C support
  */
 #define CONFIG_SYS_I2C
-#define CONFIG_SYS_I2C_BUS_MAX		4
 #define CONFIG_SYS_I2C_BASE		SOCFPGA_I2C0_ADDRESS
 #define CONFIG_SYS_I2C_BASE1		SOCFPGA_I2C1_ADDRESS
 #define CONFIG_SYS_I2C_BASE2		SOCFPGA_I2C2_ADDRESS

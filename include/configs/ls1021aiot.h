@@ -24,13 +24,7 @@
 
 #ifdef CONFIG_HAS_FSL_XHCI_USB
 #define CONFIG_USB_XHCI_FSL
-#define CONFIG_USB_XHCI_DWC3
 #define CONFIG_USB_MAX_CONTROLLER_COUNT		1
-#endif
-
-#if defined(CONFIG_HAS_FSL_DR_USB) || defined(CONFIG_HAS_FSL_XHCI_USB)
-#define CONFIG_USB_STORAGE
-#define CONFIG_CMD_EXT2
 #endif
 
 #define CONFIG_SYS_CLK_FREQ		100000000
@@ -246,11 +240,6 @@
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
 #define CONFIG_SYS_PROMPT_HUSH_PS2	"> "
 #define CONFIG_AUTO_COMPLETE
-#define CONFIG_SYS_CBSIZE	256	/* Console I/O Buffer Size */
-#define CONFIG_SYS_PBSIZE		\
-	(CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)
-#define CONFIG_SYS_MAXARGS	16	/* max number of command args */
-#define CONFIG_SYS_BARGSIZE		CONFIG_SYS_CBSIZE
 
 #define CONFIG_CMD_GREPENV
 #define CONFIG_CMD_MEMINFO

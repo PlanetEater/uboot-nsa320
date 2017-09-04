@@ -26,7 +26,6 @@
 #define CONFIG_ENV_SIZE			0x00040000
 #define CONFIG_SYS_MALLOC_LEN		(CONFIG_ENV_SIZE + 128*1024)
 
-#define CONFIG_SYS_MAXARGS		16
 #define CONFIG_SYS_LOAD_ADDR		0xa3000000 /* default load address */
 
 /*
@@ -113,13 +112,6 @@
 #define CONFIG_INITRD_TAG
 
 /* Monitor Command Prompt */
-
-/* Console I/O Buffer Size */
-#define CONFIG_SYS_CBSIZE		256
-
-/* Print Buffer Size */
-#define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE + \
-					sizeof(CONFIG_SYS_PROMPT) + 16)
 
 #define CONFIG_USB_DEV_PULLUP_GPIO	33
 /* USB VBUS GPIO 3 */

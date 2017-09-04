@@ -5,6 +5,7 @@
  */
 #include <common.h>
 #include <dwc3-uboot.h>
+#include <environment.h>
 #include <mmc.h>
 #include <u-boot/md5.h>
 #include <usb.h>
@@ -63,14 +64,14 @@ static void assign_serial(void)
 
 	snprintf(usb0addr, sizeof(usb0addr), "02:00:86:%02x:%02x:%02x",
 		 ssn[13], ssn[14], ssn[15]);
-	setenv("usb0addr", usb0addr);
+	env_set("usb0addr", usb0addr);
 
 	for (i = 0; i < 16; i++)
 		snprintf(&serial[2 * i], 3, "%02x", ssn[i]);
-	setenv("serial#", serial);
+	env_set("serial#", serial);
 
 #if defined(CONFIG_CMD_SAVEENV) && !defined(CONFIG_ENV_IS_NOWHERE)
-	saveenv();
+	env_save();
 #endif
 }
 
@@ -85,19 +86,19 @@ static void assign_hardware_id(void)
 		printf("Can't retrieve hardware revision\n");
 
 	snprintf(hardware_id, sizeof(hardware_id), "%02X", v.hardware_id);
-	setenv("hardware_id", hardware_id);
+	env_set("hardware_id", hardware_id);
 
 #if defined(CONFIG_CMD_SAVEENV) && !defined(CONFIG_ENV_IS_NOWHERE)
-	saveenv();
+	env_save();
 #endif
 }
 
 int board_late_init(void)
 {
-	if (!getenv("serial#"))
+	if (!env_get("serial#"))
 		assign_serial();
 
-	if (!getenv("hardware_id"))
+	if (!env_get("hardware_id"))
 		assign_hardware_id();
 
 	return 0;

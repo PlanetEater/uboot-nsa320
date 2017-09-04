@@ -23,6 +23,8 @@
 #define CONFIG_MCFUART
 #define CONFIG_SYS_UART_PORT		(0)
 
+#define LDS_BOARD_TEXT                  board/freescale/m54455evb/sbf_dram_init.o (.text*)
+
 #undef CONFIG_WATCHDOG
 
 #define CONFIG_TIMESTAMP	/* Print image info with timestamp */
@@ -192,15 +194,6 @@
 #define CONFIG_PRAM		2048	/* 2048 KB */
 
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
-
-#if defined(CONFIG_CMD_KGDB)
-#define CONFIG_SYS_CBSIZE			1024	/* Console I/O Buffer Size */
-#else
-#define CONFIG_SYS_CBSIZE			256	/* Console I/O Buffer Size */
-#endif
-#define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE+sizeof(CONFIG_SYS_PROMPT)+16)	/* Print Buffer Size */
-#define CONFIG_SYS_MAXARGS		16	/* max number of command args */
-#define CONFIG_SYS_BARGSIZE		CONFIG_SYS_CBSIZE	/* Boot Argument Buffer Size    */
 
 #define CONFIG_SYS_LOAD_ADDR		(CONFIG_SYS_SDRAM_BASE + 0x10000)
 

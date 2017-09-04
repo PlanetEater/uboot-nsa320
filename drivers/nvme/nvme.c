@@ -13,8 +13,6 @@
 #include <dm/device-internal.h>
 #include "nvme.h"
 
-struct nvme_info *nvme_info;
-
 #define NVME_Q_DEPTH		2
 #define NVME_AQ_DEPTH		2
 #define NVME_SQ_SIZE(depth)	(depth * sizeof(struct nvme_command))
@@ -22,6 +20,12 @@ struct nvme_info *nvme_info;
 #define ADMIN_TIMEOUT		60
 #define IO_TIMEOUT		30
 #define MAX_PRP_POOL		512
+
+enum nvme_queue_id {
+	NVME_ADMIN_Q,
+	NVME_IO_Q,
+	NVME_Q_NUM,
+};
 
 /*
  * An NVM Express queue. Each device has at least two (one for admin
@@ -47,11 +51,19 @@ struct nvme_queue {
 static int nvme_wait_ready(struct nvme_dev *dev, bool enabled)
 {
 	u32 bit = enabled ? NVME_CSTS_RDY : 0;
+	int timeout;
+	ulong start;
 
-	while ((readl(&dev->bar->csts) & NVME_CSTS_RDY) != bit)
-		udelay(10000);
+	/* Timeout field in the CAP register is in 500 millisecond units */
+	timeout = NVME_CAP_TIMEOUT(dev->cap) * 500;
 
-	return 0;
+	start = get_timer(0);
+	while (get_timer(start) < timeout) {
+		if ((readl(&dev->bar->csts) & NVME_CSTS_RDY) == bit)
+			return 0;
+	}
+
+	return -ETIME;
 }
 
 static int nvme_setup_prps(struct nvme_dev *dev, u64 *prp2,
@@ -201,7 +213,8 @@ static int nvme_submit_sync_cmd(struct nvme_queue *nvmeq,
 static int nvme_submit_admin_cmd(struct nvme_dev *dev, struct nvme_command *cmd,
 				 u32 *result)
 {
-	return nvme_submit_sync_cmd(dev->queues[0], cmd, result, ADMIN_TIMEOUT);
+	return nvme_submit_sync_cmd(dev->queues[NVME_ADMIN_Q], cmd,
+				    result, ADMIN_TIMEOUT);
 }
 
 static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev,
@@ -318,7 +331,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
 {
 	int result;
 	u32 aqa;
-	u64 cap = nvme_readq(&dev->bar->cap);
+	u64 cap = dev->cap;
 	struct nvme_queue *nvmeq;
 	/* most architectures use 4KB as the page size */
 	unsigned page_shift = 12;
@@ -341,7 +354,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
 	if (result < 0)
 		return result;
 
-	nvmeq = dev->queues[0];
+	nvmeq = dev->queues[NVME_ADMIN_Q];
 	if (!nvmeq) {
 		nvmeq = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH);
 		if (!nvmeq)
@@ -369,7 +382,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
 
 	nvmeq->cq_vector = 0;
 
-	nvme_init_queue(dev->queues[0], 0);
+	nvme_init_queue(dev->queues[NVME_ADMIN_Q], 0);
 
 	return result;
 
@@ -420,6 +433,7 @@ int nvme_identify(struct nvme_dev *dev, unsigned nsid,
 	u32 page_size = dev->page_size;
 	int offset = dma_addr & (page_size - 1);
 	int length = sizeof(struct nvme_id_ctrl);
+	int ret;
 
 	memset(&c, 0, sizeof(c));
 	c.identify.opcode = nvme_admin_identify;
@@ -431,12 +445,17 @@ int nvme_identify(struct nvme_dev *dev, unsigned nsid,
 		c.identify.prp2 = 0;
 	} else {
 		dma_addr += (page_size - offset);
-		c.identify.prp2 = dma_addr;
+		c.identify.prp2 = cpu_to_le64(dma_addr);
 	}
 
 	c.identify.cns = cpu_to_le32(cns);
 
-	return nvme_submit_admin_cmd(dev, &c, NULL);
+	ret = nvme_submit_admin_cmd(dev, &c, NULL);
+	if (!ret)
+		invalidate_dcache_range(dma_addr,
+					dma_addr + sizeof(struct nvme_id_ctrl));
+
+	return ret;
 }
 
 int nvme_get_features(struct nvme_dev *dev, unsigned fid, unsigned nsid,
@@ -449,6 +468,11 @@ int nvme_get_features(struct nvme_dev *dev, unsigned fid, unsigned nsid,
 	c.features.nsid = cpu_to_le32(nsid);
 	c.features.prp1 = cpu_to_le64(dma_addr);
 	c.features.fid = cpu_to_le32(fid);
+
+	/*
+	 * TODO: add cache invalidate operation when the size of
+	 * the DMA buffer is known
+	 */
 
 	return nvme_submit_admin_cmd(dev, &c, result);
 }
@@ -463,6 +487,11 @@ int nvme_set_features(struct nvme_dev *dev, unsigned fid, unsigned dword11,
 	c.features.prp1 = cpu_to_le64(dma_addr);
 	c.features.fid = cpu_to_le32(fid);
 	c.features.dword11 = cpu_to_le32(dword11);
+
+	/*
+	 * TODO: add cache flush operation when the size of
+	 * the DMA buffer is known
+	 */
 
 	return nvme_submit_admin_cmd(dev, &c, result);
 }
@@ -533,9 +562,6 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
 	if (result <= 0)
 		return result;
 
-	if (result < nr_io_queues)
-		nr_io_queues = result;
-
 	dev->max_qid = nr_io_queues;
 
 	/* Free previously allocated queues */
@@ -547,10 +573,10 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
 
 static int nvme_get_info_from_identify(struct nvme_dev *dev)
 {
-	u16 vendor, device;
-	struct nvme_id_ctrl buf, *ctrl = &buf;
+	ALLOC_CACHE_ALIGN_BUFFER(char, buf, sizeof(struct nvme_id_ctrl));
+	struct nvme_id_ctrl *ctrl = (struct nvme_id_ctrl *)buf;
 	int ret;
-	int shift = NVME_CAP_MPSMIN(nvme_readq(&dev->bar->cap)) + 12;
+	int shift = NVME_CAP_MPSMIN(dev->cap) + 12;
 
 	ret = nvme_identify(dev, 0, 1, (dma_addr_t)ctrl);
 	if (ret)
@@ -585,22 +611,6 @@ static int nvme_get_info_from_identify(struct nvme_dev *dev)
 		dev->max_transfer_shift = 20;
 	}
 
-	/* Apply quirk stuff */
-	dm_pci_read_config16(dev->pdev, PCI_VENDOR_ID, &vendor);
-	dm_pci_read_config16(dev->pdev, PCI_DEVICE_ID, &device);
-	if ((vendor == PCI_VENDOR_ID_INTEL) &&
-	    (device == 0x0953) && ctrl->vs[3]) {
-		unsigned int max_transfer_shift;
-		dev->stripe_size = (ctrl->vs[3] + shift);
-		max_transfer_shift = (ctrl->vs[3] + 18);
-		if (dev->max_transfer_shift) {
-			dev->max_transfer_shift = min(max_transfer_shift,
-						      dev->max_transfer_shift);
-		} else {
-			dev->max_transfer_shift = max_transfer_shift;
-		}
-	}
-
 	return 0;
 }
 
@@ -629,12 +639,14 @@ static int nvme_blk_probe(struct udevice *udev)
 	struct blk_desc *desc = dev_get_uclass_platdata(udev);
 	struct nvme_ns *ns = dev_get_priv(udev);
 	u8 flbas;
-	u16 vendor;
-	struct nvme_id_ns buf, *id = &buf;
+	ALLOC_CACHE_ALIGN_BUFFER(char, buf, sizeof(struct nvme_id_ns));
+	struct nvme_id_ns *id = (struct nvme_id_ns *)buf;
+	struct pci_child_platdata *pplat;
 
 	memset(ns, 0, sizeof(*ns));
 	ns->dev = ndev;
-	ns->ns_id = desc->devnum - ndev->blk_dev_start + 1;
+	/* extract the namespace id from the block device name */
+	ns->ns_id = trailing_strtol(udev->name) + 1;
 	if (nvme_identify(ndev, ns->ns_id, 0, (dma_addr_t)id))
 		return -EIO;
 
@@ -649,8 +661,8 @@ static int nvme_blk_probe(struct udevice *udev)
 	desc->log2blksz = ns->lba_shift;
 	desc->blksz = 1 << ns->lba_shift;
 	desc->bdev = udev;
-	dm_pci_read_config16(ndev->pdev, PCI_VENDOR_ID, &vendor);
-	sprintf(desc->vendor, "0x%.4x", vendor);
+	pplat = dev_get_parent_platdata(udev->parent);
+	sprintf(desc->vendor, "0x%.4x", pplat->vendor);
 	memcpy(desc->product, ndev->serial, sizeof(ndev->serial));
 	memcpy(desc->revision, ndev->firmware_rev, sizeof(ndev->firmware_rev));
 	part_init(desc);
@@ -658,8 +670,8 @@ static int nvme_blk_probe(struct udevice *udev)
 	return 0;
 }
 
-static ulong nvme_blk_read(struct udevice *udev, lbaint_t blknr,
-			   lbaint_t blkcnt, void *buffer)
+static ulong nvme_blk_rw(struct udevice *udev, lbaint_t blknr,
+			 lbaint_t blkcnt, void *buffer, bool read)
 {
 	struct nvme_ns *ns = dev_get_priv(udev);
 	struct nvme_dev *dev = ns->dev;
@@ -674,7 +686,11 @@ static ulong nvme_blk_read(struct udevice *udev, lbaint_t blknr,
 	u16 lbas = 1 << (dev->max_transfer_shift - ns->lba_shift);
 	u64 total_lbas = blkcnt;
 
-	c.rw.opcode = nvme_cmd_read;
+	if (!read)
+		flush_dcache_range((unsigned long)buffer,
+				   (unsigned long)buffer + total_len);
+
+	c.rw.opcode = read ? nvme_cmd_read : nvme_cmd_write;
 	c.rw.flags = 0;
 	c.rw.nsid = cpu_to_le32(ns->ns_id);
 	c.rw.control = 0;
@@ -692,76 +708,39 @@ static ulong nvme_blk_read(struct udevice *udev, lbaint_t blknr,
 			total_lbas -= lbas;
 		}
 
-		if (nvme_setup_prps
-		   (dev, &prp2, lbas << ns->lba_shift, (ulong)buffer))
+		if (nvme_setup_prps(dev, &prp2,
+				    lbas << ns->lba_shift, (ulong)buffer))
 			return -EIO;
 		c.rw.slba = cpu_to_le64(slba);
 		slba += lbas;
 		c.rw.length = cpu_to_le16(lbas - 1);
 		c.rw.prp1 = cpu_to_le64((ulong)buffer);
 		c.rw.prp2 = cpu_to_le64(prp2);
-		status = nvme_submit_sync_cmd(dev->queues[1],
+		status = nvme_submit_sync_cmd(dev->queues[NVME_IO_Q],
 				&c, NULL, IO_TIMEOUT);
 		if (status)
 			break;
-		temp_len -= lbas << ns->lba_shift;
+		temp_len -= (u32)lbas << ns->lba_shift;
 		buffer += lbas << ns->lba_shift;
 	}
 
+	if (read)
+		invalidate_dcache_range((unsigned long)buffer,
+					(unsigned long)buffer + total_len);
+
 	return (total_len - temp_len) >> desc->log2blksz;
+}
+
+static ulong nvme_blk_read(struct udevice *udev, lbaint_t blknr,
+			   lbaint_t blkcnt, void *buffer)
+{
+	return nvme_blk_rw(udev, blknr, blkcnt, buffer, true);
 }
 
 static ulong nvme_blk_write(struct udevice *udev, lbaint_t blknr,
 			    lbaint_t blkcnt, const void *buffer)
 {
-	struct nvme_ns *ns = dev_get_priv(udev);
-	struct nvme_dev *dev = ns->dev;
-	struct nvme_command c;
-	struct blk_desc *desc = dev_get_uclass_platdata(udev);
-	int status;
-	u64 prp2;
-	u64 total_len = blkcnt << desc->log2blksz;
-	u64 temp_len = total_len;
-
-	u64 slba = blknr;
-	u16 lbas = 1 << (dev->max_transfer_shift - ns->lba_shift);
-	u64 total_lbas = blkcnt;
-
-	c.rw.opcode = nvme_cmd_write;
-	c.rw.flags = 0;
-	c.rw.nsid = cpu_to_le32(ns->ns_id);
-	c.rw.control = 0;
-	c.rw.dsmgmt = 0;
-	c.rw.reftag = 0;
-	c.rw.apptag = 0;
-	c.rw.appmask = 0;
-	c.rw.metadata = 0;
-
-	while (total_lbas) {
-		if (total_lbas < lbas) {
-			lbas = (u16)total_lbas;
-			total_lbas = 0;
-		} else {
-			total_lbas -= lbas;
-		}
-
-		if (nvme_setup_prps
-		   (dev, &prp2, lbas << ns->lba_shift, (ulong)buffer))
-			return -EIO;
-		c.rw.slba = cpu_to_le64(slba);
-		slba += lbas;
-		c.rw.length = cpu_to_le16(lbas - 1);
-		c.rw.prp1 = cpu_to_le64((ulong)buffer);
-		c.rw.prp2 = cpu_to_le64(prp2);
-		status = nvme_submit_sync_cmd(dev->queues[1],
-				&c, NULL, IO_TIMEOUT);
-		if (status)
-			break;
-		temp_len -= lbas << ns->lba_shift;
-		buffer += lbas << ns->lba_shift;
-	}
-
-	return (total_len - temp_len) >> desc->log2blksz;
+	return nvme_blk_rw(udev, blknr, blkcnt, (void *)buffer, false);
 }
 
 static const struct blk_ops nvme_blk_ops = {
@@ -779,8 +758,10 @@ U_BOOT_DRIVER(nvme_blk) = {
 
 static int nvme_bind(struct udevice *udev)
 {
+	static int ndev_num;
 	char name[20];
-	sprintf(name, "nvme#%d", nvme_info->ndev_num++);
+
+	sprintf(name, "nvme#%d", ndev_num++);
 
 	return device_set_name(udev, name);
 }
@@ -789,9 +770,7 @@ static int nvme_probe(struct udevice *udev)
 {
 	int ret;
 	struct nvme_dev *ndev = dev_get_priv(udev);
-	u64 cap;
 
-	ndev->pdev = pci_get_controller(udev);
 	ndev->instance = trailing_strtol(udev->name);
 
 	INIT_LIST_HEAD(&ndev->namespaces);
@@ -803,13 +782,13 @@ static int nvme_probe(struct udevice *udev)
 		goto free_nvme;
 	}
 
-	ndev->queues = malloc(2 * sizeof(struct nvme_queue));
+	ndev->queues = malloc(NVME_Q_NUM * sizeof(struct nvme_queue *));
 	if (!ndev->queues) {
 		ret = -ENOMEM;
 		printf("Error: %s: Out of memory!\n", udev->name);
 		goto free_nvme;
 	}
-	memset(ndev->queues, 0, sizeof(2 * sizeof(struct nvme_queue)));
+	memset(ndev->queues, 0, NVME_Q_NUM * sizeof(struct nvme_queue *));
 
 	ndev->prp_pool = malloc(MAX_PRP_POOL);
 	if (!ndev->prp_pool) {
@@ -819,9 +798,9 @@ static int nvme_probe(struct udevice *udev)
 	}
 	ndev->prp_entry_num = MAX_PRP_POOL >> 3;
 
-	cap = nvme_readq(&ndev->bar->cap);
-	ndev->q_depth = min_t(int, NVME_CAP_MQES(cap) + 1, NVME_Q_DEPTH);
-	ndev->db_stride = 1 << NVME_CAP_STRIDE(cap);
+	ndev->cap = nvme_readq(&ndev->bar->cap);
+	ndev->q_depth = min_t(int, NVME_CAP_MQES(ndev->cap) + 1, NVME_Q_DEPTH);
+	ndev->db_stride = 1 << NVME_CAP_STRIDE(ndev->cap);
 	ndev->dbs = ((void __iomem *)ndev->bar) + 4096;
 
 	ret = nvme_configure_admin_queue(ndev);
@@ -833,8 +812,6 @@ static int nvme_probe(struct udevice *udev)
 		goto free_queue;
 
 	nvme_get_info_from_identify(ndev);
-	ndev->blk_dev_start = nvme_info->ns_num;
-	list_add(&ndev->node, &nvme_info->dev_list);
 
 	return 0;
 

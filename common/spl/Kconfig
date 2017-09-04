@@ -278,8 +278,8 @@ config SPL_ENV_SUPPORT
 	  needed in SPL as it has a much simpler task with less
 	  configuration. But some boards use this to support 'Falcon' boot
 	  on EXT2 and FAT, where SPL boots directly into Linux without
-	  starting U-Boot first. Enabling this option will make getenv()
-	  and setenv() available in SPL.
+	  starting U-Boot first. Enabling this option will make env_get()
+	  and env_set() available in SPL.
 
 config SPL_SAVEENV
 	bool "Support save environment"
@@ -668,6 +668,12 @@ config SPL_DFU_RAM
 
 endchoice
 
+config SPL_USB_SDP_SUPPORT
+	bool "Support SDP (Serial Download Protocol)"
+	help
+	  Enable Serial Download Protocol (SDP) device support in SPL. This
+	  allows to download images into memory and execute (jump to) them
+	  using the same protocol as implemented by the i.MX family's boot ROM.
 endif
 
 config SPL_WATCHDOG_SUPPORT

@@ -15,6 +15,7 @@ obj-y += version.o
 # command
 obj-$(CONFIG_CMD_AES) += aes.o
 obj-$(CONFIG_CMD_ARMFLASH) += armflash.o
+obj-y += blk_common.o
 obj-$(CONFIG_SOURCE) += source.o
 obj-$(CONFIG_CMD_SOURCE) += source.o
 obj-$(CONFIG_CMD_BDI) += bdinfo.o
@@ -131,6 +132,7 @@ obj-$(CONFIG_CMD_FASTBOOT) += fastboot.o
 obj-$(CONFIG_CMD_FS_UUID) += fs_uuid.o
 
 obj-$(CONFIG_CMD_USB_MASS_STORAGE) += usb_mass_storage.o
+obj-$(CONFIG_CMD_USB_SDP) += usb_gadget_sdp.o
 obj-$(CONFIG_CMD_THOR_DOWNLOAD) += thordown.o
 obj-$(CONFIG_CMD_XIMG) += ximg.o
 obj-$(CONFIG_CMD_YAFFS2) += yaffs2.o

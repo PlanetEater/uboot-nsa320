@@ -219,8 +219,8 @@ int board_late_init(void)
 			gd->bd->bi_arch_number = board->machine_id;
 
 		/* If the user has not set fdtimage, set the default */
-		if (!getenv("fdtimage"))
-			setenv("fdtimage", board->fdtfile);
+		if (!env_get("fdtimage"))
+			env_set("fdtimage", board->fdtfile);
 	}
 
 	/* restore hsusb0_data5 pin as hsusb0_data5 */

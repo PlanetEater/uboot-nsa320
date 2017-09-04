@@ -110,10 +110,6 @@
 	"altbootcmd=run boot_mmc ; run boot_usb ; run boot_safe ; run boot_working\0"
 
 /* Console settings */
-#define CONFIG_SYS_CBSIZE		256
-#define CONFIG_SYS_MAXARGS		16
-#define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE +		\
-					 sizeof(CONFIG_SYS_PROMPT) + 16)
 #define CONFIG_SYS_LONGHELP
 #define CONFIG_CMDLINE_EDITING
 #define CONFIG_AUTO_COMPLETE
@@ -124,7 +120,6 @@
 /* Command line configuration */
 #define CONFIG_CMD_PING
 #define CONFIG_CMD_DHCP
-#define CONFIG_CMD_USB
 #define CONFIG_CMD_MII
 #define CONFIG_CMD_MMC
 #define CONFIG_CMD_CACHE

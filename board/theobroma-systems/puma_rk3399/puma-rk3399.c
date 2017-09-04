@@ -63,13 +63,13 @@ static void setup_macaddr(void)
 {
 #if CONFIG_IS_ENABLED(CMD_NET)
 	int ret;
-	const char *cpuid = getenv("cpuid#");
+	const char *cpuid = env_get("cpuid#");
 	u8 hash[SHA256_SUM_LEN];
 	int size = sizeof(hash);
 	u8 mac_addr[6];
 
 	/* Only generate a MAC address, if none is set in the environment */
-	if (getenv("ethaddr"))
+	if (env_get("ethaddr"))
 		return;
 
 	if (!cpuid) {
@@ -89,7 +89,7 @@ static void setup_macaddr(void)
 	/* Make this a valid MAC address and set it */
 	mac_addr[0] &= 0xfe;  /* clear multicast bit */
 	mac_addr[0] |= 0x02;  /* set local assignment bit (IEEE802) */
-	eth_setenv_enetaddr("ethaddr", mac_addr);
+	eth_env_set_enetaddr("ethaddr", mac_addr);
 #endif
 
 	return;
@@ -144,8 +144,8 @@ static void setup_serial(void)
 	serialno |= (u64)crc32_no_comp(serialno, high, 8) << 32;
 	snprintf(serialno_str, sizeof(serialno_str), "%llx", serialno);
 
-	setenv("cpuid#", cpuid_str);
-	setenv("serial#", serialno_str);
+	env_set("cpuid#", cpuid_str);
+	env_set("serial#", serialno_str);
 #endif
 
 	return;
@@ -165,7 +165,7 @@ void get_board_serial(struct tag_serialnr *serialnr)
 	char *serial_string;
 	u64 serial = 0;
 
-	serial_string = getenv("serial#");
+	serial_string = env_get("serial#");
 
 	if (serial_string)
 		serial = simple_strtoull(serial_string, NULL, 16);

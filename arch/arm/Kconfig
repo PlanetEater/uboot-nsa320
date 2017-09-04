@@ -97,6 +97,9 @@ config ARM_ERRATA_833069
 config ARM_ERRATA_833471
 	bool
 
+config ARM_ERRATA_845369
+       bool
+
 config ARM_ERRATA_852421
 	bool
 
@@ -493,7 +496,6 @@ config ARCH_BCM283X
 	select DM_GPIO
 	select OF_CONTROL
 	imply FAT_WRITE
-	imply ENV_IS_IN_FAT
 
 config TARGET_VEXPRESS_CA15_TC2
 	bool "Support vexpress_ca15_tc2"
@@ -691,6 +693,8 @@ config ARCH_SUNXI
 	select USB_STORAGE if DISTRO_DEFAULTS
 	select USB_KEYBOARD if DISTRO_DEFAULTS
 	select USE_TINY_PRINTF
+	imply CMD_FASTBOOT
+	imply FASTBOOT
 	imply FAT_WRITE
 	imply PRE_CONSOLE_BUFFER
 	imply SPL_GPIO_SUPPORT
@@ -700,6 +704,7 @@ config ARCH_SUNXI
 	imply SPL_MMC_SUPPORT if MMC
 	imply SPL_POWER_SUPPORT
 	imply SPL_SERIAL_SUPPORT
+	imply USB_FUNCTION_FASTBOOT
 
 config TARGET_TS4600
 	bool "Support TS4600"
@@ -726,7 +731,6 @@ config ARCH_ZYNQ
 	select DM_GPIO
 	select SPL_DM if SPL
 	select DM_MMC
-	select DM_MMC_OPS
 	select DM_SPI
 	select DM_SERIAL
 	select DM_SPI_FLASH
@@ -1020,7 +1024,6 @@ config TARGET_COLIBRI_PXA270
 config ARCH_UNIPHIER
 	bool "Socionext UniPhier SoCs"
 	select BOARD_LATE_INIT
-	select CLK_UNIPHIER
 	select DM
 	select DM_GPIO
 	select DM_I2C
@@ -1039,7 +1042,6 @@ config ARCH_UNIPHIER
 	select SPL_PINCTRL if SPL
 	select SUPPORT_SPL
 	imply FAT_WRITE
-	imply ENV_IS_IN_MMC
 	help
 	  Support for UniPhier SoC family developed by Socionext Inc.
 	  (formerly, System LSI Business Division of Panasonic Corporation)
@@ -1075,14 +1077,16 @@ config ARCH_ROCKCHIP
 	select DM_GPIO
 	select DM_I2C
 	select DM_MMC
-	select DM_MMC_OPS
 	select DM_SERIAL
 	select DM_SPI
 	select DM_SPI_FLASH
 	select DM_USB if USB
 	select DM_PWM
 	select DM_REGULATOR
+	imply CMD_FASTBOOT
+	imply FASTBOOT
 	imply FAT_WRITE
+	imply USB_FUNCTION_FASTBOOT
 
 config TARGET_THUNDERX_88XX
 	bool "Support ThunderX 88xx"

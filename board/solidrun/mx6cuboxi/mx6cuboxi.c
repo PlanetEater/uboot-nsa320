@@ -376,14 +376,14 @@ int board_late_init(void)
 {
 #ifdef CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
 	if (is_hummingboard())
-		setenv("board_name", "HUMMINGBOARD");
+		env_set("board_name", "HUMMINGBOARD");
 	else
-		setenv("board_name", "CUBOXI");
+		env_set("board_name", "CUBOXI");
 
 	if (is_mx6dq())
-		setenv("board_rev", "MX6Q");
+		env_set("board_rev", "MX6Q");
 	else
-		setenv("board_rev", "MX6DL");
+		env_set("board_rev", "MX6DL");
 #endif
 
 	return 0;
@@ -579,17 +579,6 @@ static void ccgr_init(void)
 	writel(0x00FFF300, &ccm->CCGR4);
 	writel(0x0F0000C3, &ccm->CCGR5);
 	writel(0x000003FF, &ccm->CCGR6);
-}
-
-static void gpr_init(void)
-{
-	struct iomuxc *iomux = (struct iomuxc *)IOMUXC_BASE_ADDR;
-
-	/* enable AXI cache for VDOA/VPU/IPU */
-	writel(0xF00000CF, &iomux->gpr[4]);
-	/* set IPU AXI-id0 Qos=0xf(bypass) AXI-id1 Qos=0x7 */
-	writel(0x007F007F, &iomux->gpr[6]);
-	writel(0x007F007F, &iomux->gpr[7]);
 }
 
 static void spl_dram_init(int width)

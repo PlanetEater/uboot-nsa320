@@ -119,8 +119,6 @@ dtb-$(CONFIG_ARCH_UNIPHIER_PXS2) += \
 	uniphier-pxs2-vodka.dtb
 dtb-$(CONFIG_ARCH_UNIPHIER_PXS3) += \
 	uniphier-pxs3-ref.dtb
-dtb-$(CONFIG_ARCH_UNIPHIER_SLD3) += \
-	uniphier-sld3-ref.dtb
 dtb-$(CONFIG_ARCH_UNIPHIER_SLD8) += \
 	uniphier-sld8-ref.dtb
 
@@ -336,6 +334,8 @@ dtb-$(CONFIG_MACH_SUN50I_H5) += \
 	sun50i-h5-orangepi-zero-plus2.dtb
 dtb-$(CONFIG_MACH_SUN50I) += \
 	sun50i-a64-bananapi-m64.dtb \
+	sun50i-a64-nanopi-a64.dtb \
+	sun50i-a64-olinuxino.dtb \
 	sun50i-a64-orangepi-win.dtb \
 	sun50i-a64-pine64-plus.dtb \
 	sun50i-a64-pine64.dtb
@@ -357,6 +357,7 @@ dtb-$(CONFIG_MX6) += imx6ull-14x14-evk.dtb \
 	imx6sll-evk.dtb \
 	imx6dl-icore.dtb \
 	imx6dl-icore-rqs.dtb \
+	imx6q-cm-fx6.dtb \
 	imx6q-icore.dtb \
 	imx6q-icore-rqs.dtb \
 	imx6q-logicpd.dtb \

@@ -5,7 +5,7 @@
 VERSION = 2017
 PATCHLEVEL = 09
 SUBLEVEL =
-EXTRAVERSION = -rc2
+EXTRAVERSION = -rc4
 NAME =
 
 # *DOCUMENTATION*
@@ -690,6 +690,7 @@ libs-y += drivers/usb/phy/
 libs-y += drivers/usb/ulpi/
 libs-y += cmd/
 libs-y += common/
+libs-y += env/
 libs-$(CONFIG_API) += api/
 libs-$(CONFIG_HAS_POST) += post/
 libs-y += test/
@@ -1378,7 +1379,7 @@ $(timestamp_h): $(srctree)/Makefile FORCE
 	$(call filechk,timestamp.h)
 
 checkbinman: tools
-	@if ! ( echo 'import libfdt' | ( PYTHONPATH=tools python )); then \
+	@if ! ( echo 'import libfdt' | ( PYTHONPATH=tools $(PYTHON) )); then \
 		echo >&2; \
 		echo >&2 '*** binman needs the Python libfdt library.'; \
 		echo >&2 '*** Either install it on your system, or try:'; \
@@ -1464,14 +1465,14 @@ checkarmreloc: u-boot
 		false; \
 	fi
 
-env: scripts_basic
+environ: scripts_basic
 	$(Q)$(MAKE) $(build)=tools/$@
 
 tools-only: scripts_basic $(version_h) $(timestamp_h)
 	$(Q)$(MAKE) $(build)=tools
 
 tools-all: export HOST_TOOLS_ALL=y
-tools-all: env tools ;
+tools-all: environ tools ;
 
 cross_tools: export CROSS_BUILD_TOOLS=y
 cross_tools: tools ;

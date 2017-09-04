@@ -152,7 +152,6 @@
 #define CONFIG_USB_ETHER
 #define CONFIG_USB_ETH_CDC
 #define CONFIG_NETCONSOLE
-#define CONFIG_SYS_USB_EVENT_POLL_VIA_CONTROL_EP
 
 /* USB Mass Storage Gadget */
 #define CONFIG_USB_FUNCTION_MASS_STORAGE
@@ -170,9 +169,6 @@
 /* Miscellaneous configurable options */
 #define CONFIG_HWCONFIG
 #define CONFIG_PREBOOT
-
-/* Print Buffer Size */
-#define CONFIG_SYS_PBSIZE (CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)
 
 /* Memory configuration */
 #define CONFIG_SYS_MEMTEST_START       0x10000000

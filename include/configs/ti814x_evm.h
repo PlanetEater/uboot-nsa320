@@ -87,18 +87,9 @@
 #define V_OSCK			24000000	/* Clock output from T2 */
 #define V_SCLK			(V_OSCK >> 1)
 
-/* max number of command args */
-#define CONFIG_SYS_MAXARGS		16
 
 /* Console I/O Buffer Size */
 #define CONFIG_SYS_CBSIZE		512
-
-/* Print Buffer Size */
-#define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE \
-					+ sizeof(CONFIG_SYS_PROMPT) + 16)
-
-/* Boot Argument Buffer Size */
-#define CONFIG_SYS_BARGSIZE		CONFIG_SYS_CBSIZE
 
 #define CONFIG_SYS_MEMTEST_START	CONFIG_SYS_SDRAM_BASE
 #define CONFIG_SYS_MEMTEST_END		(CONFIG_SYS_MEMTEST_START \

@@ -45,9 +45,6 @@
  * Miscellaneous configurable options
  */
 #define	CONFIG_SYS_LONGHELP				/* undef to save memory      */
-#define	CONFIG_SYS_CBSIZE		256		/* Console I/O Buffer Size   */
-#define	CONFIG_SYS_PBSIZE (CONFIG_SYS_CBSIZE+sizeof(CONFIG_SYS_PROMPT)+16)  /* Print Buffer Size */
-#define	CONFIG_SYS_MAXARGS		16		/* max number of command args*/
 
 #define CONFIG_SYS_MALLOC_LEN		128*1024
 
@@ -115,7 +112,6 @@
 #define CONFIG_SYS_IDE_MAXBUS		1	/* max. 1 IDE bus		*/
 #define CONFIG_SYS_IDE_MAXDEVICE	1	/* max. 1 drive per IDE bus	*/
 
-#undef	CONFIG_IDE_LED			/* LED   for ide not supported	*/
 #undef	CONFIG_IDE_RESET		/* reset for ide not supported	*/
 
 #define CONFIG_SYS_ATA_IDE0_OFFSET	0x0000

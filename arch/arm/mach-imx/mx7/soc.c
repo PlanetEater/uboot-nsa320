@@ -31,7 +31,7 @@ U_BOOT_DEVICE(imx7_thermal) = {
 };
 #endif
 
-#ifdef CONFIG_IMX_RDC
+#if CONFIG_IS_ENABLED(IMX_RDC)
 /*
  * In current design, if any peripheral was assigned to both A7 and M4,
  * it will receive ipg_stop or ipg_wait when any of the 2 platforms enter
@@ -245,8 +245,9 @@ int arch_cpu_init(void)
 	mxs_dma_init();
 #endif
 
-	if (IS_ENABLED(CONFIG_IMX_RDC))
-		isolate_resource();
+#if CONFIG_IS_ENABLED(IMX_RDC)
+	isolate_resource();
+#endif
 
 	return 0;
 }
@@ -256,9 +257,9 @@ int arch_misc_init(void)
 {
 #ifdef CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
 	if (is_mx7d())
-		setenv("soc", "imx7d");
+		env_set("soc", "imx7d");
 	else
-		setenv("soc", "imx7s");
+		env_set("soc", "imx7s");
 #endif
 
 	return 0;

@@ -169,17 +169,6 @@ static void ccgr_init(void)
 	writel(0x000003FF, &ccm->CCGR6);
 }
 
-static void gpr_init(void)
-{
-	struct iomuxc *iomux = (struct iomuxc *)IOMUXC_BASE_ADDR;
-
-	/* enable AXI cache for VDOA/VPU/IPU */
-	writel(0xF00000CF, &iomux->gpr[4]);
-	/* set IPU AXI-id0 Qos=0xf(bypass) AXI-id1 Qos=0x7 */
-	writel(0x007F007F, &iomux->gpr[6]);
-	writel(0x007F007F, &iomux->gpr[7]);
-}
-
 int board_early_init_f(void)
 {
 	ccgr_init();
@@ -312,9 +301,9 @@ int board_eth_init(bd_t *bis)
 
 	/* depending on the phy address we can detect our board version */
 	if (phydev->addr == 0)
-		setenv("boardver", "");
+		env_set("boardver", "");
 	else
-		setenv("boardver", "mr");
+		env_set("boardver", "mr");
 
 	printf("using phy at %d\n", phydev->addr);
 	ret = fec_probe(bis, -1, base, bus, phydev);

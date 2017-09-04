@@ -79,11 +79,6 @@
  */
 #define CONFIG_SYS_LONGHELP
 #define CONFIG_SYS_CBSIZE			512
-#define CONFIG_SYS_PBSIZE			(CONFIG_SYS_CBSIZE + \
-						 sizeof(CONFIG_SYS_PROMPT) + \
-						 16)
-#define CONFIG_SYS_MAXARGS			16
-#define CONFIG_SYS_BARGSIZE			CONFIG_SYS_CBSIZE
 
 #define CONFIG_SYS_MEMTEST_START		0x00100000
 #define CONFIG_SYS_MEMTEST_END			0x01000000
@@ -118,8 +113,6 @@
 /*-----------------------------------------------------------------------
  * USB configuration
  */
-#define CONFIG_USB_EHCI_PCI
-#define CONFIG_SYS_USB_EVENT_POLL
 
 #define CONFIG_USB_HOST_ETHER
 #define CONFIG_USB_ETHER_ASIX

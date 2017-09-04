@@ -63,7 +63,6 @@
 #define CONFIG_SYS_USB_OHCI_MAX_ROOT_PORTS 1
 
 #define CONFIG_AUTO_COMPLETE
-#define CONFIG_SYS_MAXARGS		16
 #define CONFIG_CMDLINE_EDITING
 
 /*
@@ -81,10 +80,6 @@
  * Console configuration
  */
 #define CONFIG_SYS_LONGHELP
-#define CONFIG_SYS_CBSIZE		SZ_256
-#define CONFIG_SYS_BARGSIZE		CONFIG_SYS_CBSIZE
-#define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE + \
-						sizeof(CONFIG_SYS_PROMPT) + 16)
 
 /*
  * Misc utility configuration

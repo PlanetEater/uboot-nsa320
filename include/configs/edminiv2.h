@@ -113,8 +113,6 @@
 #define CONFIG_SETUP_MEMORY_TAGS 1	/* enable memory tag */
 
 #define	CONFIG_SYS_CBSIZE	1024	/* Console I/O Buff Size */
-#define	CONFIG_SYS_PBSIZE	(CONFIG_SYS_CBSIZE \
-		+sizeof(CONFIG_SYS_PROMPT) + 16)	/* Print Buff */
 /*
  * Commands configuration
  */
@@ -205,7 +203,6 @@
 #define CONFIG_SYS_MEMTEST_START	0x00400000
 #define CONFIG_SYS_MEMTEST_END		0x007fffff
 #define CONFIG_SYS_RESET_ADDRESS	0xffff0000
-#define CONFIG_SYS_MAXARGS		16
 
 /* Enable command line editing */
 #define CONFIG_CMDLINE_EDITING

@@ -139,11 +139,8 @@ unsigned long get_board_ddr_clk(void);
 /* USB */
 #define CONFIG_HAS_FSL_XHCI_USB
 #ifdef CONFIG_HAS_FSL_XHCI_USB
-#define CONFIG_USB_XHCI_HCD
 #define CONFIG_USB_XHCI_FSL
-#define CONFIG_USB_XHCI_DWC3
 #define CONFIG_USB_MAX_CONTROLLER_COUNT         3
-#define CONFIG_USB_STORAGE
 #endif
 
 /* SATA */
@@ -420,9 +417,6 @@ unsigned long get_board_ddr_clk(void);
 #define CONFIG_MISC_INIT_R
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
 #define CONFIG_AUTO_COMPLETE
-#define CONFIG_SYS_PBSIZE		\
-		(CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)
-#define CONFIG_SYS_BARGSIZE		CONFIG_SYS_CBSIZE
 
 #define CONFIG_SYS_MEMTEST_START	0x80000000
 #define CONFIG_SYS_MEMTEST_END		0x9fffffff

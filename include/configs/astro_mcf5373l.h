@@ -178,15 +178,6 @@
 
 #define CONFIG_SYS_LONGHELP
 
-#if (CONFIG_COMMANDS & CONFIG_CMD_KGDB)
-#define CONFIG_SYS_CBSIZE		1024
-#else
-#define CONFIG_SYS_CBSIZE		256
-#endif
-#define CONFIG_SYS_PBSIZE (CONFIG_SYS_CBSIZE+sizeof(CONFIG_SYS_PROMPT)+16)
-#define CONFIG_SYS_MAXARGS		16
-#define CONFIG_SYS_BARGSIZE		CONFIG_SYS_CBSIZE
-
 #define CONFIG_FPGA_COUNT	1
 #define	CONFIG_FPGA_XILINX
 #define	CONFIG_FPGA_SPARTAN3
@@ -296,7 +287,7 @@
 
 #define LDS_BOARD_TEXT \
 	. = DEFINED(env_offset) ? env_offset : .; \
-	common/env_embedded.o       (.text*)
+	env/embedded.o(.text*)
 
 #if ENABLE_JFFS
 /* JFFS Partition offset set */

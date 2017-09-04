@@ -30,11 +30,11 @@ static void setup_boot_mode(void)
 	switch (boot_mode) {
 	case BOOT_FASTBOOT:
 		printf("enter fastboot!\n");
-		setenv("preboot", "setenv preboot; fastboot usb0");
+		env_set("preboot", "setenv preboot; fastboot usb0");
 		break;
 	case BOOT_UMS:
 		printf("enter UMS!\n");
-		setenv("preboot", "setenv preboot; ums mmc 0");
+		env_set("preboot", "setenv preboot; ums mmc 0");
 		break;
 	}
 }
@@ -72,11 +72,13 @@ int board_init(void)
 
 int dram_init_banksize(void)
 {
-	/* Reserve 0x200000 for OPTEE */
-	gd->bd->bi_dram[0].start = 0x60000000;
+	gd->bd->bi_dram[0].start = CONFIG_SYS_SDRAM_BASE;
 	gd->bd->bi_dram[0].size = 0x8400000;
-	gd->bd->bi_dram[1].start = 0x6a400000;
-	gd->bd->bi_dram[1].size = gd->ram_size - gd->bd->bi_dram[1].start;
+	/* Reserve 0x200000 for OPTEE */
+	gd->bd->bi_dram[1].start = CONFIG_SYS_SDRAM_BASE
+				+ gd->bd->bi_dram[0].size + 0x200000;
+	gd->bd->bi_dram[1].size = gd->bd->bi_dram[0].start
+				+ gd->ram_size - gd->bd->bi_dram[1].start;
 
 	return 0;
 }

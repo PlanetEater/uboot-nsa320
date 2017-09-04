@@ -46,7 +46,6 @@
 
 /* USB Configs */
 #define CONFIG_USB_EHCI_MX5
-#define CONFIG_USB_STORAGE
 #define CONFIG_USB_HOST_ETHER
 #define CONFIG_USB_ETHER_ASIX
 #define CONFIG_USB_ETHER_MCS7830
@@ -146,9 +145,6 @@
 #define CONFIG_SYS_LONGHELP	/* undef to save memory */
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_SYS_CBSIZE		512	/* Console I/O Buffer Size */
-
-#define CONFIG_SYS_MAXARGS	16	/* max number of command args */
-#define CONFIG_SYS_BARGSIZE CONFIG_SYS_CBSIZE	/* Boot Argument Buffer Size */
 
 #define CONFIG_SYS_MEMTEST_START       0x70000000
 #define CONFIG_SYS_MEMTEST_END         0x70010000

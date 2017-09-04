@@ -239,11 +239,11 @@ void eth_set_current(void);		/* set nterface to ethcur var */
 
 int eth_get_dev_index(void);		/* get the device index */
 void eth_parse_enetaddr(const char *addr, uchar *enetaddr);
-int eth_getenv_enetaddr(const char *name, uchar *enetaddr);
-int eth_setenv_enetaddr(const char *name, const uchar *enetaddr);
+int eth_env_get_enetaddr(const char *name, uchar *enetaddr);
+int eth_env_set_enetaddr(const char *name, const uchar *enetaddr);
 
 /**
- * eth_setenv_enetaddr_by_index() - set the MAC address environment variable
+ * eth_env_set_enetaddr_by_index() - set the MAC address environment variable
  *
  * This sets up an environment variable with the given MAC address (@enetaddr).
  * The environment variable to be set is defined by <@base_name><@index>addr.
@@ -255,7 +255,7 @@ int eth_setenv_enetaddr(const char *name, const uchar *enetaddr);
  * @enetaddr:   Pointer to MAC address to put into the variable
  * @return 0 if OK, other value on error
  */
-int eth_setenv_enetaddr_by_index(const char *base_name, int index,
+int eth_env_set_enetaddr_by_index(const char *base_name, int index,
 				 uchar *enetaddr);
 
 
@@ -275,7 +275,7 @@ int usb_ether_init(void);
  * Returns:
  *	Return true if the address is valid.
  */
-int eth_getenv_enetaddr_by_index(const char *base_name, int index,
+int eth_env_get_enetaddr_by_index(const char *base_name, int index,
 				 uchar *enetaddr);
 
 int eth_init(void);			/* Initialize the device */
@@ -834,7 +834,7 @@ void vlan_to_string(ushort x, char *s);
 ushort string_to_vlan(const char *s);
 
 /* read a VLAN id from an environment variable */
-ushort getenv_vlan(char *);
+ushort env_get_vlan(char *);
 
 /* copy a filename (allow for "..." notation, limit length) */
 void copy_filename(char *dst, const char *src, int size);

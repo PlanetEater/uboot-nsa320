@@ -240,7 +240,7 @@ int misc_init_r(void)
 	int ret;
 
 	/* If 'ethaddr' is already set, do nothing. */
-	if (getenv("ethaddr"))
+	if (env_get("ethaddr"))
 		return 0;
 
 	/* EEPROM is at bus 2. */
@@ -264,7 +264,7 @@ int misc_init_r(void)
 	}
 
 	/* Set ethernet address from EEPROM. */
-	eth_setenv_enetaddr("ethaddr", data.mac);
+	eth_env_set_enetaddr("ethaddr", data.mac);
 
 	return ret;
 }

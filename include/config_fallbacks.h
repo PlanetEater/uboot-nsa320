@@ -50,6 +50,7 @@
 	defined(CONFIG_CMD_PART) || \
 	defined(CONFIG_CMD_GPT) || \
 	defined(CONFIG_MMC) || \
+	defined(CONFIG_NVME) || \
 	defined(CONFIG_SYSTEMACE) || \
 	defined(CONFIG_SANDBOX)
 #define HAVE_BLOCK_DEVICE
@@ -71,8 +72,21 @@
 #define CONFIG_LIB_RAND
 #endif
 
+/* Console I/O Buffer Size */
+#ifndef CONFIG_SYS_CBSIZE
+#if defined(CONFIG_CMD_KGDB)
+#define CONFIG_SYS_CBSIZE	1024
+#else
+#define CONFIG_SYS_CBSIZE	256
+#endif
+#endif
+
 #ifndef CONFIG_SYS_PBSIZE
-#define CONFIG_SYS_PBSIZE	(CONFIG_SYS_CBSIZE + 128)
+#define CONFIG_SYS_PBSIZE	(CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)
+#endif
+
+#ifndef CONFIG_SYS_MAXARGS
+#define CONFIG_SYS_MAXARGS	16
 #endif
 
 #ifndef CONFIG_FIT_SIGNATURE

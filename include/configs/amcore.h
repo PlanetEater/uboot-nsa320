@@ -33,20 +33,6 @@
 /* undef to save memory	*/
 #undef	CONFIG_SYS_LONGHELP
 
-#if defined(CONFIG_CMD_KGDB)
-/* Console I/O buff. size */
-#define CONFIG_SYS_CBSIZE		1024
-#else
-#define CONFIG_SYS_CBSIZE		256
-#endif
-/* Print buffer size */
-#define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE + \
-					 sizeof(CONFIG_SYS_PROMPT)+16)
-/* max number of command args	*/
-#define CONFIG_SYS_MAXARGS		16
-/* Boot argument buffer size	*/
-#define CONFIG_SYS_BARGSIZE		CONFIG_SYS_CBSIZE
-
 #define CONFIG_AUTO_COMPLETE		1 /* add autocompletion support	*/
 #define CONFIG_MX_CYCLIC		1 /* enable mdc/mwc commands	*/
 
@@ -93,8 +79,8 @@
 #define CONFIG_ENV_SECT_SIZE		0x1000
 
 #define LDS_BOARD_TEXT \
-        . = DEFINED(env_offset) ? env_offset : .; \
-        common/env_embedded.o (.text*);
+	. = DEFINED(env_offset) ? env_offset : .; \
+	env/embedded.o(.text*);
 
 /* memory map space for linux boot data */
 #define CONFIG_SYS_BOOTMAPSZ		(8 << 20)

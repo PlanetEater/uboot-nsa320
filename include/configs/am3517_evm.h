@@ -74,7 +74,6 @@
 #ifdef CONFIG_USB_MUSB_HOST
 
 #ifdef CONFIG_USB_KEYBOARD
-#define CONFIG_SYS_USB_EVENT_POLL
 #define CONFIG_PREBOOT "usb start"
 #endif /* CONFIG_USB_KEYBOARD */
 
@@ -106,7 +105,6 @@
 #ifdef CONFIG_NAND
 #define CONFIG_NAND_OMAP_GPMC
 #define CONFIG_NAND_OMAP_GPMC_PREFETCH
-#define CONFIG_BCH
 #define CONFIG_SYS_NAND_ADDR		NAND_BASE	/* physical address */
 							/* to access nand */
 #define CONFIG_SYS_NAND_BASE		NAND_BASE	/* physical address */
@@ -235,11 +233,6 @@
 
 /* Console I/O Buffer Size */
 #define CONFIG_SYS_CBSIZE		512
-/* Print Buffer Size */
-#define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE \
-					+ sizeof(CONFIG_SYS_PROMPT) + 16)
-/* Boot Argument Buffer Size */
-#define CONFIG_SYS_BARGSIZE		CONFIG_SYS_CBSIZE
 
 /* memtest works on */
 #define CONFIG_SYS_MEMTEST_START	(OMAP34XX_SDRC_CS0)

@@ -246,17 +246,12 @@
 
 /* SPL */
 
-#ifndef CONFIG_SPL_USBETH_SUPPORT
-#define CONFIG_FASTBOOT_FLASH_MMC_DEV   1
-#endif
-
 /*
  * Disable MMC DM for SPL build and can be re-enabled after adding
  * DM support in SPL
  */
 #ifdef CONFIG_SPL_BUILD
 #undef CONFIG_DM_MMC
-#undef CONFIG_DM_MMC_OPS
 #undef CONFIG_TIMER
 #endif
 

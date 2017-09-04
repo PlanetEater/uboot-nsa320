@@ -92,7 +92,6 @@
 							/* CS0 */
 #define CONFIG_SYS_MAX_NAND_DEVICE	1		/* Max number of NAND */
 							/* devices */
-#define CONFIG_BCH
 #define CONFIG_SYS_NAND_MAX_OOBFREE	2
 #define CONFIG_SYS_NAND_MAX_ECCPOS	56
 
@@ -211,13 +210,6 @@
 #define CONFIG_CMDLINE_EDITING		/* enable cmdline history */
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_SYS_CBSIZE		512	/* Console I/O Buffer Size */
-/* Print Buffer Size */
-#define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE + \
-					sizeof(CONFIG_SYS_PROMPT) + 16)
-#define CONFIG_SYS_MAXARGS		16	/* max number of command args */
-
-/* Boot Argument Buffer Size */
-#define CONFIG_SYS_BARGSIZE		(CONFIG_SYS_CBSIZE)
 
 #define CONFIG_SYS_MEMTEST_START	(OMAP34XX_SDRC_CS0 + 0x00000000)
 #define CONFIG_SYS_MEMTEST_END		(CONFIG_SYS_MEMTEST_START + \

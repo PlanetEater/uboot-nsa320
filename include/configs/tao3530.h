@@ -148,18 +148,10 @@
  * Miscellaneous configurable options
  */
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
-#define CONFIG_SYS_CBSIZE		256	/* Console I/O Buffer Size */
 
 /* turn on command-line edit/hist/auto */
 #define CONFIG_CMDLINE_EDITING
 #define CONFIG_AUTO_COMPLETE
-
-/* Print Buffer Size */
-#define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE + \
-					sizeof(CONFIG_SYS_PROMPT) + 16)
-#define CONFIG_SYS_MAXARGS		16	/* max number of command args */
-/* Boot Argument Buffer Size */
-#define CONFIG_SYS_BARGSIZE		(CONFIG_SYS_CBSIZE)
 
 #define CONFIG_SYS_ALT_MEMTEST		1
 #define CONFIG_SYS_MEMTEST_START	(0x82000000)		/* memtest */
@@ -239,7 +231,6 @@
 #define CONFIG_SPL_NAND_BASE
 #define CONFIG_SPL_NAND_DRIVERS
 #define CONFIG_SPL_NAND_ECC
-#define CONFIG_SPL_OMAP3_ID_NAND
 
 /* NAND boot config */
 #define CONFIG_SYS_NAND_5_ADDR_CYCLE

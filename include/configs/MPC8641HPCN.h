@@ -352,7 +352,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
  ************************************************************/
 #define CONFIG_PCI_OHCI			1
 #define CONFIG_USB_OHCI_NEW		1
-#define CONFIG_SYS_USB_EVENT_POLL		1
 #define CONFIG_SYS_USB_OHCI_SLOT_NAME		"ohci_pci"
 #define CONFIG_SYS_USB_OHCI_MAX_ROOT_PORTS	15
 #define CONFIG_SYS_OHCI_SWAP_REG_ACCESS	1
@@ -590,16 +589,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
 #define CONFIG_SYS_LONGHELP			/* undef to save memory	*/
 #define CONFIG_CMDLINE_EDITING		/* Command-line editing */
 #define CONFIG_SYS_LOAD_ADDR	0x2000000	/* default load address */
-
-#if defined(CONFIG_CMD_KGDB)
-    #define CONFIG_SYS_CBSIZE	1024		/* Console I/O Buffer Size */
-#else
-    #define CONFIG_SYS_CBSIZE	256		/* Console I/O Buffer Size */
-#endif
-
-#define CONFIG_SYS_PBSIZE (CONFIG_SYS_CBSIZE+sizeof(CONFIG_SYS_PROMPT)+16) /* Print Buffer Size */
-#define CONFIG_SYS_MAXARGS	16		/* max number of command args */
-#define CONFIG_SYS_BARGSIZE	CONFIG_SYS_CBSIZE	/* Boot Argument Buffer Size */
 
 /*
  * For booting Linux, the board info and command line data

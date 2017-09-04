@@ -167,10 +167,6 @@
  */
 #define CONFIG_SYS_CBSIZE	1024	/* Console I/O Buffer Size */
 #define CONFIG_SYS_PBSIZE	1024	/* Print Buffer Size */
-#define CONFIG_SYS_MAXARGS	16	/* max number of command args */
-
-/* Boot Argument Buffer Size */
-#define CONFIG_SYS_BARGSIZE		CONFIG_SYS_CBSIZE
 
 /* standalone support */
 #define CONFIG_STANDALONE_LOAD_ADDR	CONFIG_SYS_LOAD_ADDR
@@ -294,7 +290,7 @@ extern int soft_i2c_gpio_scl;
 #define CONFIG_MII			/* MII PHY management		*/
 #endif
 
-#ifdef CONFIG_SUNXI_GMAC
+#ifdef CONFIG_SUN7I_GMAC
 #define CONFIG_PHY_ADDR		1
 #define CONFIG_MII			/* MII PHY management		*/
 #define CONFIG_PHY_REALTEK
@@ -311,21 +307,7 @@ extern int soft_i2c_gpio_scl;
 #endif
 
 #ifdef CONFIG_USB_MUSB_GADGET
-#define CONFIG_USB_FUNCTION_FASTBOOT
 #define CONFIG_USB_FUNCTION_MASS_STORAGE
-#endif
-
-#ifdef CONFIG_USB_FUNCTION_FASTBOOT
-#define CONFIG_CMD_FASTBOOT
-#define CONFIG_FASTBOOT_BUF_ADDR	CONFIG_SYS_LOAD_ADDR
-#define CONFIG_FASTBOOT_BUF_SIZE	0x2000000
-#define CONFIG_ANDROID_BOOT_IMAGE
-
-#define CONFIG_FASTBOOT_FLASH
-
-#ifdef CONFIG_MMC
-#define CONFIG_FASTBOOT_FLASH_MMC_DEV	0
-#endif
 #endif
 
 #ifdef CONFIG_USB_FUNCTION_MASS_STORAGE
@@ -333,7 +315,6 @@ extern int soft_i2c_gpio_scl;
 
 #ifdef CONFIG_USB_KEYBOARD
 #define CONFIG_PREBOOT
-#define CONFIG_SYS_USB_EVENT_POLL_VIA_INT_QUEUE
 #endif
 
 #define CONFIG_MISC_INIT_R
