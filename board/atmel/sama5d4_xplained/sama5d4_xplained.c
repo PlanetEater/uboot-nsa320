@@ -192,6 +192,18 @@ int board_early_init_f(void)
 }
 #endif
 
+#define AT24MAC_MAC_OFFSET	0x9a
+
+#ifdef CONFIG_MISC_INIT_R
+int misc_init_r(void)
+{
+#ifdef CONFIG_I2C_EEPROM
+	at91_set_ethaddr(AT24MAC_MAC_OFFSET);
+#endif
+	return 0;
+}
+#endif
+
 int board_init(void)
 {
 	/* adress of boot parameters */
@@ -221,7 +233,7 @@ int dram_init(void)
 #ifdef CONFIG_SPL_BUILD
 void spl_board_init(void)
 {
-#if CONFIG_SYS_USE_NANDFLASH
+#if CONFIG_NAND_BOOT
 	sama5d4_xplained_nand_hw_init();
 #endif
 }

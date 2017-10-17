@@ -48,6 +48,27 @@ static inline void sync(void)
 #define MAP_WRBACK	(0)
 #define MAP_WRTHROUGH	(0)
 
+#ifdef CONFIG_ARCH_MAP_SYSMEM
+static inline void *map_sysmem(phys_addr_t paddr, unsigned long len)
+{
+	if(paddr <PHYS_SDRAM_0_SIZE + PHYS_SDRAM_1_SIZE)
+	paddr = paddr | 0x40000000;
+	return (void *)(uintptr_t)paddr;
+}
+
+static inline void *unmap_sysmem(const void *vaddr)
+{
+	phys_addr_t paddr = (phys_addr_t)vaddr;
+	paddr = paddr & ~0x40000000;
+	return (void *)(uintptr_t)paddr;
+}
+
+static inline phys_addr_t map_to_sysmem(const void *ptr)
+{
+	return (phys_addr_t)(uintptr_t)ptr;
+}
+#endif
+
 static inline void *
 map_physmem(phys_addr_t paddr, unsigned long len, unsigned long flags)
 {
@@ -104,26 +125,26 @@ extern void __raw_readsl(unsigned int addr, void *data, int longlen);
 #define __iormb()	dmb()
 #define __iowmb()	dmb()
 
-static inline void writeb(unsigned char val, unsigned char *addr)
+static inline void writeb(u8 val, volatile void __iomem *addr)
 {
 	__iowmb();
 	__arch_putb(val, addr);
 }
 
-static inline void writew(unsigned short val, unsigned short *addr)
+static inline void writew(u16 val, volatile void __iomem *addr)
 {
 	__iowmb();
 	__arch_putw(val, addr);
 
 }
 
-static inline void writel(unsigned int val, unsigned int *addr)
+static inline void writel(u32 val, volatile void __iomem *addr)
 {
 	__iowmb();
 	__arch_putl(val, addr);
 }
 
-static inline unsigned char readb(unsigned char *addr)
+static inline u8 readb(const volatile void __iomem *addr)
 {
 	u8	val;
 
@@ -132,7 +153,7 @@ static inline unsigned char readb(unsigned char *addr)
 	return val;
 }
 
-static inline unsigned short readw(unsigned short *addr)
+static inline u16 readw(const volatile void __iomem *addr)
 {
 	u16	val;
 
@@ -141,7 +162,7 @@ static inline unsigned short readw(unsigned short *addr)
 	return val;
 }
 
-static inline unsigned int readl(unsigned int *addr)
+static inline u32 readl(const volatile void __iomem *addr)
 {
 	u32	val;
 
