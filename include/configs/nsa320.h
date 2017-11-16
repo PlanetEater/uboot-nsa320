@@ -46,18 +46,6 @@
 #define CONFIG_ENV_OFFSET	0x120000
 
 /* default environment variables */
-#define MTDIDS_DEFAULT			"nand0=kw_nand"
-#define MTDPARTS_DEFAULT \
-	"mtdparts=kw_nand:" \
-	"1m(uboot)," \
-	"512k(uboot_env)," \
-	"512k(key_store)," \
-	"512k(info)," \
-	"10m(etc)," \
-	"10m(kernel_1)," \
-	"0x2fc0000(rootfs_1)," \
-	"10m(kernel_2)," \
-	"0x2fc0000(rootfs_2)"
 
 /* Ethernet driver configuration */
 #ifdef CONFIG_CMD_NET
