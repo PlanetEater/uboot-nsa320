@@ -92,6 +92,7 @@ config TARGET_MPC8536DS
 # Use DDR3 controller with DDR2 DIMMs on this board
 	select SYS_FSL_DDRC_GEN3
 	imply CMD_SATA
+	imply FSL_SATA
 
 config TARGET_MPC8541CDS
 	bool "Support MPC8541CDS"
@@ -148,6 +149,7 @@ config TARGET_P1022DS
 	select SUPPORT_SPL
 	select SUPPORT_TPL
 	imply CMD_SATA
+	imply FSL_SATA
 
 config TARGET_P1023RDB
 	bool "Support P1023RDB"
@@ -209,6 +211,7 @@ config TARGET_P1025RDB
 	select ARCH_P1025
 	imply CMD_EEPROM
 	imply CMD_SATA
+	imply SATA_SIL
 
 config TARGET_P2020RDB
 	bool "Support P2020RDB-PC"
@@ -217,6 +220,7 @@ config TARGET_P2020RDB
 	select ARCH_P2020
 	imply CMD_EEPROM
 	imply CMD_SATA
+	imply SATA_SIL
 
 config TARGET_P1_TWR
 	bool "Support p1_twr"
@@ -228,6 +232,7 @@ config TARGET_P2041RDB
 	select BOARD_LATE_INIT if CHAIN_OF_TRUST
 	select PHYS_64BIT
 	imply CMD_SATA
+	imply FSL_SATA
 
 config TARGET_QEMU_PPCE500
 	bool "Support qemu-ppce500"
@@ -242,6 +247,7 @@ config TARGET_T1024QDS
 	select PHYS_64BIT
 	imply CMD_EEPROM
 	imply CMD_SATA
+	imply FSL_SATA
 
 config TARGET_T1023RDB
 	bool "Support T1023RDB"
@@ -640,6 +646,7 @@ config ARCH_P1010
 	imply CMD_SATA
 	imply CMD_PCI
 	imply CMD_REGINFO
+	imply FSL_SATA
 
 config ARCH_P1011
 	bool
@@ -672,6 +679,7 @@ config ARCH_P1020
 	imply CMD_SATA
 	imply CMD_PCI
 	imply CMD_REGINFO
+	imply SATA_SIL
 
 config ARCH_P1021
 	bool
@@ -690,6 +698,7 @@ config ARCH_P1021
 	imply CMD_NAND
 	imply CMD_SATA
 	imply CMD_REGINFO
+	imply SATA_SIL
 
 config ARCH_P1022
 	bool
@@ -737,6 +746,7 @@ config ARCH_P1024
 	imply CMD_SATA
 	imply CMD_PCI
 	imply CMD_REGINFO
+	imply SATA_SIL
 
 config ARCH_P1025
 	bool
@@ -821,6 +831,7 @@ config ARCH_P3041
 	imply CMD_NAND
 	imply CMD_SATA
 	imply CMD_REGINFO
+	imply FSL_SATA
 
 config ARCH_P4080
 	bool
@@ -858,6 +869,7 @@ config ARCH_P4080
 	select FSL_ELBC
 	imply CMD_SATA
 	imply CMD_REGINFO
+	imply SATA_SIL
 
 config ARCH_P5020
 	bool
@@ -881,6 +893,7 @@ config ARCH_P5020
 	select FSL_ELBC
 	imply CMD_SATA
 	imply CMD_REGINFO
+	imply FSL_SATA
 
 config ARCH_P5040
 	bool
@@ -904,6 +917,7 @@ config ARCH_P5040
 	select FSL_ELBC
 	imply CMD_SATA
 	imply CMD_REGINFO
+	imply FSL_SATA
 
 config ARCH_QEMU_E500
 	bool
@@ -970,6 +984,7 @@ config ARCH_T1040
 	imply CMD_NAND
 	imply CMD_SATA
 	imply CMD_REGINFO
+	imply FSL_SATA
 
 config ARCH_T1042
 	bool
@@ -992,6 +1007,7 @@ config ARCH_T1042
 	imply CMD_NAND
 	imply CMD_SATA
 	imply CMD_REGINFO
+	imply FSL_SATA
 
 config ARCH_T2080
 	bool
@@ -1017,6 +1033,7 @@ config ARCH_T2080
 	imply CMD_SATA
 	imply CMD_NAND
 	imply CMD_REGINFO
+	imply FSL_SATA
 
 config ARCH_T2081
 	bool
@@ -1063,6 +1080,7 @@ config ARCH_T4160
 	imply CMD_SATA
 	imply CMD_NAND
 	imply CMD_REGINFO
+	imply FSL_SATA
 
 config ARCH_T4240
 	bool
@@ -1090,6 +1108,7 @@ config ARCH_T4240
 	imply CMD_SATA
 	imply CMD_NAND
 	imply CMD_REGINFO
+	imply FSL_SATA
 
 config BOOKE
 	bool

@@ -244,9 +244,7 @@
 #define CONFIG_TSEC_ENET	/* tsec ethernet support */
 #define CONFIG_ENV_OVERWRITE
 
-#define CONFIG_SATA_SIL
 #define CONFIG_SYS_SATA_MAX_DEVICE	2
-#define CONFIG_LIBATA
 #define CONFIG_LBA48
 
 #if defined(CONFIG_TARGET_P2020RDB)
@@ -782,6 +780,7 @@
 #ifdef CONFIG_USB_EHCI_HCD
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 #define CONFIG_USB_EHCI_FSL
+#define CONFIG_EHCI_DESC_BIG_ENDIAN
 #endif
 #endif
 

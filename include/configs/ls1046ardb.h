@@ -211,8 +211,6 @@
 
 /* SATA */
 #ifndef SPL_NO_SATA
-#define CONFIG_LIBATA
-#define CONFIG_SCSI_AHCI
 #define CONFIG_SCSI_AHCI_PLAT
 
 #define CONFIG_SYS_SATA				AHCI_BASE_ADDR
@@ -225,8 +223,13 @@
 
 #ifndef SPL_NO_MISC
 #undef CONFIG_BOOTCOMMAND
-#define CONFIG_BOOTCOMMAND "run distro_bootcmd; env exists secureboot"	\
-			   "&& esbc_halt; run qspi_bootcmd;"
+#if defined(CONFIG_QSPI_BOOT)
+#define CONFIG_BOOTCOMMAND "run distro_bootcmd; run qspi_bootcmd; "	\
+			   "env exists secureboot && esbc_halt;;"
+#elif defined(CONFIG_SD_BOOT)
+#define CONFIG_BOOTCOMMAND "run distro_bootcmd;run sd_bootcmd; "	\
+			   "env exists secureboot && esbc_halt;"
+#endif
 #endif
 
 #include <asm/fsl_secure_boot.h>
