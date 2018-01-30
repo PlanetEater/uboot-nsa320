@@ -324,7 +324,8 @@ dtb-$(CONFIG_MACH_SUN8I_A33) += \
 dtb-$(CONFIG_MACH_SUN8I_A83T) += \
 	sun8i-a83t-allwinner-h8homlet-v2.dtb \
 	sun8i-a83t-bananapi-m3.dtb \
-	sun8i-a83t-cubietruck-plus.dtb
+	sun8i-a83t-cubietruck-plus.dtb \
+	sun8i-a83t-tbs-a711.dts
 dtb-$(CONFIG_MACH_SUN8I_H3) += \
 	sun8i-h2-plus-orangepi-zero.dtb \
 	sun8i-h3-bananapi-m2-plus.dtb \
@@ -345,6 +346,7 @@ dtb-$(CONFIG_MACH_SUN8I_V3S) += \
 	sun8i-v3s-licheepi-zero.dtb
 dtb-$(CONFIG_MACH_SUN50I_H5) += \
 	sun50i-h5-nanopi-neo2.dtb \
+	sun50i-h5-nanopi-neo-plus2.dtb \
 	sun50i-h5-orangepi-pc2.dtb \
 	sun50i-h5-orangepi-prime.dtb \
 	sun50i-h5-orangepi-zero-plus2.dtb
@@ -431,6 +433,10 @@ dtb-$(CONFIG_TARGET_AT91SAM9N12EK) += at91sam9n12ek.dtb
 dtb-$(CONFIG_TARGET_OMAP3_LOGIC) += \
 	logicpd-torpedo-37xx-devkit.dtb \
 	logicpd-som-lv-37xx-devkit.dtb
+
+dtb-$(CONFIG_TARGET_OMAP3_EVM) += \
+	omap3-evm-37xx.dtb \
+	omap3-evm.dtb
 
 dtb-$(CONFIG_TARGET_SAMA5D2_PTC_EK) += \
 	at91-sama5d2_ptc_ek.dtb

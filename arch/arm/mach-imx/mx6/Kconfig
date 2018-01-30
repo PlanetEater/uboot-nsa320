@@ -8,34 +8,41 @@ config MX6_SMP
 	bool
 
 config MX6
-	select ARM_ERRATA_743622 if !MX6UL
+	select ARM_ERRATA_743622 if !MX6UL && !MX6ULL
+	select GPT_TIMER if !MX6UL && !MX6ULL
 	bool
 	default y
 	imply CMD_FUSE
 
 config MX6D
+	select HAS_CAAM
 	select MX6_SMP
 	bool
 
 config MX6DL
+	select HAS_CAAM
 	select MX6_SMP
 	bool
 
 config MX6Q
+	select HAS_CAAM
 	select MX6_SMP
 	bool
 
 config MX6QDL
+	select HAS_CAAM
 	select MX6_SMP
 	bool
 
 config MX6S
+	select HAS_CAAM
 	bool
 
 config MX6SL
 	bool
 
 config MX6SX
+	select HAS_CAAM
 	select ROM_UNIFIED_SECTIONS
 	bool
 
@@ -44,8 +51,10 @@ config MX6SLL
 	bool
 
 config MX6UL
+	select HAS_CAAM
 	select SYS_L2CACHE_OFF
 	select ROM_UNIFIED_SECTIONS
+	select SYSCOUNTER_TIMER
 	bool
 
 config MX6UL_LITESOM
@@ -66,8 +75,10 @@ config MX6UL_OPOS6UL
 	select SUPPORT_SPL
 
 config MX6ULL
+	select SYS_L2CACHE_OFF
+	select ROM_UNIFIED_SECTIONS
+	select SYSCOUNTER_TIMER
 	bool
-	select MX6UL
 
 config MX6_DDRCAL
 	bool "Include dynamic DDR calibration routines"
@@ -202,6 +213,14 @@ config TARGET_MX6LOGICPD
 	select DM_REGULATOR
 	select OF_CONTROL
 
+config TARGET_MX6MEMCAL
+	bool "mx6memcal"
+	select SUPPORT_SPL
+	help
+	  The mx6memcal board is a virtual board that can be used to validate
+	  and characterize the memory layout of a new design during the initial
+	  development and pre-production stages.
+
 config TARGET_MX6QARM2
 	bool "mx6qarm2"
 
@@ -244,6 +263,7 @@ config TARGET_MX6SABRESD
 
 config TARGET_MX6SLEVK
 	bool "mx6slevk"
+	select MX6SL
 	select SUPPORT_SPL
 
 config TARGET_MX6SLLEVK
@@ -255,6 +275,7 @@ config TARGET_MX6SLLEVK
 
 config TARGET_MX6SXSABRESD
 	bool "mx6sxsabresd"
+	select BOARD_LATE_INIT
 	select MX6SX
 	select SUPPORT_SPL
 	select DM
@@ -395,6 +416,7 @@ config TARGET_WANDBOARD
 
 config TARGET_WARP
 	bool "WaRP"
+	select MX6SL
 	select BOARD_LATE_INIT
 
 config TARGET_XPRESS
@@ -441,6 +463,7 @@ source "board/embest/mx6boards/Kconfig"
 source "board/engicam/imx6q/Kconfig"
 source "board/engicam/imx6ul/Kconfig"
 source "board/freescale/mx6qarm2/Kconfig"
+source "board/freescale/mx6memcal/Kconfig"
 source "board/freescale/mx6sabreauto/Kconfig"
 source "board/freescale/mx6sabresd/Kconfig"
 source "board/freescale/mx6slevk/Kconfig"

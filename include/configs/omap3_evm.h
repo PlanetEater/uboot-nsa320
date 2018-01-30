@@ -42,8 +42,6 @@
 #define CONFIG_SYS_NS16550_COM1         OMAP34XX_UART1
 #if defined(CONFIG_SPL_BUILD)
 #undef CONFIG_SYS_NS16550_REG_SIZE
-#else /* !CONFIG_SPL_BUILD  */
-#define CONFIG_SYS_NS16550_REG_SIZE     (-1)
 #endif /* CONFIG_SPL_BUILD */
 
 /* NAND */
@@ -85,8 +83,6 @@
 
 /* Environment */
 #define CONFIG_PREBOOT                  "usb start"
-
-#if !defined(CONFIG_SPL_BUILD)
 
 #include <config_distro_defaults.h>
 
@@ -131,6 +127,7 @@
 	"fdtfile=" CONFIG_DEFAULT_FDT_FILE "\0" \
 	"mtdids=" CONFIG_MTDIDS_DEFAULT "\0" \
 	"mtdparts=" CONFIG_MTDPARTS_DEFAULT "\0" \
+	"fdt_high=0xffffffff\0" \
 	"bootenv=uEnv.txt\0" \
 	"optargs=\0" \
 	"mmcdev=0\0" \
@@ -180,7 +177,5 @@
 		"nand read ${fdtaddr} dtb; " \
 		"bootm ${loadaddr} - ${fdtaddr}\0" \
 	BOOTENV
-
-#endif /* !CONFIG_SPL_BUILD */
 
 #endif /* __CONFIG_H */
