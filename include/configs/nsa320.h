@@ -29,7 +29,6 @@
 #define CONFIG_BZIP2
 
 /* commands configuration */
-#include <config_distro_defaults.h>
 #define CONFIG_SYS_MVFS
 
 /*
