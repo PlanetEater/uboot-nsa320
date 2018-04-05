@@ -81,7 +81,6 @@
 #define CONFIG_SYS_I2C_MXC_I2C1		/* enable I2C bus 1 */
 #define CONFIG_SYS_I2C_MXC_I2C2		/* enable I2C bus 2 */
 
-#define CONFIG_CONS_INDEX       1
 #define CONFIG_SYS_NS16550_SERIAL
 #define CONFIG_SYS_NS16550_REG_SIZE     1
 #define CONFIG_SYS_NS16550_CLK          (get_serial_clock())
@@ -113,9 +112,9 @@
 	"kernel_size=0x2800000\0"		\
 
 #undef CONFIG_BOOTCOMMAND
-#define CONFIG_BOOTCOMMAND		"sf probe 0:0; sf read $kernel_load "\
-					"$kernel_start $kernel_size && "\
-					"bootm $kernel_load"
+#define CONFIG_BOOTCOMMAND	"pfe stop; sf probe 0:0; sf read $kernel_load "\
+				"$kernel_start $kernel_size && "\
+				"bootm $kernel_load"
 
 /* Monitor Command Prompt */
 #define CONFIG_SYS_CBSIZE		512	/* Console I/O Buffer Size */

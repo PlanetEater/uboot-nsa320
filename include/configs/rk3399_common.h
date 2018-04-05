@@ -53,12 +53,13 @@
 	"scriptaddr=0x00500000\0" \
 	"pxefile_addr_r=0x00600000\0" \
 	"fdt_addr_r=0x01f00000\0" \
-	"kernel_addr_r=0x02000000\0" \
+	"kernel_addr_r=0x02080000\0" \
 	"ramdisk_addr_r=0x04000000\0"
 
 #include <config_distro_bootcmd.h>
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	ENV_MEM_LAYOUT_SETTINGS \
+	"fdtfile=rockchip/" CONFIG_DEFAULT_DEVICE_TREE ".dtb\0" \
 	"partitions=" PARTS_DEFAULT \
 	BOOTENV
 
