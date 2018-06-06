@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * Copyright (c) 2013, Google Inc.
  *
@@ -5,8 +6,6 @@
  *
  * (C) Copyright 2000-2006
  * Wolfgang Denk, DENX Software Engineering, wd@denx.de.
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #ifdef USE_HOSTCC
@@ -419,7 +418,8 @@ void fit_image_print(const void *fit, int image_noffset, const char *p)
 		printf("%s  Architecture: %s\n", p, genimg_get_arch_name(arch));
 	}
 
-	if ((type == IH_TYPE_KERNEL) || (type == IH_TYPE_RAMDISK)) {
+	if ((type == IH_TYPE_KERNEL) || (type == IH_TYPE_RAMDISK) ||
+	    (type == IH_TYPE_FIRMWARE)) {
 		fit_image_get_os(fit, image_noffset, &os);
 		printf("%s  OS:           %s\n", p, genimg_get_os_name(os));
 	}
@@ -1609,6 +1609,10 @@ void fit_conf_print(const void *fit, int noffset, const char *p)
 	uname = fdt_getprop(fit, noffset, FIT_RAMDISK_PROP, NULL);
 	if (uname)
 		printf("%s  Init Ramdisk: %s\n", p, uname);
+
+	uname = fdt_getprop(fit, noffset, FIT_FIRMWARE_PROP, NULL);
+	if (uname)
+		printf("%s  Firmware:     %s\n", p, uname);
 
 	for (fdt_index = 0;
 	     uname = fdt_stringlist_get(fit, noffset, FIT_FDT_PROP,

@@ -1,8 +1,7 @@
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * Copyright (C) 2017, STMicroelectronics - All Rights Reserved
  * Author(s): Patrice Chotard, <patrice.chotard@st.com> for STMicroelectronics.
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #include <common.h>
@@ -14,8 +13,6 @@
 #include <dm/root.h>
 
 #include <dt-bindings/clock/stm32h7-clks.h>
-
-DECLARE_GLOBAL_DATA_PTR;
 
 /* RCC CR specific definitions */
 #define RCC_CR_HSION			BIT(0)

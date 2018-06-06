@@ -1,8 +1,7 @@
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * (C) Copyright 2012 Michal Simek <monstr@monstr.eu>
  * (C) Copyright 2013 - 2018 Xilinx, Inc.
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #include <common.h>
@@ -184,7 +183,8 @@ int dram_init(void)
 #else
 int dram_init(void)
 {
-	gd->ram_size = CONFIG_SYS_SDRAM_SIZE;
+	gd->ram_size = get_ram_size((void *)CONFIG_SYS_SDRAM_BASE,
+				    CONFIG_SYS_SDRAM_SIZE);
 
 	zynq_ddrc_init();
 

@@ -55,7 +55,9 @@ Maintainers List (try to look for most precise areas first)
 		-----------------------------------
 ARC
 M:	Alexey Brodkin <alexey.brodkin@synopsys.com>
+M:	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
 S:	Maintained
+L:	uboot-snps-arc@synopsys.com
 T:	git git://git.denx.de/u-boot-arc.git
 F:	arch/arc/
 
@@ -201,8 +203,8 @@ ARM STM STM32MP
 M:	Patrick Delaunay <patrick.delaunay@st.com>
 S:	Maintained
 F:	arch/arm/mach-stm32mp
-F:	clk/clk_stm32mp1.c
-F:	ram/stm32mp1
+F:	drivers/clk/clk_stm32mp1.c
+F:	drivers/ram/stm32mp1/
 
 ARM STM STV0991
 M:	Vikas Manocha <vikas.manocha@st.com>
@@ -264,7 +266,7 @@ F:	drivers/spi/zynq_qspi.c
 F:	drivers/spi/zynq_spi.c
 F:	drivers/usb/host/ehci-zynq.c
 F:	drivers/watchdog/cdns_wdt.c
-F:	include/zynqmp.h
+F:	include/zynqpl.h
 F:	tools/zynqimage.c
 N:	zynq
 
@@ -273,7 +275,7 @@ M:	Michal Simek <michal.simek@xilinx.com>
 S:	Maintained
 T:	git git://git.denx.de/u-boot-microblaze.git
 F:	arch/arm/mach-zynq/
-F:	drivers/clk/clk_zynq.c
+F:	drivers/clk/clk_zynqmp.c
 F:	drivers/fpga/zynqpl.c
 F:	drivers/gpio/zynq_gpio.c
 F:	drivers/i2c/i2c-cdns.c
@@ -288,7 +290,7 @@ F:	drivers/spi/zynq_qspi.c
 F:	drivers/spi/zynq_spi.c
 F:	drivers/usb/host/ehci-zynq.c
 F:	drivers/watchdog/cdns_wdt.c
-F:	include/zynqmp.h
+F:	include/zynqmppl.h
 F:	tools/zynqimage.c
 N:	zynqmp
 
@@ -305,7 +307,7 @@ F:	drivers/mtd/cfi_flash.c
 F:	drivers/mtd/jedec_flash.c
 
 COLDFIRE
-M:	Huan Wang <alison.wang@freescale.com>
+M:	Huan Wang <alison.wang@nxp.com>
 M:	Angelo Dureghello <angelo@sysam.it>
 S:	Maintained
 T:	git git://git.denx.de/u-boot-coldfire.git
@@ -330,7 +332,7 @@ EFI PAYLOAD
 M:	Alexander Graf <agraf@suse.de>
 S:	Maintained
 T:	git git://github.com/agraf/u-boot.git
-F:	doc/README.efi
+F:	doc/README.uefi
 F:	doc/README.iscsi
 F:	include/efi*
 F:	include/pe.h

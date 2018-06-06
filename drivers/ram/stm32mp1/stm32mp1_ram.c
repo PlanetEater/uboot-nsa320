@@ -1,7 +1,6 @@
+// SPDX-License-Identifier: GPL-2.0+ OR BSD-3-Clause
 /*
  * Copyright (C) 2018, STMicroelectronics - All Rights Reserved
- *
- * SPDX-License-Identifier:	GPL-2.0+	BSD-3-Clause
  */
 
 #include <common.h>
@@ -12,8 +11,6 @@
 #include <syscon.h>
 #include <asm/io.h>
 #include "stm32mp1_ddr.h"
-
-DECLARE_GLOBAL_DATA_PTR;
 
 static const char *const clkname[] = {
 	"ddrc1",

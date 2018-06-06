@@ -1,7 +1,6 @@
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * Copyright (c) 2015 Google, Inc
- *
- * SPDX-License-Identifier:	GPL-2.0+
  *
  * EFI information obtained here:
  * http://wiki.phoenix.com/wiki/index.php/EFI_BOOT_SERVICES
@@ -20,8 +19,6 @@
 #include <asm/io.h>
 #include <linux/err.h>
 #include <linux/types.h>
-
-DECLARE_GLOBAL_DATA_PTR;
 
 #ifndef CONFIG_X86
 /*

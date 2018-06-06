@@ -1,9 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * (C) Copyright 2016 Fuzhou Rockchip Electronics Co., Ltd
  *
  * Rockchip SD Host Controller Interface
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #include <common.h>
@@ -15,7 +14,6 @@
 #include <sdhci.h>
 #include <clk.h>
 
-DECLARE_GLOBAL_DATA_PTR;
 /* 400KHz is max freq for card ID etc. Use that as min */
 #define EMMC_MIN_FREQ	400000
 

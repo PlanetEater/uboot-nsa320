@@ -1,8 +1,7 @@
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * Copyright (C) 2017, STMicroelectronics - All Rights Reserved
  * Author(s): Patrice Chotard, <patrice.chotard@st.com> for STMicroelectronics.
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #include <common.h>
@@ -188,8 +187,6 @@ struct stm32_sdmmc2_ctx {
 #define SDMMC_IDMACTRL_IDMAEN		BIT(0)
 
 #define SDMMC_CMD_TIMEOUT		0xFFFFFFFF
-
-DECLARE_GLOBAL_DATA_PTR;
 
 static void stm32_sdmmc2_start_data(struct stm32_sdmmc2_priv *priv,
 				    struct mmc_data *data,

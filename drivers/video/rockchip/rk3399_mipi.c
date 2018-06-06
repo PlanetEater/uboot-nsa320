@@ -1,8 +1,7 @@
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * Copyright (c) 2017, Fuzhou Rockchip Electronics Co., Ltd
  * Author: Eric Gao <eric.gao@rock-chips.com>
- *
- * SPDX-License-Identifier: GPL-2.0+
  */
 
 #include <common.h>
@@ -23,8 +22,6 @@
 #include <asm/arch/cru_rk3399.h>
 #include <asm/arch/grf_rk3399.h>
 #include <asm/arch/rockchip_mipi_dsi.h>
-
-DECLARE_GLOBAL_DATA_PTR;
 
 /* Select mipi dsi source, big or little vop */
 static int rk_mipi_dsi_source_select(struct udevice *dev)

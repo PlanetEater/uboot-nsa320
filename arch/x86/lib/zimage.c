@@ -1,9 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * Copyright (c) 2011 The Chromium OS Authors.
  * (C) Copyright 2002
  * Daniel Engström, Omicron Ceti AB, <daniel@omicron.se>
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 /*
@@ -27,8 +26,6 @@
 #endif
 #include <linux/compiler.h>
 #include <linux/libfdt.h>
-
-DECLARE_GLOBAL_DATA_PTR;
 
 /*
  * Memory lay-out:

@@ -1,7 +1,6 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * Copyright 2011-2012 Freescale Semiconductor, Inc.
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 /*
@@ -45,7 +44,6 @@
 
 /* High Level Configuration Options */
 
-#define CONFIG_TSEC_ENET
 #define CONFIG_ENV_OVERWRITE
 
 #define CONFIG_DDR_CLK_FREQ	66666666 /* DDRCLK on 9131 RDB */
@@ -325,7 +323,7 @@ extern unsigned long get_sdram_size(void);
 #define CONFIG_HAS_ETH0
 #endif
 
-#define CONFIG_HOSTNAME		BSC9131rdb
+#define CONFIG_HOSTNAME		"BSC9131rdb"
 #define CONFIG_ROOTPATH		"/opt/nfsroot"
 #define CONFIG_BOOTFILE		"uImage"
 #define CONFIG_UBOOTPATH	"u-boot.bin" /* U-Boot image on TFTP server */

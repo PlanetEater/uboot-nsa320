@@ -1,8 +1,7 @@
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * Copyright (C) 2018 Microhip / Atmel Corporation
  *               Wenyou.Yang <wenyou.yang@microchip.com>
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #include <common.h>
@@ -11,8 +10,6 @@
 #include <linux/io.h>
 #include <mach/at91_pmc.h>
 #include "pmc.h"
-
-DECLARE_GLOBAL_DATA_PTR;
 
 static int at91_plladiv_clk_enable(struct clk *clk)
 {

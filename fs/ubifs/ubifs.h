@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * This file is part of UBIFS.
  *
@@ -5,8 +6,6 @@
  *
  * (C) Copyright 2008-2009
  * Stefan Roese, DENX Software Engineering, sr@denx.de.
- *
- * SPDX-License-Identifier:	GPL-2.0+
  *
  * Authors: Artem Bityutskiy (Битюцкий Артём)
  *          Adrian Hunter
@@ -611,7 +610,7 @@ static inline ino_t parent_ino(struct dentry *dentry)
 /* misc.h */
 #define mutex_lock_nested(...)
 #define mutex_unlock_nested(...)
-#define mutex_is_locked(...)	0
+#define mutex_is_locked(...)	1
 #endif
 
 /* Version of this UBIFS implementation */

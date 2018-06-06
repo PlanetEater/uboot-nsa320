@@ -1,7 +1,6 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * Copyright 2016 Freescale Semiconductor
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #ifndef __LS1012A_COMMON_H
@@ -12,8 +11,6 @@
 
 #include <asm/arch/config.h>
 #include <asm/arch/stream_id_lsch2.h>
-
-#define CONFIG_DISPLAY_BOARDINFO_LATE
 
 #define CONFIG_SYS_CLK_FREQ		125000000
 
@@ -77,9 +74,6 @@
 
 /* I2C */
 #define CONFIG_SYS_I2C
-#define CONFIG_SYS_I2C_MXC
-#define CONFIG_SYS_I2C_MXC_I2C1		/* enable I2C bus 1 */
-#define CONFIG_SYS_I2C_MXC_I2C2		/* enable I2C bus 2 */
 
 #define CONFIG_SYS_NS16550_SERIAL
 #define CONFIG_SYS_NS16550_REG_SIZE     1

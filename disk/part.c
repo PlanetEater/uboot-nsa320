@@ -1,8 +1,7 @@
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * (C) Copyright 2001
  * Wolfgang Denk, DENX Software Engineering, wd@denx.de.
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #include <common.h>
@@ -23,8 +22,6 @@
 
 /* Check all partition types */
 #define PART_TYPE_ALL		-1
-
-DECLARE_GLOBAL_DATA_PTR;
 
 static struct part_driver *part_driver_lookup_type(struct blk_desc *dev_desc)
 {

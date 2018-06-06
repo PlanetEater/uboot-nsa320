@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-2.0
 /*
  * Designware master SPI core controller driver
  *
@@ -6,8 +7,6 @@
  * Very loosely based on the Linux driver:
  * drivers/spi/spi-dw.c, which is:
  * Copyright (c) 2009, Intel Corporation.
- *
- * SPDX-License-Identifier:	GPL-2.0
  */
 
 #include <asm-generic/gpio.h>
@@ -425,7 +424,7 @@ static int dw_spi_xfer(struct udevice *dev, unsigned int bitlen,
 	 * in the beginning of new transfer.
 	 */
 	if (readl_poll_timeout(priv->regs + DW_SPI_SR, val,
-			       !(val & SR_TF_EMPT) || (val & SR_BUSY),
+			       (val & SR_TF_EMPT) && !(val & SR_BUSY),
 			       RX_TIMEOUT * 1000)) {
 		ret = -ETIMEDOUT;
 	}

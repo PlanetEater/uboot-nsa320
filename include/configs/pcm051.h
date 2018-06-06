@@ -25,7 +25,6 @@
 #define CONFIG_MACH_TYPE		MACH_TYPE_PCM051
 
 /* set to negative value for no autoboot */
-#define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	"loadaddr=0x80007fc0\0" \
 	"fdtaddr=0x80000000\0" \
@@ -117,7 +116,6 @@
 /* CPU */
 
 #ifdef CONFIG_SPI_BOOT
-#define CONFIG_SPL_SPI_LOAD
 #define CONFIG_SYS_SPI_U_BOOT_OFFS	0x20000
 #define CONFIG_SYS_SPI_U_BOOT_SIZE	0x40000
 #endif

@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * Copyright (C) 2015, Savoir-faire Linux Inc.
  *
@@ -6,8 +7,6 @@
  *   Freescale Semiconductor, Inc.
  *
  * Configuration settings for the TS4800 Board
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #ifndef __CONFIG_H
@@ -51,7 +50,6 @@
 /*
  * MMC Configs
  * */
-#define CONFIG_FSL_ESDHC
 #define CONFIG_SYS_FSL_ESDHC_ADDR	MMC_SDHC1_BASE_ADDR
 
 /*

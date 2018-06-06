@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * Copyright (C) 2012 8D Technologies inc.
  * Based on mt_ventoux.h, original banner below:
@@ -6,8 +7,6 @@
  * Stefano Babic, DENX Software Engineering, sbabic@denx.de.
  *
  * Copyright (C) 2009 TechNexion Ltd.
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #ifndef __CONFIG_H
@@ -25,6 +24,8 @@
 #define CONFIG_MACH_TYPE	MACH_TYPE_ECO5_PK
 
 #define CONFIG_BOOTFILE		"uImage"
+
+#define CONFIG_HOSTNAME "eco5pk"
 
 /*
  * Set its own mtdparts, different from common

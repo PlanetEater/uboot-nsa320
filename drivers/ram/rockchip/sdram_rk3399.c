@@ -1,7 +1,6 @@
+// SPDX-License-Identifier: GPL-2.0
 /*
  * (C) Copyright 2016-2017 Rockchip Inc.
- *
- * SPDX-License-Identifier:     GPL-2.0
  *
  * Adapted from coreboot.
  */
@@ -23,7 +22,6 @@
 #include <linux/err.h>
 #include <time.h>
 
-DECLARE_GLOBAL_DATA_PTR;
 struct chan_info {
 	struct rk3399_ddr_pctl_regs *pctl;
 	struct rk3399_ddr_pi_regs *pi;

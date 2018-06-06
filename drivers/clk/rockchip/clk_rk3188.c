@@ -1,8 +1,7 @@
+// SPDX-License-Identifier: GPL-2.0
 /*
  * (C) Copyright 2015 Google, Inc
  * (C) Copyright 2016 Heiko Stuebner <heiko@sntech.de>
- *
- * SPDX-License-Identifier:	GPL-2.0
  */
 
 #include <common.h>
@@ -22,8 +21,6 @@
 #include <dm/lists.h>
 #include <dm/uclass-internal.h>
 #include <linux/log2.h>
-
-DECLARE_GLOBAL_DATA_PTR;
 
 enum rk3188_clk_type {
 	RK3188_CRU,

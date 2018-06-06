@@ -1,11 +1,10 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * Configuration for Xilinx ZynqMP
  * (C) Copyright 2014 - 2015 Xilinx, Inc.
  * Michal Simek <michal.simek@xilinx.com>
  *
  * Based on Configuration for Versatile Express
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #ifndef __XILINX_ZYNQMP_H
@@ -20,7 +19,6 @@
 #define GICD_BASE	0xF9010000
 #define GICC_BASE	0xF9020000
 
-#define CONFIG_SYS_ALT_MEMTEST
 #ifndef CONFIG_SYS_MEMTEST_SCRATCH
 # define CONFIG_SYS_MEMTEST_SCRATCH	0x10800000
 #endif
@@ -144,7 +142,6 @@
 
 #define CONFIG_SYS_BOOTM_LEN	(60 * 1024 * 1024)
 
-#define CONFIG_BOARD_EARLY_INIT_R
 #define CONFIG_CLOCKS
 
 #define ENV_MEM_LAYOUT_SETTINGS \
@@ -174,12 +171,24 @@
 # define BOOT_TARGET_DEVICES_USB(func)
 #endif
 
+#if defined(CONFIG_CMD_PXE) && defined(CONFIG_CMD_DHCP)
+# define BOOT_TARGET_DEVICES_PXE(func)	func(PXE, pxe, na)
+#else
+# define BOOT_TARGET_DEVICES_PXE(func)
+#endif
+
+#if defined(CONFIG_CMD_DHCP)
+# define BOOT_TARGET_DEVICES_DHCP(func)	func(DHCP, dhcp, na)
+#else
+# define BOOT_TARGET_DEVICES_DHCP(func)
+#endif
+
 #define BOOT_TARGET_DEVICES(func) \
 	BOOT_TARGET_DEVICES_MMC(func) \
 	BOOT_TARGET_DEVICES_USB(func) \
 	BOOT_TARGET_DEVICES_SCSI(func) \
-	func(PXE, pxe, na) \
-	func(DHCP, dhcp, na)
+	BOOT_TARGET_DEVICES_PXE(func) \
+	BOOT_TARGET_DEVICES_DHCP(func)
 
 #include <config_distro_bootcmd.h>
 
@@ -211,7 +220,6 @@
 #define CONFIG_SPL_BSS_MAX_SIZE		0x80000
 
 #if defined(CONFIG_SPL_SPI_FLASH_SUPPORT)
-# define CONFIG_SPL_SPI_LOAD
 # define CONFIG_SYS_SPI_KERNEL_OFFS	0x80000
 # define CONFIG_SYS_SPI_ARGS_OFFS	0xa0000
 # define CONFIG_SYS_SPI_ARGS_SIZE	0xa0000

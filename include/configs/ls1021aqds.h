@@ -1,7 +1,6 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * Copyright 2014 Freescale Semiconductor, Inc.
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #ifndef __CONFIG_H
@@ -362,7 +361,6 @@ unsigned long get_board_ddr_clk(void);
 /*
  * MMC
  */
-#define CONFIG_FSL_ESDHC
 
 /* SPI */
 #if defined(CONFIG_QSPI_BOOT) || defined(CONFIG_SD_BOOT_QSPI)
@@ -396,7 +394,6 @@ unsigned long get_board_ddr_clk(void);
 /*
  * eTSEC
  */
-#define CONFIG_TSEC_ENET
 
 #ifdef CONFIG_TSEC_ENET
 #define CONFIG_MII

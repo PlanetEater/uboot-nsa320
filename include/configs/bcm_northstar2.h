@@ -1,7 +1,6 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * Configuration for Broadcom NS2.
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #ifndef __BCM_NORTHSTAR2_H
@@ -9,7 +8,7 @@
 
 #include <linux/sizes.h>
 
-#define CONFIG_HOSTNAME				northstar2
+#define CONFIG_HOSTNAME				"northstar2"
 
 /* Physical Memory Map */
 #define V2M_BASE				0x80000000

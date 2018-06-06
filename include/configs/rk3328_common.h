@@ -1,7 +1,6 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * (C) Copyright 2016 Rockchip Electronics Co., Ltd
- *
- * SPDX-License-Identifier:     GPL-2.0+
  */
 
 #ifndef __CONFIG_RK3328_COMMON_H
@@ -33,7 +32,6 @@
 #define SDRAM_MAX_SIZE			0xff000000
 
 #define CONFIG_SPI_FLASH
-#define CONFIG_SPI
 #define CONFIG_SF_DEFAULT_SPEED 20000000
 
 #ifndef CONFIG_SPL_BUILD

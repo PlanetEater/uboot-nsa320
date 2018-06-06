@@ -1,7 +1,6 @@
+// SPDX-License-Identifier: GPL-2.0+ OR BSD-3-Clause
 /*
  * Copyright : STMicroelectronics 2018
- *
- * SPDX-License-Identifier:	GPL-2.0+	BSD-3-Clause
  */
 
 / {
@@ -29,6 +28,13 @@
 	};
 
 	soc {
+		u-boot,dm-pre-reloc;
+	};
+
+	stgen: stgen@5C008000 {
+		compatible = "st,stm32-stgen";
+		reg = <0x5C008000 0x1000>;
+		status = "okay";
 		u-boot,dm-pre-reloc;
 	};
 };
@@ -62,6 +68,10 @@
 };
 
 &rcc_rst {
+	u-boot,dm-pre-reloc;
+};
+
+&rcc_reboot {
 	u-boot,dm-pre-reloc;
 };
 

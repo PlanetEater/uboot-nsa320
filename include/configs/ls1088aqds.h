@@ -1,16 +1,12 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * Copyright 2017 NXP
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #ifndef __LS1088A_QDS_H
 #define __LS1088A_QDS_H
 
 #include "ls1088a_common.h"
-
-
-#define CONFIG_DISPLAY_BOARDINFO_LATE
 
 
 #ifndef __ASSEMBLY__
@@ -348,7 +344,6 @@ unsigned long get_board_ddr_clk(void);
 #endif
 
 #define CONFIG_CMD_MEMINFO
-#define CONFIG_CMD_MEMTEST
 #define CONFIG_SYS_MEMTEST_START	0x80000000
 #define CONFIG_SYS_MEMTEST_END		0x9fffffff
 
@@ -361,7 +356,6 @@ unsigned long get_board_ddr_clk(void);
 #define CONFIG_FSL_MEMAC
 
 /*  MMC  */
-#define CONFIG_FSL_ESDHC
 #define CONFIG_SYS_FSL_MMC_HAS_CAPBLT_VS33
 #define CONFIG_ESDHC_DETECT_QUIRK ((readb(QIXIS_BASE + QIXIS_STAT_PRES1) & \
 	QIXIS_SDID_MASK) != QIXIS_ESDHC_NO_ADAPTER)

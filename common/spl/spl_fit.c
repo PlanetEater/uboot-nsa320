@@ -1,8 +1,7 @@
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * Copyright (C) 2016 Google, Inc
  * Written by Simon Glass <sjg@chromium.org>
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #include <common.h>
@@ -395,7 +394,8 @@ int spl_load_simple_fit(struct spl_image_info *spl_image,
 	 *   - fall back to using the first 'loadables' entry
 	 */
 	if (node < 0)
-		node = spl_fit_get_image_node(fit, images, "firmware", 0);
+		node = spl_fit_get_image_node(fit, images, FIT_FIRMWARE_PROP,
+					      0);
 #ifdef CONFIG_SPL_OS_BOOT
 	if (node < 0)
 		node = spl_fit_get_image_node(fit, images, FIT_KERNEL_PROP, 0);

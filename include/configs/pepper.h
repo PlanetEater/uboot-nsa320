@@ -1,7 +1,6 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * Copyright (C) 2013 Gumstix, Inc. - http://www.gumstix.com/
- *
- * SPDX-License-Identifier:     GPL-2.0+
  */
 
 #ifndef __CONFIG_PEPPER_H
@@ -20,7 +19,6 @@
 
 #define CONFIG_ENV_SIZE			(128 << 10)	/* 128 KiB */
 
-#define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	DEFAULT_LINUX_BOOT_ENV \
 	"bootdir=/boot\0" \

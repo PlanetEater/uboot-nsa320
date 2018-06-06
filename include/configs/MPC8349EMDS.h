@@ -1,8 +1,7 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * (C) Copyright 2006-2010
  * Wolfgang Denk, DENX Software Engineering, wd@denx.de.
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 /*
@@ -394,7 +393,6 @@
 /*
  * TSEC configuration
  */
-#define CONFIG_TSEC_ENET	/* TSEC ethernet support */
 
 #if defined(CONFIG_TSEC_ENET)
 
@@ -686,7 +684,7 @@
 #define CONFIG_HAS_ETH0
 #endif
 
-#define CONFIG_HOSTNAME		mpc8349emds
+#define CONFIG_HOSTNAME		"mpc8349emds"
 #define CONFIG_ROOTPATH		"/nfsroot/rootfs"
 #define CONFIG_BOOTFILE		"uImage"
 

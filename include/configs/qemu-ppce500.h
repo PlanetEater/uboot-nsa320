@@ -1,7 +1,6 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * Copyright 2011-2014 Freescale Semiconductor, Inc.
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 /*
@@ -27,7 +26,6 @@
 
 #define CONFIG_SYS_MEMTEST_START	0x00200000	/* memtest works on */
 #define CONFIG_SYS_MEMTEST_END		0x00400000
-#define CONFIG_SYS_ALT_MEMTEST
 
 /* Needed to fill the ccsrbar pointer */
 
@@ -112,8 +110,6 @@ extern unsigned long long get_phys_ccsrbar_addr_early(void);
 #define CONFIG_ENV_SIZE		0x2000
 
 #define CONFIG_LOADS_ECHO		/* echo on for serial download */
-
-#define CONFIG_LAST_STAGE_INIT
 
 /*
  * Command line configuration.

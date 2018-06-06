@@ -1,7 +1,6 @@
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * Copyright 2016 Freescale Semiconductors, Inc.
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #include <common.h>
@@ -15,7 +14,6 @@
 #include <fdtdec.h>
 #include <i2c.h>
 
-DECLARE_GLOBAL_DATA_PTR;
 #define LPI2C_FIFO_SIZE 4
 #define LPI2C_TIMEOUT_MS 100
 

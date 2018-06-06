@@ -1,7 +1,6 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * Copyright 2004-2007, 2010-2011 Freescale Semiconductor.
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 /*
@@ -19,7 +18,6 @@
 #define CONFIG_PCI_INDIRECT_BRIDGE 1	/* indirect PCI bridge support */
 #define CONFIG_FSL_PCIE_RESET	1	/* need PCIe reset errata */
 #define CONFIG_SYS_PCI_64BIT	1	/* enable 64-bit PCI resources */
-#define CONFIG_TSEC_ENET		/* tsec ethernet support */
 #define CONFIG_QE			/* Enable QE */
 #define CONFIG_ENV_OVERWRITE
 
@@ -378,7 +376,7 @@ extern unsigned long get_clock_freq(void);
 
 #define CONFIG_IPADDR    192.168.1.253
 
-#define CONFIG_HOSTNAME  unknown
+#define CONFIG_HOSTNAME  "unknown"
 #define CONFIG_ROOTPATH  "/nfsroot"
 #define CONFIG_BOOTFILE  "your.uImage"
 

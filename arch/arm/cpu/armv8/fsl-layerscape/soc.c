@@ -1,7 +1,6 @@
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * Copyright 2014-2015 Freescale Semiconductor
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #include <common.h>
@@ -25,8 +24,6 @@
 #include <fsl_validate.h>
 #endif
 #include <fsl_immap.h>
-
-DECLARE_GLOBAL_DATA_PTR;
 
 bool soc_has_dp_ddr(void)
 {

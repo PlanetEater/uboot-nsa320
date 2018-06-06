@@ -1,8 +1,7 @@
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * Pinctrl driver for Rockchip 3036 SoCs
  * (C) Copyright 2015 Rockchip Electronics Co., Ltd
- *
- * SPDX-License-Identifier:     GPL-2.0+
  */
 
 #include <common.h>
@@ -15,8 +14,6 @@
 #include <asm/arch/hardware.h>
 #include <asm/arch/periph.h>
 #include <dm/pinctrl.h>
-
-DECLARE_GLOBAL_DATA_PTR;
 
 /* GRF_GPIO0A_IOMUX */
 enum {

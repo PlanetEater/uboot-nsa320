@@ -1,8 +1,7 @@
+// SPDX-License-Identifier: GPL-2.0+
 /*
  * Copyright (c) 2014 Google, Inc
  * Written by Simon Glass <sjg@chromium.org>
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #include <common.h>
@@ -24,8 +23,6 @@
  * in sandbox_sdl_sync() would also need to change to handle the different
  * surface depth.
  */
-DECLARE_GLOBAL_DATA_PTR;
-
 /* Basic test of the video uclass */
 static int dm_test_video_base(struct unit_test_state *uts)
 {

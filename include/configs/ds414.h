@@ -1,7 +1,6 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * Copyright (C) 2014 Stefan Roese <sr@denx.de>
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #ifndef _CONFIG_SYNOLOGY_DS414_H
@@ -10,7 +9,6 @@
 /*
  * High Level Configuration Options (easy to change)
  */
-#define CONFIG_DISPLAY_BOARDINFO_LATE
 
 /*
  * TEXT_BASE needs to be below 16MiB, since this area is scrubbed
@@ -41,8 +39,6 @@
 
 #define CONFIG_PHY_MARVELL		/* there is a marvell phy */
 #define CONFIG_SYS_NETA_INTERFACE_TYPE	PHY_INTERFACE_MODE_RGMII
-
-#define CONFIG_SYS_ALT_MEMTEST
 
 /* PCIe support */
 #ifndef CONFIG_SPL_BUILD
@@ -103,7 +99,6 @@
 #define CONFIG_SPL_BOOTROM_SAVE		(CONFIG_SPL_STACK + 4)
 
 /* SPL related SPI defines */
-#define CONFIG_SPL_SPI_LOAD
 #define CONFIG_SYS_SPI_U_BOOT_OFFS	0x24000
 
 /* DS414 bus width is 32bits */

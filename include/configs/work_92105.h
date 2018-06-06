@@ -1,10 +1,9 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * WORK Microwave work_92105 board configuration file
  *
  * (C) Copyright 2014  DENX Software Engineering GmbH
  * Written-by: Albert ARIBAUD <albert.aribaud@3adev.fr>
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 #ifndef __CONFIG_WORK_92105_H__
@@ -25,7 +24,6 @@
 #if !defined(CONFIG_SPL_BUILD)
 #define CONFIG_SKIP_LOWLEVEL_INIT
 #endif
-#define CONFIG_BOARD_EARLY_INIT_R
 
 /* generate LPC32XX-specific SPL image */
 #define CONFIG_LPC32XX_SPL

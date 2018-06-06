@@ -1,7 +1,6 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
 /*
  * Copyright (C) Freescale Semiconductor, Inc. 2006.
- *
- * SPDX-License-Identifier:	GPL-2.0+
  */
 
 /*
@@ -68,7 +67,6 @@
 
 #define CONFIG_RTC_DS1337
 #define CONFIG_SYS_I2C
-#define CONFIG_TSEC_ENET		/* TSEC Ethernet support */
 
 /*
  * Device configurations
