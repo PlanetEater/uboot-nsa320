@@ -72,9 +72,6 @@
 
 /* commands to include */
 
-#define CONFIG_MTD_PARTITIONS
-#define CONFIG_MTD_DEVICE
-
 #define CONFIG_SYS_I2C
 
 /* RTC */
@@ -84,8 +81,6 @@
 /*
  * Board NAND Info.
  */
-#define CONFIG_SYS_NAND_ADDR		NAND_BASE	/* physical address */
-							/* to access nand */
 #define CONFIG_SYS_NAND_BASE		NAND_BASE	/* physical address */
 							/* to access */
 							/* nand at CS0 */

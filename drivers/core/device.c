@@ -26,6 +26,7 @@
 #include <dm/util.h>
 #include <linux/err.h>
 #include <linux/list.h>
+#include <power-domain.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -230,6 +231,14 @@ int device_bind(struct udevice *parent, const struct driver *drv,
 				  offset_to_ofnode(of_offset), 0, devp);
 }
 
+int device_bind_ofnode(struct udevice *parent, const struct driver *drv,
+		       const char *name, void *platdata, ofnode node,
+		       struct udevice **devp)
+{
+	return device_bind_common(parent, drv, name, platdata, 0, node, 0,
+				  devp);
+}
+
 int device_bind_by_name(struct udevice *parent, bool pre_reloc_only,
 			const struct driver_info *info, struct udevice **devp)
 {
@@ -296,6 +305,7 @@ static void *alloc_priv(int size, uint flags)
 
 int device_probe(struct udevice *dev)
 {
+	struct power_domain pd;
 	const struct driver *drv;
 	int size = 0;
 	int ret;
@@ -374,6 +384,11 @@ int device_probe(struct udevice *dev)
 	 */
 	if (dev->parent && device_get_uclass_id(dev) != UCLASS_PINCTRL)
 		pinctrl_select_state(dev, "default");
+
+	if (dev->parent && device_get_uclass_id(dev) != UCLASS_POWER_DOMAIN) {
+		if (!power_domain_get(dev, &pd))
+			power_domain_on(&pd);
+	}
 
 	ret = uclass_pre_probe_device(dev);
 	if (ret)

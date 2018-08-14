@@ -66,8 +66,6 @@
 
 /* Board NAND Info. */
 #ifdef CONFIG_NAND
-#define CONFIG_SYS_NAND_ADDR		NAND_BASE	/* physical address */
-							/* to access nand */
 #define CONFIG_SYS_NAND_5_ADDR_CYCLE
 #define CONFIG_SYS_NAND_PAGE_COUNT	64
 #define CONFIG_SYS_NAND_PAGE_SIZE	2048
@@ -88,8 +86,6 @@
 #define CONFIG_SYS_NAND_MAX_ECCPOS	56
 #define CONFIG_SYS_NAND_U_BOOT_START	CONFIG_SYS_TEXT_BASE
 #define CONFIG_SYS_NAND_U_BOOT_OFFS	0x80000
-#define CONFIG_MTD_PARTITIONS		/* required for UBI partition support */
-#define CONFIG_MTD_DEVICE		/* needed for mtdparts commands */
 /* NAND block size is 128 KiB.  Synchronize these values with
  * corresponding Device Tree entries in Linux:
  *  MLO(SPL)             4 * NAND_BLOCK_SIZE = 512 KiB  @ 0x000000

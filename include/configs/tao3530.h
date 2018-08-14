@@ -58,7 +58,6 @@
 #define CONFIG_ENV_OVERWRITE
 
 /* commands to include */
-#define CONFIG_MTD_DEVICE	/* needed for mtdparts commands */
 
 #define CONFIG_SYS_I2C
 #define CONFIG_I2C_MULTI_BUS
@@ -71,8 +70,6 @@
 /*
  * Board NAND Info.
  */
-#define CONFIG_SYS_NAND_ADDR		NAND_BASE	/* physical address */
-							/* to access nand */
 #define CONFIG_SYS_NAND_BASE		NAND_BASE	/* physical address */
 							/* to access nand at */
 							/* CS0 */
