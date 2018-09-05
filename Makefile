@@ -3,7 +3,7 @@
 VERSION = 2018
 PATCHLEVEL = 09
 SUBLEVEL =
-EXTRAVERSION = -rc2
+EXTRAVERSION = -rc3
 NAME =
 
 # *DOCUMENTATION*
@@ -374,6 +374,10 @@ KBUILD_CFLAGS   := -Wall -Wstrict-prototypes \
 		   -fno-builtin -ffreestanding $(CSTD_FLAG)
 KBUILD_CFLAGS	+= -fshort-wchar
 KBUILD_AFLAGS   := -D__ASSEMBLY__
+
+# Don't generate position independent code
+KBUILD_CFLAGS	+= $(call cc-option,-fno-PIE)
+KBUILD_AFLAGS	+= $(call cc-option,-fno-PIE)
 
 # Read UBOOTRELEASE from include/config/uboot.release (if it exists)
 UBOOTRELEASE = $(shell cat include/config/uboot.release 2> /dev/null)

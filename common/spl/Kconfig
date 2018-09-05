@@ -409,7 +409,7 @@ config SPL_LIBCOMMON_SUPPORT
 	  an SPL build.
 
 config SPL_LIBDISK_SUPPORT
-	bool "Support disk paritions"
+	bool "Support disk partitions"
 	help
 	  Enable support for disk partitions within SPL. 'Disk' is something
 	  of a misnomer as it includes non-spinning media such as flash (as
@@ -738,12 +738,12 @@ config SPL_USB_ETHER
 	  See also SPL_NET_SUPPORT and SPL_ETH_SUPPORT.
 
 config SPL_DFU_SUPPORT
-	bool "Support DFU (Device Firmware Upgarde)"
+	bool "Support DFU (Device Firmware Upgrade)"
 	select SPL_HASH_SUPPORT
 	select SPL_DFU_NO_RESET
 	depends on SPL_RAM_SUPPORT
 	help
-	  This feature enables the DFU (Device Firmware Upgarde) in SPL with
+	  This feature enables the DFU (Device Firmware Upgrade) in SPL with
 	  RAM memory device support. The ROM code will load and execute
 	  the SPL built with dfu. The user can load binaries (u-boot/kernel) to
 	  selected device partition from host-pc using dfu-utils.
