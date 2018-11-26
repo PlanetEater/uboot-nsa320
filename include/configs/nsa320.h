@@ -68,4 +68,7 @@
 #define CONFIG_RTC_MV
 #endif /* CONFIG_CMD_DATE */
 
+/* Fix after upstream commit 93b283d49f */
+#define CONFIG_SYS_DCACHE_OFF
+
 #endif /* _CONFIG_NSA320_H */
