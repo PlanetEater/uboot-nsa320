@@ -35,6 +35,7 @@ obj-$(CONFIG_AR933X_UART) += serial_ar933x.o
 obj-$(CONFIG_ARM_DCC) += arm_dcc.o
 obj-$(CONFIG_ATMEL_USART) += atmel_usart.o
 obj-$(CONFIG_BCM6345_SERIAL) += serial_bcm6345.o
+obj-$(CONFIG_BCM6858_SERIAL) += serial_bcm6858.o
 obj-$(CONFIG_EFI_APP) += serial_efi.o
 obj-$(CONFIG_LPC32XX_HSUART) += lpc32xx_hsuart.o
 obj-$(CONFIG_MCFUART) += mcfuart.o
@@ -66,6 +67,7 @@ obj-$(CONFIG_MPC8XX_CONS) += serial_mpc8xx.o
 obj-$(CONFIG_NULLDEV_SERIAL) += serial_nulldev.o
 obj-$(CONFIG_OWL_SERIAL) += serial_owl.o
 obj-$(CONFIG_OMAP_SERIAL) += serial_omap.o
+obj-$(CONFIG_MTK_SERIAL) += serial_mtk.o
 
 ifndef CONFIG_SPL_BUILD
 obj-$(CONFIG_USB_TTY) += usbtty.o
