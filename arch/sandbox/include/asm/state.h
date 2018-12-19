@@ -90,6 +90,7 @@ struct sandbox_state {
 	bool show_test_output;		/* Don't suppress stdout in tests */
 	int default_log_level;		/* Default log level for sandbox */
 	bool show_of_platdata;		/* Show of-platdata in SPL */
+	bool ram_buf_read;		/* true if we read the RAM buffer */
 
 	/* Pointer to information for each SPI bus/cs */
 	struct sandbox_spi_info spi[CONFIG_SANDBOX_SPI_MAX_BUS]
@@ -100,6 +101,7 @@ struct sandbox_state {
 
 	ulong next_tag;			/* Next address tag to allocate */
 	struct list_head mapmem_head;	/* struct sandbox_mapmem_entry */
+	bool hwspinlock;		/* Hardware Spinlock status */
 };
 
 /* Minimum space we guarantee in the state FDT when calling read/write*/

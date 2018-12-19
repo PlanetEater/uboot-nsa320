@@ -32,6 +32,7 @@ obj-$(CONFIG_CMD_BTRFS) += btrfs.o
 obj-$(CONFIG_CMD_CACHE) += cache.o
 obj-$(CONFIG_CMD_CBFS) += cbfs.o
 obj-$(CONFIG_CMD_CLK) += clk.o
+obj-$(CONFIG_CMD_CLS) += cls.o
 obj-$(CONFIG_CMD_CONFIG) += config.o
 obj-$(CONFIG_CMD_CONITRACE) += conitrace.o
 obj-$(CONFIG_CMD_CONSOLE) += console.o
@@ -39,6 +40,7 @@ obj-$(CONFIG_CMD_CPU) += cpu.o
 obj-$(CONFIG_DATAFLASH_MMC_SELECT) += dataflash_mmc_mux.o
 obj-$(CONFIG_CMD_DATE) += date.o
 obj-$(CONFIG_CMD_DEMO) += demo.o
+obj-$(CONFIG_CMD_DM) += dm.o
 obj-$(CONFIG_CMD_SOUND) += sound.o
 ifdef CONFIG_POST
 obj-$(CONFIG_CMD_DIAG) += diag.o

@@ -380,6 +380,11 @@ S:	Maintained
 T:	git git://git.denx.de/u-boot-microblaze.git
 F:	arch/arm/mach-zynqmp-r5/
 
+BINMAN
+M:	Simon Glass <sjg@chromium.org>
+S:	Maintained
+F:	tools/binman/
+
 BUILDMAN
 M:	Simon Glass <sjg@chromium.org>
 S:	Maintained
@@ -714,5 +719,6 @@ L:	u-boot@lists.denx.de
 Q:	http://patchwork.ozlabs.org/project/uboot/list/
 S:	Maintained
 T:	git git://git.denx.de/u-boot.git
+F:	configs/tools-only_defconfig
 F:	*
 F:	*/

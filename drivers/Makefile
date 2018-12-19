@@ -10,7 +10,7 @@ obj-$(CONFIG_$(SPL_TPL_)LED) += led/
 obj-$(CONFIG_$(SPL_TPL_)MMC_SUPPORT) += mmc/
 obj-$(CONFIG_$(SPL_TPL_)NAND_SUPPORT) += mtd/nand/raw/
 obj-$(CONFIG_$(SPL_TPL_)PCH_SUPPORT) += pch/
-obj-$(CONFIG_$(SPL_TPL_)PCI_SUPPORT) += pci/
+obj-$(CONFIG_$(SPL_TPL_)PCI) += pci/
 obj-$(CONFIG_$(SPL_TPL_)PHY) += phy/
 obj-$(CONFIG_$(SPL_TPL_)PINCTRL) += pinctrl/
 obj-$(CONFIG_$(SPL_TPL_)RAM) += ram/
@@ -47,14 +47,14 @@ obj-$(CONFIG_SPL_ETH_SUPPORT) += net/phy/
 obj-$(CONFIG_SPL_USB_ETHER) += net/phy/
 obj-$(CONFIG_SPL_MUSB_NEW_SUPPORT) += usb/musb-new/
 obj-$(CONFIG_SPL_USB_GADGET_SUPPORT) += usb/gadget/
+obj-$(CONFIG_SPL_USB_GADGET_SUPPORT) += usb/common/
 obj-$(CONFIG_SPL_USB_GADGET_SUPPORT) += usb/gadget/udc/
 obj-$(CONFIG_SPL_DFU_SUPPORT) += dfu/
 obj-$(CONFIG_SPL_WATCHDOG_SUPPORT) += watchdog/
 obj-$(CONFIG_SPL_USB_HOST_SUPPORT) += usb/host/
 obj-$(CONFIG_OMAP_USB_PHY) += usb/phy/
 obj-$(CONFIG_SPL_SATA_SUPPORT) += ata/ scsi/
-obj-$(CONFIG_SPL_USB_HOST_SUPPORT) += block/
-obj-$(CONFIG_SPL_MMC_SUPPORT) += block/
+obj-$(CONFIG_HAVE_BLOCK_DEVICE) += block/
 obj-$(CONFIG_SPL_FPGA_SUPPORT) += fpga/
 obj-$(CONFIG_SPL_THERMAL) += thermal/
 
@@ -113,4 +113,5 @@ obj-$(CONFIG_W1) += w1/
 obj-$(CONFIG_W1_EEPROM) += w1-eeprom/
 
 obj-$(CONFIG_MACH_PIC32) += ddr/microchip/
+obj-$(CONFIG_DM_HWSPINLOCK) += hwspinlock/
 endif

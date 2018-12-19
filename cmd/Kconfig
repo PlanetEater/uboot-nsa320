@@ -445,6 +445,7 @@ config CRC32_VERIFY
 
 config CMD_EEPROM
 	bool "eeprom - EEPROM subsystem"
+	depends on !DM_I2C || DM_I2C_COMPAT
 	help
 	  (deprecated, needs conversion to driver model)
 	  Provides commands to read and write EEPROM (Electrically Erasable
@@ -1379,6 +1380,14 @@ config CMD_CONITRACE
 	help
 	  Enable the 'conitrace' command which displays the codes received
 	  from the console input as hexadecimal numbers.
+
+config CMD_CLS
+	bool "Enable clear screen command 'cls'"
+	depends on CFB_CONSOLE || DM_VIDEO || LCD || VIDEO
+	default y if LCD
+	help
+	  Enable the 'cls' command which clears the screen contents
+	  on video frame buffer.
 
 config CMD_DISPLAY
 	bool "Enable the 'display' command, for character displays"

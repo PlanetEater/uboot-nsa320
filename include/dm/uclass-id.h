@@ -29,8 +29,11 @@ enum uclass_id {
 	/* U-Boot uclasses start here - in alphabetical order */
 	UCLASS_ADC,		/* Analog-to-digital converter */
 	UCLASS_AHCI,		/* SATA disk controller */
+	UCLASS_AUDIO_CODEC,	/* Audio codec with control and data path */
+	UCLASS_AXI,		/* AXI bus */
 	UCLASS_BLK,		/* Block device */
 	UCLASS_BOARD,		/* Device information from hardware */
+	UCLASS_BOOTCOUNT,       /* Bootcount backing store */
 	UCLASS_CLK,		/* Clock source, e.g. used by peripherals */
 	UCLASS_CPU,		/* CPU, typically part of an SoC */
 	UCLASS_CROS_EC,		/* Chrome OS EC */
@@ -38,15 +41,16 @@ enum uclass_id {
 	UCLASS_DMA,		/* Direct Memory Access */
 	UCLASS_EFI,		/* EFI managed devices */
 	UCLASS_ETH,		/* Ethernet device */
+	UCLASS_FIRMWARE,	/* Firmware */
 	UCLASS_FS_FIRMWARE_LOADER,		/* Generic loader */
 	UCLASS_GPIO,		/* Bank of general-purpose I/O pins */
-	UCLASS_FIRMWARE,	/* Firmware */
+	UCLASS_HWSPINLOCK,	/* Hardware semaphores */
 	UCLASS_I2C,		/* I2C bus */
 	UCLASS_I2C_EEPROM,	/* I2C EEPROM device */
 	UCLASS_I2C_GENERIC,	/* Generic I2C device */
 	UCLASS_I2C_MUX,		/* I2C multiplexer */
+	UCLASS_I2S,		/* I2S bus */
 	UCLASS_IDE,		/* IDE device */
-	UCLASS_AXI,		/* AXI bus */
 	UCLASS_IRQ,		/* Interrupt controller */
 	UCLASS_KEYBOARD,	/* Keyboard input device */
 	UCLASS_LED,		/* Light-emitting diode (LED) */
@@ -68,8 +72,8 @@ enum uclass_id {
 	UCLASS_PINCONFIG,	/* Pin configuration node device */
 	UCLASS_PINCTRL,		/* Pinctrl (pin muxing/configuration) device */
 	UCLASS_PMIC,		/* PMIC I/O device */
-	UCLASS_PWM,		/* Pulse-width modulator */
 	UCLASS_POWER_DOMAIN,	/* (SoC) Power domains */
+	UCLASS_PWM,		/* Pulse-width modulator */
 	UCLASS_PWRSEQ,		/* Power sequence device */
 	UCLASS_RAM,		/* RAM controller */
 	UCLASS_REGULATOR,	/* Regulator device */
@@ -80,10 +84,11 @@ enum uclass_id {
 	UCLASS_SERIAL,		/* Serial UART */
 	UCLASS_SIMPLE_BUS,	/* Bus with child devices */
 	UCLASS_SMEM,		/* Shared memory interface */
+	UCLASS_SOUND,		/* Playing simple sounds */
 	UCLASS_SPI,		/* SPI bus */
-	UCLASS_SPMI,		/* System Power Management Interface bus */
 	UCLASS_SPI_FLASH,	/* SPI flash */
 	UCLASS_SPI_GENERIC,	/* Generic SPI flash target */
+	UCLASS_SPMI,		/* System Power Management Interface bus */
 	UCLASS_SYSCON,		/* System configuration device */
 	UCLASS_SYSRESET,	/* System reset device */
 	UCLASS_TEE,		/* Trusted Execution Environment device */
@@ -93,6 +98,7 @@ enum uclass_id {
 	UCLASS_USB,		/* USB bus */
 	UCLASS_USB_DEV_GENERIC,	/* USB generic device */
 	UCLASS_USB_HUB,		/* USB hub */
+	UCLASS_USB_GADGET_GENERIC,	/* USB generic device */
 	UCLASS_VIDEO,		/* Video or LCD device */
 	UCLASS_VIDEO_BRIDGE,	/* Video bridge, e.g. DisplayPort to LVDS */
 	UCLASS_VIDEO_CONSOLE,	/* Text console driver for video device */

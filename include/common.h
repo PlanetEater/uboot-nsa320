@@ -287,13 +287,6 @@ int  eeprom_write (unsigned dev_addr, unsigned offset, uchar *buffer, unsigned c
 # define CONFIG_SYS_DEF_EEPROM_ADDR CONFIG_SYS_I2C_EEPROM_ADDR
 #endif
 
-#if defined(CONFIG_MPC8XX_SPI)
-extern void spi_init_f (void);
-extern void spi_init_r (void);
-extern ssize_t spi_read	 (uchar *, int, uchar *, int);
-extern ssize_t spi_write (uchar *, int, uchar *, int);
-#endif
-
 /* $(BOARD)/$(BOARD).c */
 int board_early_init_f (void);
 int board_fix_fdt (void *rw_fdt_blob); /* manipulate the U-Boot fdt before its relocation */
@@ -357,6 +350,8 @@ void smp_set_core_boot_addr(unsigned long addr, int corenr);
 void smp_kick_all_cpus(void);
 
 /* $(CPU)/serial.c */
+struct serial_device_info;
+
 int	serial_init   (void);
 void	serial_setbrg (void);
 void	serial_putc   (const char);
@@ -364,7 +359,9 @@ void	serial_putc_raw(const char);
 void	serial_puts   (const char *);
 int	serial_getc   (void);
 int	serial_tstc   (void);
+int	serial_getconfig(uint *config);
 int	serial_setconfig(uint config);
+int	serial_getinfo(struct serial_device_info *info);
 
 /* $(CPU)/speed.c */
 int	get_clocks (void);
