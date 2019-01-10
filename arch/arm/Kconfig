@@ -607,6 +607,7 @@ config ARCH_EXYNOS
 	select DM_SPI
 	select DM_SPI_FLASH
 	select SPI
+	imply SYS_THUMB_BUILD
 	imply CMD_DM
 	imply FAT_WRITE
 
@@ -694,7 +695,7 @@ config ARCH_IMX8
 	select DM
 	select OF_CONTROL
 
-config ARCH_MX8M
+config ARCH_IMX8M
 	bool "NXP i.MX8M platform"
 	select ARM64
 	select DM
@@ -1451,7 +1452,7 @@ source "arch/arm/mach-imx/mx7ulp/Kconfig"
 
 source "arch/arm/mach-imx/imx8/Kconfig"
 
-source "arch/arm/mach-imx/mx8m/Kconfig"
+source "arch/arm/mach-imx/imx8m/Kconfig"
 
 source "arch/arm/mach-imx/mxs/Kconfig"
 
