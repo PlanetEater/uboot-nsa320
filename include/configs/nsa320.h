@@ -19,9 +19,6 @@
 #define CONFIG_KW88F6281		1	/* SOC Name */
 #define CONFIG_SKIP_LOWLEVEL_INIT	/* disable board lowlevel_init */
 
-/* add target to build it automatically upon "make" */
-#define CONFIG_BUILD_TARGET		"u-boot.kwb"
-
 /* misc configuration options */
 #define CONFIG_SHOW_BOOT_PROGRESS 1	/* boot progess display (LED's) */
 
