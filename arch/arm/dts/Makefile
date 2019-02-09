@@ -40,6 +40,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += \
 	rk3288-veyron-jerry.dtb \
 	rk3288-veyron-mickey.dtb \
 	rk3288-veyron-minnie.dtb \
+	rk3288-veyron-speedy.dtb \
 	rk3288-vyasa.dtb \
 	rk3328-evb.dtb \
 	rk3399-ficus.dtb \
@@ -95,6 +96,7 @@ dtb-$(CONFIG_ARCH_MVEBU) +=			\
 	armada-3720-db.dtb			\
 	armada-3720-espressobin.dtb		\
 	armada-3720-turris-mox.dtb		\
+	armada-3720-uDPU.dts			\
 	armada-375-db.dtb			\
 	armada-388-clearfog.dtb			\
 	armada-388-gp.dtb			\
@@ -109,7 +111,9 @@ dtb-$(CONFIG_ARCH_MVEBU) +=			\
 	armada-xp-maxbcm.dtb			\
 	armada-xp-synology-ds414.dtb		\
 	armada-xp-theadorable.dtb		\
-	armada-38x-controlcenterdc.dtb
+	armada-38x-controlcenterdc.dtb		\
+	armada-385-atl-x530.dtb			\
+	armada-385-atl-x530DP.dtb
 
 dtb-$(CONFIG_ARCH_UNIPHIER_LD11) += \
 	uniphier-ld11-global.dtb \
@@ -192,8 +196,11 @@ dtb-$(CONFIG_AM33XX) += am335x-boneblack.dtb am335x-bone.dtb \
 	am335x-icev2.dtb \
 	am335x-pxm50.dtb \
 	am335x-rut.dtb \
+	am335x-shc.dtb \
 	am335x-pdu001.dtb \
-	am335x-chiliboard.dtb
+	am335x-chiliboard.dtb \
+	am335x-sl50.dtb \
+	am335x-base0033.dtb
 dtb-$(CONFIG_AM43XX) += am437x-gp-evm.dtb am437x-sk-evm.dtb	\
 	am43x-epos-evm.dtb \
 	am437x-idk-evm.dtb \
@@ -395,6 +402,7 @@ dtb-$(CONFIG_MACH_SUN8I_R40) += \
 dtb-$(CONFIG_MACH_SUN8I_V3S) += \
 	sun8i-v3s-licheepi-zero.dtb
 dtb-$(CONFIG_MACH_SUN50I_H5) += \
+	sun50i-h5-emlid-neutis-n5-devboard.dtb \
 	sun50i-h5-libretech-all-h3-cc.dtb \
 	sun50i-h5-nanopi-neo2.dtb \
 	sun50i-h5-nanopi-neo-plus2.dtb \
@@ -454,12 +462,12 @@ dtb-$(CONFIG_MX6UL) += \
 	imx6ul-isiot-nand.dtb \
 	imx6ul-opos6uldev.dtb \
 	imx6ul-14x14-evk.dtb \
-	imx6ul-9x9-evk.dtb
+	imx6ul-9x9-evk.dtb \
+	imx6ul-phycore-segin.dtb
 
 dtb-$(CONFIG_MX6ULL) += imx6ull-14x14-evk.dtb
 
-dtb-$(CONFIG_MX7) += imx7-colibri.dtb \
-	imx7d-sdb.dtb \
+dtb-$(CONFIG_MX7) += imx7d-sdb.dtb \
 	imx7d-sdb-qspi.dtb
 
 dtb-$(CONFIG_ARCH_MX7ULP) += imx7ulp-evk.dtb
@@ -521,6 +529,9 @@ dtb-$(CONFIG_TARGET_OMAP3_BEAGLE) += \
 	omap3-beagle-xm-ab.dtb \
 	omap3-beagle-xm.dtb \
 	omap3-beagle.dtb
+
+dtb-$(CONFIG_TARGET_OMAP3_IGEP00X0) += \
+	omap3-igep0020.dtb
 
 dtb-$(CONFIG_TARGET_SAMA5D2_PTC_EK) += \
 	at91-sama5d2_ptc_ek.dtb

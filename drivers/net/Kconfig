@@ -432,6 +432,8 @@ config SNI_AVE
 	  This driver implements support for the Socionext AVE Ethernet
 	  controller, as found on the Socionext UniPhier family.
 
+source "drivers/net/mscc_eswitch/Kconfig"
+
 config ETHER_ON_FEC1
 	bool "FEC1"
 	depends on MPC8XX_FEC
@@ -512,5 +514,15 @@ config TSEC_ENET
 	help
 	  This driver implements support for the (Enhanced) Three-Speed
 	  Ethernet Controller found on Freescale SoCs.
+
+config MEDIATEK_ETH
+	bool "MediaTek Ethernet GMAC Driver"
+	depends on DM_ETH
+	select PHYLIB
+	select DM_GPIO
+	select DM_RESET
+	help
+	  This Driver support MediaTek Ethernet GMAC
+	  Say Y to enable support for the MediaTek Ethernet GMAC.
 
 endif # NETDEVICES
