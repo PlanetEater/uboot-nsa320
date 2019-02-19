@@ -186,6 +186,10 @@ dtb-$(CONFIG_ARCH_ZYNQMP) += \
 	zynqmp-zc1751-xm017-dc3.dtb		\
 	zynqmp-zc1751-xm018-dc4.dtb		\
 	zynqmp-zc1751-xm019-dc5.dtb
+dtb-$(CONFIG_ARCH_VERSAL) += \
+	versal-mini.dtb \
+	versal-mini-emmc0.dtb \
+	versal-mini-emmc1.dtb
 dtb-$(CONFIG_ARCH_ZYNQMP_R5) += \
 	zynqmp-r5.dtb
 dtb-$(CONFIG_AM33XX) += am335x-boneblack.dtb am335x-bone.dtb \
@@ -446,7 +450,13 @@ dtb-$(CONFIG_MX6QDL) += \
 	imx6q-icore.dtb \
 	imx6q-icore-mipi.dtb \
 	imx6q-icore-rqs.dtb \
-	imx6q-logicpd.dtb
+	imx6q-logicpd.dtb \
+	imx6q-sabreauto.dtb \
+	imx6q-sabresd.dtb \
+	imx6dl-sabreauto.dtb \
+	imx6dl-sabresd.dtb \
+	imx6qp-sabreauto.dtb \
+	imx6qp-sabresd.dtb
 
 dtb-$(CONFIG_MX6SL) += imx6sl-evk.dtb
 
@@ -463,6 +473,8 @@ dtb-$(CONFIG_MX6UL) += \
 	imx6ul-opos6uldev.dtb \
 	imx6ul-14x14-evk.dtb \
 	imx6ul-9x9-evk.dtb \
+	imx6ul-9x9-evk.dtb \
+	imx6ul-liteboard.dtb \
 	imx6ul-phycore-segin.dtb
 
 dtb-$(CONFIG_MX6ULL) += imx6ull-14x14-evk.dtb
