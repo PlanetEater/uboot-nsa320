@@ -1005,6 +1005,7 @@ config TARGET_LS2080A_EMU
 	select ARCH_MISC_INIT
 	select ARM64
 	select ARMV8_MULTIENTRY
+	select FSL_DDR_SYNC_REFRESH
 	help
 	  Support for Freescale LS2080A_EMU platform
 	  The LS2080A Development System (EMULATOR) is a pre silicon
@@ -1031,6 +1032,7 @@ config TARGET_LS1088AQDS
 	select ARMV8_MULTIENTRY
 	select BOARD_LATE_INIT
 	select SUPPORT_SPL
+	select FSL_DDR_INTERACTIVE if !SD_BOOT
 	help
 	  Support for NXP LS1088AQDS platform
 	  The LS1088A Development System (QDS) is a high-performance
@@ -1047,6 +1049,8 @@ config TARGET_LS2080AQDS
 	select SUPPORT_SPL
 	imply SCSI
 	imply SCSI_AHCI
+	select FSL_DDR_BIST
+	select FSL_DDR_INTERACTIVE if !SPL
 	help
 	  Support for Freescale LS2080AQDS platform
 	  The LS2080A Development System (QDS) is a high-performance
@@ -1061,6 +1065,8 @@ config TARGET_LS2080ARDB
 	select ARMV8_MULTIENTRY
 	select BOARD_LATE_INIT
 	select SUPPORT_SPL
+	select FSL_DDR_BIST
+	select FSL_DDR_INTERACTIVE if !SPL
 	imply SCSI
 	imply SCSI_AHCI
 	help
@@ -1082,6 +1088,32 @@ config TARGET_LS2081ARDB
 	  The LS2081A Reference design board (RDB) is a high-performance
 	  development platform that supports the QorIQ LS2081A/LS2041A
 	  Layerscape Architecture processor.
+
+config TARGET_LX2160ARDB
+	bool "Support lx2160ardb"
+	select ARCH_LX2160A
+	select ARCH_MISC_INIT
+	select ARM64
+	select ARMV8_MULTIENTRY
+	select BOARD_LATE_INIT
+	help
+	  Support for NXP LX2160ARDB platform.
+	  The lx2160ardb (LX2160A Reference design board (RDB)
+	  is a high-performance development platform that supports the
+	  QorIQ LX2160A/LX2120A/LX2080A Layerscape Architecture processor.
+
+config TARGET_LX2160AQDS
+	bool "Support lx2160aqds"
+	select ARCH_LX2160A
+	select ARCH_MISC_INIT
+	select ARM64
+	select ARMV8_MULTIENTRY
+	select BOARD_LATE_INIT
+	help
+	  Support for NXP LX2160AQDS platform.
+	  The lx2160aqds (LX2160A QorIQ Development System (QDS)
+	  is a high-performance development platform that supports the
+	  QorIQ LX2160A/LX2120A/LX2080A Layerscape Architecture processor.
 
 config TARGET_HIKEY
 	bool "Support HiKey 96boards Consumer Edition Platform"
@@ -1179,6 +1211,7 @@ config TARGET_LS1088ARDB
 	select ARMV8_MULTIENTRY
 	select BOARD_LATE_INIT
 	select SUPPORT_SPL
+	select FSL_DDR_INTERACTIVE if !SD_BOOT
 	help
 	  Support for NXP LS1088ARDB platform.
 	  The LS1088A Reference design board (RDB) is a high-performance
@@ -1197,6 +1230,7 @@ config TARGET_LS1021AQDS
 	select LS1_DEEP_SLEEP
 	select SUPPORT_SPL
 	select SYS_FSL_DDR
+	select FSL_DDR_INTERACTIVE
 	imply SCSI
 
 config TARGET_LS1021ATWR
@@ -1236,7 +1270,9 @@ config TARGET_LS1043AQDS
 	select BOARD_EARLY_INIT_F
 	select BOARD_LATE_INIT
 	select SUPPORT_SPL
+	select FSL_DDR_INTERACTIVE if !SPL
 	imply SCSI
+	imply SCSI_AHCI
 	help
 	  Support for Freescale LS1043AQDS platform.
 
@@ -1248,7 +1284,6 @@ config TARGET_LS1043ARDB
 	select BOARD_EARLY_INIT_F
 	select BOARD_LATE_INIT
 	select SUPPORT_SPL
-	imply SCSI
 	help
 	  Support for Freescale LS1043ARDB platform.
 
@@ -1261,6 +1296,9 @@ config TARGET_LS1046AQDS
 	select BOARD_LATE_INIT
 	select DM_SPI_FLASH if DM_SPI
 	select SUPPORT_SPL
+	select FSL_DDR_BIST if !SPL
+	select FSL_DDR_INTERACTIVE  if !SPL
+	select FSL_DDR_INTERACTIVE if !SPL
 	imply SCSI
 	help
 	  Support for Freescale LS1046AQDS platform.
@@ -1278,6 +1316,8 @@ config TARGET_LS1046ARDB
 	select DM_SPI_FLASH if DM_SPI
 	select POWER_MC34VR500
 	select SUPPORT_SPL
+	select FSL_DDR_BIST
+	select FSL_DDR_INTERACTIVE if !SPL
 	imply SCSI
 	help
 	  Support for Freescale LS1046ARDB platform.
@@ -1555,6 +1595,7 @@ source "board/freescale/ls1046ardb/Kconfig"
 source "board/freescale/ls1012aqds/Kconfig"
 source "board/freescale/ls1012ardb/Kconfig"
 source "board/freescale/ls1012afrdm/Kconfig"
+source "board/freescale/lx2160a/Kconfig"
 source "board/freescale/mx35pdk/Kconfig"
 source "board/freescale/s32v234evb/Kconfig"
 source "board/grinn/chiliboard/Kconfig"

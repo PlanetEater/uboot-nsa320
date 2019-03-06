@@ -21,7 +21,6 @@
 #endif
 
 #define CONFIG_REMAKE_ELF
-#define CONFIG_FSL_LAYERSCAPE
 
 #include <asm/arch/stream_id_lsch3.h>
 #include <asm/arch/config.h>
@@ -48,10 +47,6 @@
 #endif
 
 #define CONFIG_SKIP_LOWLEVEL_INIT
-
-#if !defined(CONFIG_SD_BOOT)
-#define CONFIG_FSL_DDR_INTERACTIVE	/* Interactive debugging */
-#endif
 
 #define CONFIG_VERY_BIG_RAM
 #define CONFIG_SYS_DDR_SDRAM_BASE	0x80000000UL
