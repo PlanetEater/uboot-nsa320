@@ -3,7 +3,7 @@
 VERSION = 2019
 PATCHLEVEL = 04
 SUBLEVEL =
-EXTRAVERSION = -rc4
+EXTRAVERSION =
 NAME =
 
 # *DOCUMENTATION*
@@ -291,6 +291,9 @@ DARWIN_MINOR_VERSION	= $(shell sw_vers -productVersion | cut -f 2 -d '.')
 os_x_before	= $(shell if [ $(DARWIN_MAJOR_VERSION) -le $(1) -a \
 	$(DARWIN_MINOR_VERSION) -le $(2) ] ; then echo "$(3)"; else echo "$(4)"; fi ;)
 
+os_x_after = $(shell if [ $(DARWIN_MAJOR_VERSION) -ge $(1) -a \
+	$(DARWIN_MINOR_VERSION) -ge $(2) ] ; then echo "$(3)"; else echo "$(4)"; fi ;)	
+
 # Snow Leopards build environment has no longer restrictions as described above
 HOSTCC       = $(call os_x_before, 10, 5, "cc", "gcc")
 HOSTCFLAGS  += $(call os_x_before, 10, 4, "-traditional-cpp")
@@ -300,6 +303,10 @@ HOSTLDFLAGS += $(call os_x_before, 10, 5, "-multiply_defined suppress")
 # in some host tools which is a problem then ... so disable ASLR for these
 # tools
 HOSTLDFLAGS += $(call os_x_before, 10, 7, "", "-Xlinker -no_pie")
+
+# macOS Mojave (10.14.X) 
+# Undefined symbols for architecture x86_64: "_PyArg_ParseTuple"
+HOSTLDFLAGS += $(call os_x_after, 10, 14, "-lpython -dynamclib", "")
 endif
 
 # Decide whether to build built-in, modular, or both.
@@ -893,7 +900,7 @@ cmd_mkimage = $(objtree)/tools/mkimage $(MKIMAGEFLAGS_$(@F)) -d $< $@ \
 	>$(MKIMAGEOUTPUT) $(if $(KBUILD_VERBOSE:0=), && cat $(MKIMAGEOUTPUT))
 
 quiet_cmd_mkfitimage = MKIMAGE $@
-cmd_mkfitimage = $(objtree)/tools/mkimage $(MKIMAGEFLAGS_$(@F)) -f $(U_BOOT_ITS) -E -p $(CONFIG_FIT_EXTERNAL_OFFSET) $@\
+cmd_mkfitimage = $(objtree)/tools/mkimage $(MKIMAGEFLAGS_$(@F)) -f $(U_BOOT_ITS) -p $(CONFIG_FIT_EXTERNAL_OFFSET) $@\
 	>$(MKIMAGEOUTPUT) $(if $(KBUILD_VERBOSE:0=), && cat $(MKIMAGEOUTPUT))
 
 quiet_cmd_cat = CAT     $@
@@ -1199,6 +1206,12 @@ u-boot-dtb.img u-boot.img u-boot.kwb u-boot.pbl u-boot-ivt.img: \
 		$(if $(CONFIG_SPL_LOAD_FIT),u-boot-nodtb.bin dts/dt.dtb,u-boot.bin) FORCE
 	$(call if_changed,mkimage)
 	$(BOARD_SIZE_CHECK)
+
+ifeq ($(CONFIG_SPL_LOAD_FIT_FULL),y)
+MKIMAGEFLAGS_u-boot.itb =
+else
+MKIMAGEFLAGS_u-boot.itb = -E
+endif
 
 u-boot.itb: u-boot-nodtb.bin dts/dt.dtb $(U_BOOT_ITS) FORCE
 	$(call if_changed,mkfitimage)
