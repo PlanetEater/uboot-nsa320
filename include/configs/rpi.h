@@ -14,7 +14,6 @@
 #endif
 
 /* Architecture, CPU, etc.*/
-#define CONFIG_ARCH_CPU_INIT
 
 /* Use SoC timer for AArch32, but architected timer for AArch64 */
 #ifndef CONFIG_ARM64
@@ -55,6 +54,10 @@
 #define CONFIG_SYS_MEMTEST_START	0x00100000
 #define CONFIG_SYS_MEMTEST_END		0x00200000
 #define CONFIG_LOADADDR			0x00200000
+
+#ifdef CONFIG_ARM64
+#define CONFIG_SYS_BOOTM_LEN		SZ_64M
+#endif
 
 /* Devices */
 /* GPIO */

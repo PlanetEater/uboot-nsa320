@@ -40,7 +40,6 @@
 #define CONFIG_SYS_MXC_I2C3_SPEED	400000
 
 /* MMC Configs */
-#define CONFIG_FSL_USDHC
 #define CONFIG_SYS_FSL_ESDHC_ADDR	0
 #define CONFIG_SYS_FSL_USDHC_NUM	2
 
@@ -196,6 +195,7 @@
 		"load ${interface} ${drive}:1 ${loadaddr} flash_blk.img && " \
 		"source ${loadaddr}\0" \
 	"splashpos=m,m\0" \
+	"splashimage=" __stringify(CONFIG_LOADADDR) "\0" \
 	"vidargs=video=mxcfb0:dev=lcd,640x480M@60,if=RGB666 " \
 		"video=mxcfb1:off fbmem=8M\0 "
 

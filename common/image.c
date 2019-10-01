@@ -132,6 +132,7 @@ static const table_entry_t uimage_os[] = {
 #if defined(CONFIG_BOOTM_OPENRTOS) || defined(USE_HOSTCC)
 	{	IH_OS_OPENRTOS,	"openrtos",	"OpenRTOS",		},
 #endif
+	{	IH_OS_OPENSBI,	"opensbi",	"RISC-V OpenSBI",	},
 
 	{	-1,		"",		"",			},
 };
@@ -175,6 +176,7 @@ static const table_entry_t uimage_type[] = {
 	{       IH_TYPE_PMMC,        "pmmc",        "TI Power Management Micro-Controller Firmware",},
 	{	IH_TYPE_STM32IMAGE, "stm32image", "STMicroelectronics STM32 Image" },
 	{	IH_TYPE_MTKIMAGE,   "mtk_image",   "MediaTek BootROM loadable Image" },
+	{	IH_TYPE_COPRO, "copro", "Coprocessor Image"},
 	{	-1,		    "",		  "",			},
 };
 
