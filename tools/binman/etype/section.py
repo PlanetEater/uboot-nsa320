@@ -142,13 +142,19 @@ class Entry_section(Entry):
         return self.GetEntryContents()
 
     def GetData(self):
-        section_data = tools.GetBytes(self._pad_byte, self.size)
+        section_data = b''
 
         for entry in self._entries.values():
             data = entry.GetData()
-            base = self.pad_before + entry.offset - self._skip_at_start
-            section_data = (section_data[:base] + data +
-                            section_data[base + len(data):])
+            base = self.pad_before + (entry.offset or 0) - self._skip_at_start
+            pad = base - len(section_data)
+            if pad > 0:
+                section_data += tools.GetBytes(self._pad_byte, pad)
+            section_data += data
+        if self.size:
+            pad = self.size - len(section_data)
+            if pad > 0:
+                section_data += tools.GetBytes(self._pad_byte, pad)
         self.Detail('GetData: %d entries, total size %#x' %
                     (len(self._entries), len(section_data)))
         return section_data
@@ -338,6 +344,8 @@ class Entry_section(Entry):
             return entry.offset
         elif prop_name == 'image_pos':
             return entry.image_pos
+        if prop_name == 'size':
+            return entry.size
         else:
             raise ValueError("%s: No such property '%s'" % (msg, prop_name))
 
@@ -500,18 +508,12 @@ class Entry_section(Entry):
         return data
 
     def ReadChildData(self, child, decomp=True):
-        """Read the data for a particular child entry
-
-        Args:
-            child: Child entry to read data for
-            decomp: True to return uncompressed data, False to leave the data
-                compressed if it is compressed
-
-        Returns:
-            Data contents of entry
-        """
+        tout.Debug("ReadChildData for child '%s'" % child.GetPath())
         parent_data = self.ReadData(True)
-        data = parent_data[child.offset:child.offset + child.size]
+        offset = child.offset - self._skip_at_start
+        tout.Debug("Extract for child '%s': offset %#x, skip_at_start %#x, result %#x" %
+                   (child.GetPath(), child.offset, self._skip_at_start, offset))
+        data = parent_data[offset:offset + child.size]
         if decomp:
             indata = data
             data = tools.Decompress(indata, child.compress)

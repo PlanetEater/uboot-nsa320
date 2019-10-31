@@ -102,7 +102,7 @@ F:	doc/device-tree-bindings/mmc/snps,dw-mmc.txt
 F:	drivers/mmc/snps_dw_mmc.c
 
 ARM
-M:	Albert Aribaud <albert.u.boot@aribaud.net>
+M:	Tom Rini <trini@konsulko.com>
 S:	Maintained
 T:	git https://gitlab.denx.de/u-boot/custodians/u-boot-arm.git
 F:	arch/arm/
@@ -137,6 +137,7 @@ F:	drivers/pinctrl/meson/
 F:	drivers/power/domain/meson-gx-pwrc-vpu.c
 F:	drivers/video/meson/
 F:	include/configs/meson64.h
+F:	include/configs/meson64_android.h
 N:	meson
 
 ARM BROADCOM BCM283X
@@ -245,6 +246,7 @@ S:	Maintained
 T:	git https://gitlab.denx.de/u-boot/custodians/u-boot-atmel.git
 F:	arch/arm/mach-at91/
 F:	board/atmel/
+F:	drivers/misc/microchip_flexcom.c
 
 ARM OWL
 M:	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
@@ -404,6 +406,7 @@ M:	Michal Simek <michal.simek@xilinx.com>
 S:	Maintained
 T:	git https://gitlab.denx.de/u-boot/custodians/u-boot-microblaze.git
 F:	arch/arm/mach-versal/
+N:	(?<!uni)versal
 
 ARM VERSATILE EXPRESS DRIVERS
 M:	Liviu Dudau <liviu.dudau@foss.arm.com>
@@ -442,11 +445,13 @@ S:	Maintained
 T:	git https://gitlab.denx.de/u-boot/custodians/u-boot-microblaze.git
 F:	arch/arm/mach-zynqmp/
 F:	drivers/clk/clk_zynqmp.c
+F:	driver/firmware/firmware-zynqmp.c
 F:	drivers/fpga/zynqpl.c
 F:	drivers/gpio/zynq_gpio.c
 F:	drivers/i2c/i2c-cdns.c
 F:	drivers/i2c/muxes/pca954x.c
 F:	drivers/i2c/zynq_i2c.c
+F:	drivers/mailbox/zynqmp-ipi.c
 F:	drivers/mmc/zynq_sdhci.c
 F:	drivers/mtd/nand/raw/zynq_nand.c
 F:	drivers/net/phy/xilinx_phy.c
@@ -458,6 +463,7 @@ F:	drivers/timer/cadence-ttc.c
 F:	drivers/usb/host/ehci-zynq.c
 F:	drivers/watchdog/cdns_wdt.c
 F:	include/zynqmppl.h
+F:	include/zynqmp_firmware.h
 F:	tools/zynqmp*
 N:	ultra96
 N:	zynqmp
@@ -835,6 +841,11 @@ S:	Maintained
 T:	git https://gitlab.denx.de/u-boot/custodians/u-boot-ubi.git
 F:	drivers/mtd/ubi/
 
+UFS
+M:	Faiz Abbas <faiz_abbas@ti.com>
+S:	Maintained
+F:	drivers/ufs/
+
 USB
 M:	Marek Vasut <marex@denx.de>
 S:	Maintained
@@ -846,6 +857,7 @@ M:	Bin Meng <bmeng.cn@gmail.com>
 S:	Maintained
 T:	git https://gitlab.denx.de/u-boot/custodians/u-boot-usb.git topic-xhci
 F:	drivers/usb/host/xhci*
+F:	include/usb/xhci.h
 
 VIDEO
 M:	Anatolij Gustschin <agust@denx.de>

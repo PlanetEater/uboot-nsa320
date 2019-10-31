@@ -48,6 +48,8 @@ config SYS_LONGHELP
 
 config SYS_PROMPT
 	string "Shell prompt"
+	default "Zynq> " if ARCH_ZYNQ
+	default "ZynqMP> " if ARCH_ZYNQMP
 	default "=> "
 	help
 	  This string is displayed in the command line to the left of the
@@ -531,7 +533,6 @@ config CMD_ENV_FLAGS
 config CMD_NVEDIT_EFI
 	bool "env [set|print] -e - set/print UEFI variables"
 	depends on EFI_LOADER
-	default y
 	imply HEXDUMP
 	help
 	  UEFI variables are encoded as some form of U-Boot variables.
@@ -1167,6 +1168,7 @@ config CMD_SDRAM
 config CMD_SF
 	bool "sf"
 	depends on DM_SPI_FLASH || SPI_FLASH
+	default y if DM_SPI_FLASH
 	help
 	  SPI Flash support
 
@@ -1203,6 +1205,13 @@ config CMD_TSI148
 	help
 	  This provides various sub-commands to initialise and configure the
 	  Turndra tsi148 device. See the command help for full details.
+
+config CMD_UFS
+	bool "Enable UFS - Universal Flash Subsystem commands"
+	depends on UFS
+	help
+	  "This provides commands to initialise and configure universal flash
+	   subsystem devices"
 
 config CMD_UNIVERSE
 	bool "universe - Command to set up the Turndra Universe controller"
