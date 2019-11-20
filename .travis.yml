@@ -21,7 +21,9 @@ addons:
     - build-essential
     - libsdl1.2-dev
     - python
-    - python-virtualenv
+    - python-pyelftools
+    - python3-virtualenv
+    - python3-pip
     - swig
     - libpython-dev
     - iasl
@@ -45,13 +47,10 @@ install:
  # prepare buildman environment
  - echo -e "[toolchain]\nroot = /usr" > ~/.buildman
  - echo -e "arc = /tmp/arc_gnu_2018.09_prebuilt_uclibc_le_archs_linux_install" >> ~/.buildman
- - echo -e "\n[toolchain-alias]\nsh = sh2\n" >> ~/.buildman
+ - echo -e "\n[toolchain-alias]\nsh = sh2" >> ~/.buildman
+ - echo -e "x86 = i386" >> ~/.buildman;
+ - echo -e "riscv = riscv64" >> ~/.buildman;
  - cat ~/.buildman
- - virtualenv /tmp/venv
- - . /tmp/venv/bin/activate
- - pip install pytest==2.8.7
- - pip install python-subunit
- - pip install pyelftools
  - grub-mkimage --prefix="" -o ~/grub_x86.efi -O i386-efi normal  echo lsefimmap lsefi lsefisystab efinet tftp minicmd
  - grub-mkimage --prefix="" -o ~/grub_x64.efi -O x86_64-efi normal  echo lsefimmap lsefi lsefisystab efinet tftp minicmd
  - mkdir ~/grub2-arm
@@ -77,7 +76,6 @@ before_script:
   - if [[ "${TOOLCHAIN}" == *sh* ]]; then ./tools/buildman/buildman --fetch-arch sh2 ; fi
   - if [[ "${TOOLCHAIN}" == *i386* ]]; then
       ./tools/buildman/buildman --fetch-arch i386;
-      echo -e "\n[toolchain-alias]\nx86 = i386" >> ~/.buildman;
     fi
   - if [[ "${TOOLCHAIN}" == arc ]]; then
        wget https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases/download/arc-2018.09-release/arc_gnu_2018.09_prebuilt_uclibc_le_archs_linux_install.tar.gz &&
@@ -101,7 +99,6 @@ before_script:
   - if [[ "${TOOLCHAIN}" == "powerpc" ]]; then ./tools/buildman/buildman --fetch-arch powerpc; fi
   - if [[ "${TOOLCHAIN}" == "riscv" ]]; then
        ./tools/buildman/buildman --fetch-arch riscv64;
-       echo -e "\n[toolchain-alias]\nriscv = riscv64" >> ~/.buildman;
     fi
   - if [[ "${QEMU_TARGET}" != "" ]]; then
        git clone git://git.qemu.org/qemu.git /tmp/qemu;
@@ -136,15 +133,6 @@ script:
    cp ~/grub_x64.efi $UBOOT_TRAVIS_BUILD_DIR/;
    cp ~/grub2-arm/usr/lib/grub2/arm-efi/grub.efi $UBOOT_TRAVIS_BUILD_DIR/grub_arm.efi;
    cp ~/grub2-arm64/usr/lib/grub2/arm64-efi/grub.efi $UBOOT_TRAVIS_BUILD_DIR/grub_arm64.efi;
-   if [[ "${TEST_PY_BD}" != "" ]]; then
-     ./test/py/test.py --bd ${TEST_PY_BD} ${TEST_PY_ID}
-       -k "${TEST_PY_TEST_SPEC:-not a_test_which_does_not_exist}"
-       --build-dir "$UBOOT_TRAVIS_BUILD_DIR";
-     ret=$?;
-     if [[ $ret -ne 0 ]]; then
-       exit $ret;
-     fi;
-   fi;
    if [[ -n "${TEST_PY_TOOLS}" ]]; then
      PYTHONPATH="${UBOOT_TRAVIS_BUILD_DIR}/scripts/dtc/pylibfdt"
      PATH="${UBOOT_TRAVIS_BUILD_DIR}/scripts/dtc:${PATH}"
@@ -154,6 +142,18 @@ script:
      PYTHONPATH="${UBOOT_TRAVIS_BUILD_DIR}/scripts/dtc/pylibfdt"
      PATH="${UBOOT_TRAVIS_BUILD_DIR}/scripts/dtc:${PATH}"
      ./tools/dtoc/dtoc -t;
+   fi;
+   if [[ "${TEST_PY_BD}" != "" ]]; then
+     virtualenv -p /usr/bin/python3 /tmp/venv;
+     . /tmp/venv/bin/activate;
+     pip install -r test/py/requirements.txt;
+     ./test/py/test.py --bd ${TEST_PY_BD} ${TEST_PY_ID}
+       -k "${TEST_PY_TEST_SPEC:-not a_test_which_does_not_exist}"
+       --build-dir "$UBOOT_TRAVIS_BUILD_DIR";
+     ret=$?;
+     if [[ $ret -ne 0 ]]; then
+       exit $ret;
+     fi;
    fi
 
 matrix:
@@ -389,7 +389,7 @@ matrix:
       env:
         - TEST_PY_BD="sandbox"
           BUILDMAN="^sandbox$"
-          OVERRIDE="clang-7"
+          OVERRIDE="-O clang-7"
     - name: "test/py sandbox_spl"
       env:
         - TEST_PY_BD="sandbox_spl"
